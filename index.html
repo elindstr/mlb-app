@@ -1,0 +1,132 @@
+<html>
+<body>
+
+<div id="seasonsDiv">
+  <label for="seasonSelector">Enter year of season:</label>
+  <input type="text" id="seasonSelector" />
+  <button id="seasonButton">Go</button>
+</div>
+
+<div id="teamsDiv"></div>
+<div id="rosterDiv"></div>
+<div id="playerDiv"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+<script>
+
+// lookup teams by year of season
+$("#seasonButton").on("click", function () {
+  let year = $("#seasonSelector").val()
+  urlTeams = `http://lookup-service-prod.mlb.com/json/named.team_all_season.bam?sport_code='mlb'&all_star_sw='N'&sort_order=name_asc&season='${year}'`
+
+  fetch(urlTeams)
+  .then(function (response) {
+    return response.json()
+  })
+  .then(function (data) {
+    //console.log(data)
+    let teamsArray = data.team_all_season.queryResults.row
+    if (teamsArray) {
+      renderTeams(teamsArray)
+    }
+  })
+  .catch(function (error) {
+    console.log(error)
+  })
+})
+
+// render teams UI
+function renderTeams(teamsArray) {
+  $("#teamsDiv").empty()
+  let label = $("<label>").attr("for", "teamsSelector").text("Select team:")
+  let selector = $("<select>").attr("id", "teamsSelector")
+  let button = $("<button>").attr("id", "teamsButton").text("Go")
+  for (let i = 0; i < teamsArray.length; i++) {
+    //console.log(i, teamsArray[i].name)
+    selector.append($("<option>")
+      .text(teamsArray[i].name)
+      .attr("value", teamsArray[i].team_id))
+    } 
+  $("#teamsDiv").append(label, selector, button)
+}
+
+// lookup roster by team
+$("#teamsDiv").on("click", "#teamsButton", function () {
+  teamID = $("#teamsSelector").val()
+  season = $("#seasonSelector").val()
+  seasonEnd = parseInt(season) + 1
+  urlRoster = `http://lookup-service-prod.mlb.com/json/named.roster_team_alltime.bam?start_season='${season}'&end_season='${seasonEnd}'&team_id='${teamID}'`
+
+  fetch(urlRoster)
+  .then(function (response) {
+    return response.json()
+  })
+  .then(function (data) {
+    //console.log(data)
+    let rosterArray = data.roster_team_alltime.queryResults.row
+    if (rosterArray) {
+      renderRoster(rosterArray)
+    }
+  })
+  .catch(function (error) {
+    console.log(error)
+  })
+})
+
+// render roster UI
+function renderRoster(rosterArray) {
+  $("#rosterDiv").empty()
+  let label = $("<label>").attr("for", "playerSelector").text("Select player:")
+  let selector = $("<select>").attr("id", "playerSelector")
+  let button = $("<button>").attr("id", "playerButton").text("Go")
+  for (let i = 0; i < rosterArray.length; i++) {
+    selector.append($("<option>")
+      .text(rosterArray[i].name_sort)
+      .attr("value", rosterArray[i].player_id))
+    } 
+  $("#rosterDiv").append(label, selector, button)
+}
+
+// lookup player by roster
+$("#rosterDiv").on("click", "#playerButton", function () {
+  player_id = $("#playerSelector").val()
+  urlPlayer = `http://lookup-service-prod.mlb.com/json/named.player_info.bam?sport_code='mlb'&player_id='${player_id}'`
+
+  fetch(urlPlayer)
+  .then(function (response) {
+    return response.json()
+  })
+  .then(function (data) {
+    //console.log(data)
+    let playerObject = data.player_info.queryResults.row
+    if (playerObject) {
+      renderPlayer(playerObject)
+    }
+  })
+  .catch(function (error) {
+    console.log(error)
+  })
+})
+
+// render general player stats
+function renderPlayer(playerObject) {
+  console.log(playerObject)
+  $("#playerDiv").empty()
+  let table = $("<table>")
+  let keys = Object.keys(playerObject)
+  for (let i = 0; i < keys.length; i++ ) {
+    let tr = $("<tr>")
+    let td1 = $(`<td>${keys[i]}</td>`)
+    let td2 = $(`<td>${playerObject[keys[i]]}</td>`)
+    tr.append(td1, td2)
+    table.append(tr)
+  }
+  $("#playerDiv").append(table)
+}
+
+// once we have a player, there are lots more specific "Stats Data" we can get
+
+
+</script>
+</body>
+</html>
