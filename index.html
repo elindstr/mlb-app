@@ -1,18 +1,80 @@
+<!-- This is just an internal page for ourselves to demonstrate some useful methods we could use to build an app that looks up the current MLB games by date and provides stats. Obviously a real app should have better UI and separate style.css and .js script files in their conventional directory locations.  -->
+
 <html>
 <body>
 
 <div id="seasonsDiv">
+  <h3>Example method to lookup games by date.</h3>
+  <p><i>Uses API: http://statsapi.mlb.com/api/v1/schedule/games/?sportId=1&startDate=${startDate}&endDate=${endDate}</i></p>
+  <label for="gamesStartDateSelector">Start Date:</label>
+  <input type="date" id="gamesStartDateSelector" />
+  <label for="gamesEndDateSelector">End Date:</label>
+  <input type="date" id="gamesEndDateSelector" />
+  <button id="gamesByDateButton">Go</button>
+  <button id="gamesDivClear">Clear</button>
+</div>
+<div id="gamesDiv"></div>
+
+<hr>
+
+<div id="seasonsDiv">
+  <h3>Example method to lookup player by team roster by season.</h3>
+  <p><i>Uses API:<ul>
+    <li>urlTeams = https://lookup-service-prod.mlb.com/json/named.team_all_season.bam?sport_code='mlb'&all_star_sw='N'&sort_order=name_asc&season='${year}'</li>
+    <li>urlRoster = https://lookup-service-prod.mlb.com/json/named.roster_team_alltime.bam?start_season='${season}'&end_season='${seasonEnd}'&team_id='${teamID}'</li>
+    <li>urlPlayer = https://lookup-service-prod.mlb.com/json/named.player_info.bam?sport_code='mlb'&player_id='${player_id}'</li></ul>
+  Once we have a playerID, we can then look up their performance stats.</i></p>
   <label for="seasonSelector">Enter year of season:</label>
   <input type="text" id="seasonSelector" />
   <button id="seasonButton">Go</button>
+  <button id="playerDivClear">Clear</button>
 </div>
-
 <div id="teamsDiv"></div>
 <div id="rosterDiv"></div>
 <div id="playerDiv"></div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
 <script>
+
+// lookup games by date
+$("#gamesByDateButton").on("click", function () {
+  let startDate =  $("#gamesStartDateSelector").val()
+  let endDate =  $("#gamesEndDateSelector").val()
+  let urlGamesByDate = `http://statsapi.mlb.com/api/v1/schedule/games/?sportId=1&startDate=${startDate}&endDate=${endDate}`
+
+  fetch(urlGamesByDate)
+  .then(function (response) {
+    return response.json()
+  })
+  .then(function (data) {
+    //console.log(data)
+    
+    // render gamesDiv
+    $("#gamesDiv").empty()
+
+    // iterate through result game dates
+    for (let d = 0; d < data.dates.length; d++) {
+      $("#gamesDiv").append(`<h3>Games on ${data.dates[d].date}</h3>`)
+      
+      // iterate through games on that day
+      for (let g = 0; g < data.dates[d].games.length; g++) {
+        let awayTeam = data.dates[d].games[g].teams.away.team.name
+        let homeTeam = data.dates[d].games[g].teams.home.team.name
+        $("#gamesDiv").append(`<p>${awayTeam} @ ${homeTeam}</p>`)
+      }
+    }
+
+  })
+  .catch(function (error) {
+    console.log(error)
+  })
+})
+
+// clear games div
+$("#gamesDivClear").on("click", function () {
+  $("#gamesDiv").empty()
+})
+
 
 // lookup teams by year of season
 $("#seasonButton").on("click", function () {
@@ -123,9 +185,12 @@ function renderPlayer(playerObject) {
   }
   $("#playerDiv").append(table)
 }
+// once we have a player ID, there are lots more specific "Stats Data" we can get
 
-// once we have a player, there are lots more specific "Stats Data" we can get
-
+// clear playerDiv
+$("#playerDivClear").on("click", function () {
+  $("#playerDiv").empty()
+})
 
 </script>
 </body>
