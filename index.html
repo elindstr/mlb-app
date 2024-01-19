@@ -34,9 +34,9 @@
   <button id="seasonButton">Go</button>
   <button id="playerDivClear">Clear</button>
 </div>
-<div id="teamsDiv"></div>
-<div id="rosterDiv"></div>
-<div id="playerDiv"></div>
+  <div id="teamsDiv"></div>
+  <div id="rosterDiv"></div>
+  <div id="playerDiv"></div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
 <script>
@@ -194,6 +194,8 @@ function renderPlayer(playerObject) {
 
 // clear playerDiv
 $("#playerDivClear").on("click", function () {
+  $("#teamsDiv").empty()
+  $("#rosterDiv").empty()
   $("#playerDiv").empty()
 })
 
