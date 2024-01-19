@@ -17,7 +17,7 @@
 // lookup teams by year of season
 $("#seasonButton").on("click", function () {
   let year = $("#seasonSelector").val()
-  urlTeams = `http://lookup-service-prod.mlb.com/json/named.team_all_season.bam?sport_code='mlb'&all_star_sw='N'&sort_order=name_asc&season='${year}'`
+  urlTeams = `https://lookup-service-prod.mlb.com/json/named.team_all_season.bam?sport_code='mlb'&all_star_sw='N'&sort_order=name_asc&season='${year}'`
 
   fetch(urlTeams)
   .then(function (response) {
@@ -55,7 +55,7 @@ $("#teamsDiv").on("click", "#teamsButton", function () {
   teamID = $("#teamsSelector").val()
   season = $("#seasonSelector").val()
   seasonEnd = parseInt(season) + 1
-  urlRoster = `http://lookup-service-prod.mlb.com/json/named.roster_team_alltime.bam?start_season='${season}'&end_season='${seasonEnd}'&team_id='${teamID}'`
+  urlRoster = `https://lookup-service-prod.mlb.com/json/named.roster_team_alltime.bam?start_season='${season}'&end_season='${seasonEnd}'&team_id='${teamID}'`
 
   fetch(urlRoster)
   .then(function (response) {
@@ -90,7 +90,7 @@ function renderRoster(rosterArray) {
 // lookup player by roster
 $("#rosterDiv").on("click", "#playerButton", function () {
   player_id = $("#playerSelector").val()
-  urlPlayer = `http://lookup-service-prod.mlb.com/json/named.player_info.bam?sport_code='mlb'&player_id='${player_id}'`
+  urlPlayer = `https://lookup-service-prod.mlb.com/json/named.player_info.bam?sport_code='mlb'&player_id='${player_id}'`
 
   fetch(urlPlayer)
   .then(function (response) {
