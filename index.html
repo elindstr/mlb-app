@@ -52,7 +52,7 @@ $("#gamesByDateButton").on("click", function () {
     return response.json()
   })
   .then(function (data) {
-    //console.log(data)
+    console.log(data)
     
     // render gamesDiv
     $("#gamesDiv").empty()
@@ -91,7 +91,7 @@ $("#seasonButton").on("click", function () {
     return response.json()
   })
   .then(function (data) {
-    //console.log(data)
+    console.log(data)
     let teamsArray = data.team_all_season.queryResults.row
     if (teamsArray) {
       renderTeams(teamsArray)
@@ -109,7 +109,6 @@ function renderTeams(teamsArray) {
   let selector = $("<select>").attr("id", "teamsSelector")
   let button = $("<button>").attr("id", "teamsButton").text("Go")
   for (let i = 0; i < teamsArray.length; i++) {
-    //console.log(i, teamsArray[i].name)
     selector.append($("<option>")
       .text(teamsArray[i].name)
       .attr("value", teamsArray[i].team_id))
@@ -129,7 +128,7 @@ $("#teamsDiv").on("click", "#teamsButton", function () {
     return response.json()
   })
   .then(function (data) {
-    //console.log(data)
+    console.log(data)
     let rosterArray = data.roster_team_alltime.queryResults.row
     if (rosterArray) {
       renderRoster(rosterArray)
@@ -164,7 +163,7 @@ $("#rosterDiv").on("click", "#playerButton", function () {
     return response.json()
   })
   .then(function (data) {
-    //console.log(data)
+    console.log(data)
     let playerObject = data.player_info.queryResults.row
     if (playerObject) {
       renderPlayer(playerObject)
@@ -177,7 +176,6 @@ $("#rosterDiv").on("click", "#playerButton", function () {
 
 // render general player stats
 function renderPlayer(playerObject) {
-  console.log(playerObject)
   $("#playerDiv").empty()
   let table = $("<table>")
   let keys = Object.keys(playerObject)
