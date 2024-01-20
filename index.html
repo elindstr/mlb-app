@@ -3,25 +3,30 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="icon" href="data:,"> <!-- killing annoying favicon error -->
-    <meta charset="UTF-8" /> <!-- needed to display players names that contain special characters -->
+    <link rel="icon" href="data:,"> <!-- killing favicon console error -->
+    <meta charset="UTF-8" /> <!-- needed to display players names that contain special characters; not working -->
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
   </head>
 <body>
 
-<div id="seasonsDiv">
-  <h3>Example method to lookup games by date.</h3>
-  <p><i>Uses API: https://statsapi.mlb.com/api/v1/schedule/games/?sportId=1&startDate=${startDate}&endDate=${endDate}</i></p>
-  <label for="gamesStartDateSelector">Start Date:</label>
-  <input type="date" id="gamesStartDateSelector" />
-  <label for="gamesEndDateSelector">End Date:</label>
-  <input type="date" id="gamesEndDateSelector" />
-  <button id="gamesByDateButton">Go</button>
-  <button id="gamesDivClear">Clear</button>
-</div>
+  <!-- ---------------------------------------
+  HTML: Example method to lookup games by date.
+  --------------------------------------- -->
+<h3>Example method to lookup games by date.</h3>
+<p><i>Uses API: https://statsapi.mlb.com/api/v1/schedule/games/?sportId=1&startDate=${startDate}&endDate=${endDate}</i></p>
+<label for="gamesStartDateSelector">Start Date:</label>
+<input type="date" id="gamesStartDateSelector" />
+<label for="gamesEndDateSelector">End Date:</label>
+<input type="date" id="gamesEndDateSelector" />
+<button id="gamesByDateButton">Go</button>
+<button id="gamesDivClear">Clear</button>
 <div id="gamesDiv"></div>
 
-<hr>
 
+<!-- ---------------------------------------
+HTML: Example method to lookup player by team roster by season.
+--------------------------------------- -->
+<hr>
 <div id="seasonsDiv">
   <h3>Example method to lookup player by team roster by season.</h3>
   <p><i>Uses API:<ul>
@@ -34,12 +39,33 @@
   <button id="seasonButton">Go</button>
   <button id="playerDivClear">Clear</button>
 </div>
-  <div id="teamsDiv"></div>
-  <div id="rosterDiv"></div>
-  <div id="playerDiv"></div>
+<div id="teamsDiv"></div>
+<div id="rosterDiv"></div>
+<div id="playerDiv"></div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+
+<!-- ---------------------------------------
+HTML: Example method to lookup Player Stats.
+--------------------------------------- -->
+<hr>
+<h3>Example method to lookup Player Stats.</h3>
+<p><i>Hardcoded for 2023 D-Backs. Uses the APIs in the stats-data section here: https://appac.github.io/mlb-data-api-docs/#stats-data</i></p>
+
+</i></p>
+<label for="playerStatsSelector">View player stats:</label>
+<select type="text" id="playerStatsSelector">
+</select>
+<button id="playerStatsButton">Go</button>
+<button id="playerStatsClear">Clear</button>
+<div id="playerStatsDiv"></div>
+
+
+
+
 <script>
+// ---------------------------------------
+// JS: Example method to lookup games by date.
+// ---------------------------------------
 
 // lookup games by date
 $("#gamesByDateButton").on("click", function () {
@@ -63,9 +89,32 @@ $("#gamesByDateButton").on("click", function () {
       
       // iterate through games on that day
       for (let g = 0; g < data.dates[d].games.length; g++) {
+
+        // teams playing each other
         let awayTeam = data.dates[d].games[g].teams.away.team.name
         let homeTeam = data.dates[d].games[g].teams.home.team.name
-        $("#gamesDiv").append(`<p>${awayTeam} @ ${homeTeam}</p>`)
+
+        // prepare team logo images
+        let mlbTeam_ids = [109,144,110,111,112,145,113,114,115,116,117,118,108,119,146,158,142,121,147,133,143,134,135,137,136,138,139,140,141,120,1536,1490,1547,1512,1531,1535,1493,1510,1546,165,185,189,191,128,153,176,197,298,166,209,148,221,168,205,211,151,172,178,184,186,188,192,212,157,174,177,180,200,202,163,126,127,220,213,156,129,196,187,224,161,167,169,193,206,208,210,125,130,152,175,181,198,201,219,222,223,299,297,204,199,124,150,123,132,195,155,173]
+        
+        let awayTeam_id = data.dates[d].games[g].teams.away.team.id
+        let awayTeam_imgsrc = `media/team-logos/${awayTeam_id}.png`
+        let awayTeam_img = $("<span><span>") 
+        if (mlbTeam_ids.includes(parseInt(awayTeam_id))) {
+          awayTeam_img = $(`<img src="${awayTeam_imgsrc}" width="35px" />`)
+        } 
+        let awayTeam_img_html = awayTeam_img.prop("outerHTML")
+
+        let homeTeam_id = data.dates[d].games[g].teams.home.team.id
+        let homeTeam_imgsrc = `media/team-logos/${homeTeam_id}.png`
+        let homeTeam_img = $("<span><span>") 
+        if (mlbTeam_ids.includes(parseInt(homeTeam_id))) {
+          homeTeam_img = $(`<img src="${homeTeam_imgsrc}" width="35px" />`)
+        } 
+        let homeTeam_img_html = homeTeam_img.prop("outerHTML")
+
+        // render game content to gamesDiv, including the team logo if its an MLB team
+        $("#gamesDiv").append(`<p>${awayTeam}${awayTeam_img_html} @ ${homeTeam}${homeTeam_img_html}</p>`)
       }
     }
 
@@ -80,6 +129,10 @@ $("#gamesDivClear").on("click", function () {
   $("#gamesDiv").empty()
 })
 
+
+// ---------------------------------------
+// JS: Example method to lookup player by team roster by season.
+// ---------------------------------------
 
 // lookup teams by year of season
 $("#seasonButton").on("click", function () {
@@ -188,7 +241,6 @@ function renderPlayer(playerObject) {
   }
   $("#playerDiv").append(table)
 }
-// once we have a player ID, there are lots more specific "Stats Data" we can get
 
 // clear playerDiv
 $("#playerDivClear").on("click", function () {
@@ -196,6 +248,237 @@ $("#playerDivClear").on("click", function () {
   $("#rosterDiv").empty()
   $("#playerDiv").empty()
 })
+
+
+
+// ---------------------------------------
+// JS: Example method to lookup Player Stats.
+// ---------------------------------------
+
+// render playerStats dropdown buttons on load
+$(function() {
+  // load 2023 DBacks as example data
+  teamID = 109
+  season = 2023
+  seasonEnd = season + 1
+  urlRoster = `https://lookup-service-prod.mlb.com/json/named.roster_team_alltime.bam?start_season='${season}'&end_season='${seasonEnd}'&team_id='${teamID}'`
+
+  fetch(urlRoster)
+  .then(function (response) {
+    return response.json()
+  })
+  .then(function (data) {
+    console.log(data)
+    let rosterArray = data.roster_team_alltime.queryResults.row   
+    let selector = $("#playerStatsSelector")
+    for (let i = 0; i < rosterArray.length; i++) {
+      selector.append($("<option>")
+      .text(rosterArray[i].name_sort)
+      .attr("value", rosterArray[i].player_id))
+    } 
+  })
+  .catch(function (error) {
+    console.log(error)
+  })
+})
+
+// click on player in playerStatsDiv 
+$("#playerStatsButton").on("click", function () {
+  $("#playerStatsDiv").empty()
+
+  player_id = $("#playerStatsSelector").val()
+  urlPlayer = `https://lookup-service-prod.mlb.com/json/named.player_info.bam?sport_code='mlb'&player_id='${player_id}'`
+
+  fetch(urlPlayer)
+  .then(function (response) {
+    return response.json()
+  })
+  .then(function (data) {
+    console.log(data)
+    let playerObject = data.player_info.queryResults.row
+    if (playerObject) {
+      primary_position_txt =  data.player_info.queryResults.row.primary_position_txt
+      $("#playerStatsDiv").append(`<span>Position: ${primary_position_txt}<span>`)
+
+      if (primary_position_txt == "P") {
+        runPitcherStats(player_id, year=2023)
+      }
+      else (
+        runHitterStats(player_id, year=2023)
+      )
+    }
+  })
+  .catch(function (error) {
+    console.log(error)
+  })
+})
+
+function runPitcherStats(player_id, year) {
+  urlSeason = `https://lookup-service-prod.mlb.com/json/named.sport_pitching_tm.bam?league_list_id='mlb'&game_type='R'&season='${year}'&player_id='${player_id}'`
+  console.log(urlSeason)
+
+  fetch(urlSeason)
+  .then(function (response) {
+    return response.json()
+  })
+  .then(function (data) {
+    console.log(data)
+    let playerObject = data.sport_pitching_tm.queryResults.row
+    if (playerObject) {
+      let table = $("<table>")
+      let keys = Object.keys(playerObject)
+      for (let i = 0; i < keys.length; i++ ) {
+        let tr = $("<tr>")
+        let td1 = $(`<td>${keys[i]}</td>`)
+        let td2 = $(`<td>${playerObject[keys[i]]}</td>`)
+        tr.append(td1, td2)
+        table.append(tr)
+      }
+      $("#playerStatsDiv").append(table)
+    }
+  })
+  .catch(function (error) {
+    console.log(error)
+  })
+}
+
+function runHitterStats(player_id, year) {
+  urlSeason = `https://lookup-service-prod.mlb.com/json/named.sport_hitting_tm.bam?league_list_id='mlb'&game_type='R'&season='${year}'&player_id='${player_id}'`
+  fetch(urlSeason)
+  .then(function (response) {
+    return response.json()
+  })
+  .then(function (data) {
+    console.log(data)
+    let playerObject = data.sport_hitting_tm.queryResults.row
+    if (playerObject) {
+      let table = $("<table>")
+      let keys = Object.keys(playerObject)
+      for (let i = 0; i < keys.length; i++ ) {
+        let tr = $("<tr>")
+        let td1 = $(`<td>${keys[i]}</td>`)
+        let td2 = $(`<td>${playerObject[keys[i]]}</td>`)
+        tr.append(td1, td2)
+        table.append(tr)
+      }
+      $("#playerStatsDiv").append(table)
+    }
+  })
+  .catch(function (error) {
+    console.log(error)
+  })
+}
+
+$("#playerStatsClear").on("click", () => {
+  $("#playerStatsDiv").empty()
+})
+
+// pitching codes:
+// bqs: Blown Quality Starts.
+// hr: Home Runs allowed.
+// whip: Walks and Hits per Inning Pitched: number of baserunners a pitcher has allowed per inning.
+// pip: Pitches per Inning Pitched.
+// rs9: Runs Scored per 9 innings.
+// ab: At Bats against the pitcher.
+// qs: Quality Starts: pitcher completes at least six innings and permits no more than three earned runs.
+// hldr: Holds.
+// ip: Innings Pitched.
+// ir: Inherited Runners.
+// er: Earned Runs.
+// ao: Fly Outs (Air Outs).
+// k9: Strikeouts per 9 innings.
+// slg: Slugging Percentage against.
+// ops: On-base Plus Slugging against.
+// tbf: Total Batters Faced.
+// go_ao: Ground Out/Air Out ratio.
+// sho: Shutouts.
+// hfly: Fly ball hits.
+// spct: Strike Percentage.
+// wpct: Win Percentage.
+// bb: Walks allowed.
+// np: Number of Pitches thrown.
+// hgnd: Ground ball hits.
+// bk: Balks.
+// sb: Stolen Bases against.
+// bq: Base runners allowed.
+// h9: Hits allowed per 9 innings.
+// avg: Batting Average against.
+// sf: Sacrifice Flies allowed.
+// sac: Sacrifice Hits (Bunts) allowed.
+// era: Earned Run Average.
+// wp: Wild Pitches.
+// so: Strikeouts.
+// gidp_opp: Double Play Opportunities.
+// pgs: ?
+// gidp: Grounded Into Double Plays.
+// gf: Games Finished.
+// ppa: Pitches Per At-bat.
+// hld: Holds.
+// sv: Saves.
+// cg: Complete Games.
+// g: Games pitched.
+// h: Hits allowed.
+// ibb: Intentional Walks allowed.
+// go: Ground Outs.
+// kbb: Strikeout-to-Walk Ratio.
+// irs: Inherited Runners Scored.
+// l: Losses.
+// gs: Games Started.
+// svo: Save Opportunities.
+// hr9: Home Runs allowed per 9 innings.
+// cs: Caught Stealing against.
+// r: Runs allowed.
+// s: Strikes thrown.
+// w: Wins.
+// babip: Batting Average on Balls In Play against.
+// bb9: Walks allowed per 9 innings.
+// hb: Hit Batsmen.
+// pk: Pickoffs.
+// obp: On-Base Percentage against.
+// db: Doubles allowed.
+// tr: Triples allowed.
+
+// hitting stat codes:
+// hr: Home Runs.
+// ab: At Bats.
+// hldr: ?
+// ao: Fly Outs (Air Outs).
+// slg: Slugging Percentage.
+// ops: On-base Plus Slugging.
+// hbp: Hit By Pitch.
+// rbi: Runs Batted In.
+// go_ao: Ground Out/Air Out ratio.
+// hfly: Fly ball hits.
+// lob: Left On Base.
+// xbh: Extra-Base Hits.
+// end_date: End date of the statistics period.
+// bb: Base on Balls (Walks).
+// np: Number of Pitches faced.
+// hgnd: Ground ball hits.
+// roe: Reached On Error.
+// sb: Stolen Bases.
+// avg: Batting Average.
+// sf: Sacrifice Flies.
+// sac: Sacrifice Hits (Bunts).
+// wo: Walk-off hits or wins?
+// team_short: Short name of the team.
+// hpop: Pop fly hits.
+// so: Strikeouts.
+// gidp_opp: Opportunities for Grounding Into Double Play.
+// gidp: Grounded Into Double Play.
+// ppa: Pitches Per At-bat.
+// d: Doubles.
+// tpa: Total Plate Appearances.
+// g: Games played.
+// h: Hits.
+// ibb: Intentional Walks.
+// go: Ground Outs.
+// tb: Total Bases.
+// cs: Caught Stealing.
+// r: Runs scored.
+// t: Triples.
+// babip: Batting Average on Balls In Play.
+// obp: On-Base Percentage.
 
 </script>
 </body>
