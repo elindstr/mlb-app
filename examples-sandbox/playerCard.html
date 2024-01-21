@@ -71,22 +71,34 @@ async function createPlayerCard (player_id, year) {
     team_id = playerDetails.team_id
     name_display_first_last = playerDetails.name_display_first_last
 
-    // seasonPositionStats depending on hitter or pitcher
-    let seasonPositionStats
-    if (primary_position_txt == "P") {
-        seasonPositionStats = await getSeasonPitcherStats(player_id, year)
-        careerPositionStats = await getCareerPitcherStats(player_id, year)
-    }
-    else {
-        seasonPositionStats = await getSeasonHitterStats(player_id, year)
-        careerPositionStats = await getCareerHitterStats(player_id, year)
-    }
-    console.log(seasonPositionStats)
-
-
     // load media (team_id, player_id)
     teamLogo = await getTeamLogo(team_id)
     playerImage = await getPlayerImage(player_id, name_display_first_last)
+
+    // seasonPositionStats depending on hitter or pitcher
+    let seasonPositionStats
+    if (primary_position_txt == "P") {
+        seasonPositionStats2023 = await getSeasonPitcherStats(player_id, year=2023)
+        seasonPositionStats2022 = await getSeasonPitcherStats(player_id, year=2022)
+        seasonPositionStats2021 = await getSeasonPitcherStats(player_id, year=2021)
+        seasonPositionStats2020 = await getSeasonPitcherStats(player_id, year=2020)
+        seasonPositionStats2019 = await getSeasonPitcherStats(player_id, year=2019)
+        seasonPositionStats2018 = await getSeasonPitcherStats(player_id, year=2018)
+        careerPositionStats = await getCareerPitcherStats(player_id)
+    }
+    else {
+        seasonPositionStats2023 = await getSeasonHitterStats(player_id, year=2023)
+        seasonPositionStats2022 = await getSeasonHitterStats(player_id, year=2022)
+        seasonPositionStats2021 = await getSeasonHitterStats(player_id, year=2021)
+        seasonPositionStats2020 = await getSeasonHitterStats(player_id, year=2020)
+        seasonPositionStats2019 = await getSeasonHitterStats(player_id, year=2019)
+        seasonPositionStats2018 = await getSeasonHitterStats(player_id, year=2018)
+        careerPositionStats = await getSeasonHitterStats(player_id)
+    }
+    console.log(seasonPositionStats)
+
+    // get transactions
+    transactions = await getTransactions(player_id, startYear=2010)
 
     // render
     $("#playerStatsDiv").empty()
@@ -102,13 +114,39 @@ async function createPlayerCard (player_id, year) {
     jsonDump(playerDetails)
     
     $("#playerStatsDiv").append("<hr>")
-    $("#playerStatsDiv").append("<h2>Season Stats</h2>")
-    jsonDump(seasonPositionStats)
+    $("#playerStatsDiv").append("<h2>2023 Season Stats</h2>")
+    jsonDump(seasonPositionStats2023)
+
+    $("#playerStatsDiv").append("<hr>")
+    $("#playerStatsDiv").append("<h2>2022 Season Stats</h2>")
+    jsonDump(seasonPositionStats2022)
+
+    $("#playerStatsDiv").append("<hr>")
+    $("#playerStatsDiv").append("<h2>2021 Season Stats</h2>")
+    jsonDump(seasonPositionStats2021)
+
+    $("#playerStatsDiv").append("<hr>")
+    $("#playerStatsDiv").append("<h2>2020 Season Stats</h2>")
+    jsonDump(seasonPositionStats2020)
+
+    $("#playerStatsDiv").append("<hr>")
+    $("#playerStatsDiv").append("<h2>2019 Season Stats</h2>")
+    jsonDump(seasonPositionStats2019)
+
+    $("#playerStatsDiv").append("<hr>")
+    $("#playerStatsDiv").append("<h2>2018 Season Stats</h2>")
+    jsonDump(seasonPositionStats2018)
 
     $("#playerStatsDiv").append("<hr>")
     $("#playerStatsDiv").append("<h2>Career Stats</h2>")
     jsonDump(careerPositionStats)
 
+    $("#playerStatsDiv").append("<hr>")
+    $("#playerStatsDiv").append("<h2>Transaction History (since 2010)</h2>")
+    for (r = 0; r < transactions.length; r++) {
+      jsonDump(transactions[r])
+      $("#playerStatsDiv").append("<hr width='75%'>")
+    }
 }
 
 // ugly way to display data; just dumping raw json data so we can see what data is available
@@ -199,7 +237,6 @@ function getSeasonHitterStats(player_id, year) {
   })
 }
 
-
 function getCareerPitcherStats(player_id, year) {
   urlSeason = `https://lookup-service-prod.mlb.com/json/named.sport_career_pitching.bam?league_list_id='mlb'&game_type='R'&player_id='${player_id}'`
   console.log(urlSeason)
@@ -234,6 +271,25 @@ function getCareerHitterStats(player_id, year) {
     
     if (playerObject) {
         return playerObject
+    }
+  })
+  .catch(function (error) {
+    console.log(error)
+  })
+}
+
+function getTransactions(player_id, startYear) {
+  url = `http://lookup-service-prod.mlb.com/json/named.transaction_all.bam?sport_code='mlb'&start_date='${startYear}0101'&end_date='20241231'&player_id=${player_id}`
+  
+  return fetch(url)
+  .then(function (response) {
+    return response.json()
+  })
+  .then(function (data) {
+    console.log(data)
+    
+    if (data.transaction_all.queryResults.row) {
+        return data.transaction_all.queryResults.row
     }
   })
   .catch(function (error) {
