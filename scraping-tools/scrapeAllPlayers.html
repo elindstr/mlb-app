@@ -1,151 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <link rel="icon" href="data:,"> <!-- killing annoying favicon error -->
-    <meta charset="UTF-8" /> <!-- needed to display players names that contain special characters -->
-  </head>
+<head>
+    <link rel="icon" href="data:,">
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+</head>
 <body>
+    <h2>Export team_id and player_id from API data as list objects</h2>
+    <!-- <label for="startYear">Start Year</label><input type="text" id="startYear" value="2023"/><br>
+    <label for="endYear">End Year</label><input type="text" id="endYear" value="2024"/><br> -->
+    <button>go</button>
+    <hr>
+    <div id="team_id"></div>
+    <div id="player_id"></div>
 
-
-<div id="pythonArray"></div>
-<hr>
-<div id="list"></div>
-<hr>
-<div id="jsonDump"></div>
-
-<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
 <script>
+  $("button").on("click", fetchPlayers)
+  const seasonStart = 2023
+  const seasonEnd = 2024
+  const proxyUrl = "https://cors-anywhere.herokuapp.com/"
+  const targetUrl = "https://lookup-service-prod.mlb.com/json/named.roster_team_alltime.bam?start_season=%272023%27&end_season=%272024%27&team_id=%27111%27"
 
-let players = []
+  async function fetchPlayers() {
+      let teams = await getTeams()
+      let players = []
+      for (let t = 0; t < teams.length; t++) {
+          console.log(t, "of", teams.length)
+          const roster = await getRoster(teams[t].team_id)
+          players = players.concat(roster)
+          await delay(2000)
+      }
 
-fetchPlayers()
-async function fetchPlayers() {
-  team_idList = await getTeams()
-  for (let t = 0; t < team_idList.length; t++) {
-    console.log(t, "of", team_idList.length)
-    await getRoster(team_idList[t]) 
-  }
-  await sleep(5000)
-  writePythonArray()
-}
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms))
-}
-
-function writePythonArray () {
-  $("#pythonArray").append(`<span>[</span>`)
-  for (let p = 0; p < players.length; p++) {
-    let name_first_last = players[p].name_first_last
-    let player_id = players[p].player_id
-    $("#pythonArray").append(`<span>{"name_first_last": "${name_first_last}", "player_id": "${player_id}"},</span>`)
-  }
-  $("#pythonArray").append(`<span>]</span>`)
-}
-
-// create list of all time_ids
-function getTeams () {
-  let year = 2023
-  urlTeams = `https://lookup-service-prod.mlb.com/json/named.team_all_season.bam?sport_code='mlb'&all_star_sw='N'&sort_order=name_asc&season='${year}'`
-
-  return fetch(urlTeams)
-  .then(function (response) {
-    return response.json()
-  })
-  .then(function (data) {
-    console.log(data)
-    let team_idList = []
-    for (let r = 0; r < data.team_all_season.queryResults.row.length; r++) {
-      let team_id = data.team_all_season.queryResults.row[r].team_id
-      team_idList.push(team_id)
-    }
-    return team_idList  
-  })
-  .catch(function (error) {
-    console.log(error)
-  })
-}
-
-// get players by team roster
-function getRoster(team_id) {
-  seasonStart = 2020
-  seasonEnd = 2023
-  urlRoster = `https://lookup-service-prod.mlb.com/json/named.roster_team_alltime.bam?start_season='${seasonStart}'&end_season='${seasonEnd}'&team_id='${team_id}'`
-
-  fetch(urlRoster)
-  .then(function (response) {
-    return response.json()
-  })
-  .then(function (data) {
-    console.log(data)
-
-    for (let r = 0; r < data.roster_team_alltime.queryResults.row.length; r++) {
-      let player = data.roster_team_alltime.queryResults.row[r]
-      let name_first_last = data.roster_team_alltime.queryResults.row[r].name_first_last
-      let player_id = data.roster_team_alltime.queryResults.row[r].player_id
+      renderTeamList(teams)
+      $("#team_id").append("<p>")
+      await renderPlayerList(players)
       
-      players.push(player)
-      $("#list").append(`<p>${players.length}. ${name_first_last} (${player_id})</p>`)
-    }
-  })
-  .catch(function (error) {
-    console.log(error)
-  })
-}
-
-// render roster UI
-function renderRoster(rosterArray) {
-  $("#rosterDiv").empty()
-  let label = $("<label>").attr("for", "playerSelector").text("Select player:")
-  let selector = $("<select>").attr("id", "playerSelector")
-  let button = $("<button>").attr("id", "playerButton").text("Go")
-  for (let i = 0; i < rosterArray.length; i++) {
-    selector.append($("<option>")
-      .text(rosterArray[i].name_sort)
-      .attr("value", rosterArray[i].player_id))
-    } 
-  $("#rosterDiv").append(label, selector, button)
-}
-
-// lookup player by roster
-$("#rosterDiv").on("click", "#playerButton", function () {
-  player_id = $("#playerSelector").val()
-  urlPlayer = `https://lookup-service-prod.mlb.com/json/named.player_info.bam?sport_code='mlb'&player_id='${player_id}'`
-
-  fetch(urlPlayer)
-  .then(function (response) {
-    return response.json()
-  })
-  .then(function (data) {
-    console.log(data)
-    let playerObject = data.player_info.queryResults.row
-    if (playerObject) {
-      renderPlayer(playerObject)
-    }
-  })
-  .catch(function (error) {
-    console.log(error)
-  })
-})
-
-// render general player stats
-function renderPlayer(playerObject) {
-  $("#playerDiv").empty()
-  let table = $("<table>")
-  let keys = Object.keys(playerObject)
-  for (let i = 0; i < keys.length; i++ ) {
-    let tr = $("<tr>")
-    let td1 = $(`<td>${keys[i]}</td>`)
-    let td2 = $(`<td>${playerObject[keys[i]]}</td>`)
-    tr.append(td1, td2)
-    table.append(tr)
   }
-  $("#playerDiv").append(table)
+  function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms))
+  }
+
+  function renderTeamList(teams) {
+    const listDiv = $("#team_id");
+    listDiv.empty();
+    listDiv.append("team_ids = [");
+    for (let i = 0; i < teams.length; i++) {
+      let team = teams[i];
+      if (i === teams.length - 1) {
+          listDiv.append(`["${team.name}", ${team.team_id}] ]`);
+      } else {
+          listDiv.append(`["${team.name}", ${team.team_id}], `);
+      }
+    }
 }
-// once we have a player ID, there are lots more specific "Stats Data" we can get
+
+function renderPlayerList(players) {
+    const listDiv = $("#player_id");
+    listDiv.empty();
+    listDiv.append("player_ids = [");
+    for (let i = 0; i < players.length; i++) {
+        let player = players[i];
+        if (i === players.length - 1) {
+            listDiv.append(`["${player.name_first_last}", ${player.player_id}] ]`);
+        } else {
+            listDiv.append(`["${player.name_first_last}", ${player.player_id}], `);
+        }
+    }
+}
 
 
+  async function getTeams() {
+    const urlTeams = `https://lookup-service-prod.mlb.com/json/named.team_all_season.bam?sport_code='mlb'&all_star_sw='N'&sort_order=name_asc&season='${seasonStart}'`
+
+    try {
+        const response = await fetch(proxyUrl + urlTeams)
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`)
+        }
+        const data = await response.json()
+        return data.team_all_season.queryResults.row
+    } catch (error) {
+        console.error("Error fetching teams:", error)
+        return []
+    }
+  }
 
 
+  async function getRoster(team_id) {
+      const urlRoster = `https://lookup-service-prod.mlb.com/json/named.roster_team_alltime.bam?start_season='${seasonStart}'&end_season='${seasonEnd}'&team_id='${team_id}'`
+
+      try {
+          const response = await fetch(proxyUrl + urlRoster)
+          const data = await response.json()
+          return data.roster_team_alltime.queryResults.row
+      } catch (error) {
+          console.error("Error fetching roster:", error)
+          return []
+      }
+  }
 </script>
+<!-- <script src="player_ids_list.js"></script> -->
 </body>
 </html>
