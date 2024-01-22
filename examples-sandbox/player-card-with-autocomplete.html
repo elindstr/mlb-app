@@ -21,8 +21,6 @@ HTML: Example method to lookup Player Stats with autocomplete search
   <label for="playerStatsSelector">Player Search: </label>
   <input id="playerStatsSelector">
 </div>
-<button id="playerStatsButton">Go</button>
-<button id="playerStatsClear">Clear</button>
 
 <div id="playerStatsDiv"></div>
 
@@ -32,11 +30,8 @@ HTML: Example method to lookup Player Stats with autocomplete search
 // JS: Example method to lookup Player Stats.
 // ---------------------------------------
 
-// click on player in playerStatsDiv 
-$("#playerStatsButton").on("click", function () {
-    player_id = $(this).val()
-    createPlayerCard(player_id, year=2023)
-})
+
+// This is the main function. It is call from the autocomplete action (at the very bottom of this script).
 async function createPlayerCard (player_id, year) {
   console.log(player_id)
 
@@ -68,7 +63,7 @@ async function createPlayerCard (player_id, year) {
       seasonPositionStats2020 = await getSeasonHitterStats(player_id, year=2020)
       seasonPositionStats2019 = await getSeasonHitterStats(player_id, year=2019)
       seasonPositionStats2018 = await getSeasonHitterStats(player_id, year=2018)
-      careerPositionStats = await getSeasonHitterStats(player_id)
+      careerPositionStats = await getCareerHitterStats(player_id)
   }
   console.log(seasonPositionStats)
 
@@ -80,7 +75,9 @@ async function createPlayerCard (player_id, year) {
 
   let header = $("<header>")
       .css({"height": "200px",
-            "background-image": `url('../media/fields/${team_id}.jpg')`
+            "background-image": `url('../media/fields/${team_id}.jpg')`,
+            "background-position": "center",
+            "background-size": "cover", 
       })
 
   let image = $(playerImage).css({
@@ -94,8 +91,8 @@ async function createPlayerCard (player_id, year) {
 
   let details = $(`<div>
       ${playerDetails.primary_position_txt} |
-      ${playerDetails.height_feet}', ${playerDetails.height_inches}" |
-      ${playerDetails.weight}lb |
+      ${playerDetails.height_feet}' ${playerDetails.height_inches}" |
+      ${playerDetails.weight} lb |
       ${playerDetails.age} |
       ${playerDetails.high_school} </div>`)
   $("#playerStatsDiv").append(header)
@@ -146,6 +143,7 @@ async function createPlayerCard (player_id, year) {
 
 // ugly way to display data; just dumping raw json data so we can see what data is available
 function jsonDump (data) {
+  if (data) {
     console.log(data)
     let table = $("<table>")
     let keys = Object.keys(data)
@@ -157,6 +155,11 @@ function jsonDump (data) {
         table.append(tr)
     }
     $("#playerStatsDiv").append(table)
+  }
+  else {
+    console.log("jsonDump: Unable to render")
+    $("#playerStatsDiv").append("<p>No data available</p>");
+  }
 }
 
 // get image files
@@ -292,9 +295,6 @@ function getTransactions(player_id, startYear) {
   })
 }
 
-$("#playerStatsClear").on("click", () => {
-  $("#playerStatsDiv").empty()
-})
 </script>
 <!-- ---------------------------------------
 JS: Example method for autocomplete lookup
@@ -306,15 +306,16 @@ JS: Example method for autocomplete lookup
     let playerNames = player_ids.map(function(item) {
         return {
             label: `${item[0]} (${item[2]})`, // display: ':player name (:team)'
-            value: item[1]
+            value: item[1]  // TODO: This is messing up the label display when selected. Is there a way to set the player_id as a data-value, so that it doesn't mess up the display label? And then when it is selected later, to use the data-value instead of the actual value to trigger the createPlayerCard()?
+
         };
     });
-
     $( "#playerStatsSelector" ).autocomplete({
       source: playerNames,
-      minLength: 3,
+      minLength: 2,
       select: function(event, ui) {
           event.preventDefault();
+          $(this).val(ui.item.label); // restore label to text
           //console.log(ui.item.label, ui.item.value)
           createPlayerCard(ui.item.value, 2023)
       }
