@@ -1,4 +1,4 @@
-# mlb-app
+# Notes for Development
 
 ## Resources 
 
