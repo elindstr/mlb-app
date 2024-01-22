@@ -1,0 +1,36 @@
+<html>
+<head>
+</head>
+<body>
+    <div id="out"></div>
+
+    <script src="player_id_list.js"></script>
+    <script src="team_id_list.js"></script>
+    <script>
+        console.log(player_ids[0][0])
+        console.log(team_ids[0][0])
+        
+        let newlist = []
+        for (i = 0; i < player_ids.length; i++) {
+            
+            // convert team_id to team_name
+            let team_name
+
+            for (t = 0; t < team_ids.length; t++) {
+                if (team_ids[t][1] === player_ids[i][2]) {
+                    team_name = team_ids[t][0]
+                }
+            } 
+
+            // make new list
+            newlist.push([player_ids[i][0], player_ids[i][1], team_name]) 
+        } 
+
+        // display list
+        for (i = 0; i < player_ids.length; i++) {
+            document.getElementById("out").append(`["${newlist[i][0]}", ${newlist[i][1]}, "${newlist[i][2]}"], `)
+        }
+
+    </script>
+</body>
+</html>

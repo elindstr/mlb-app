@@ -1,0 +1,431 @@
+<!-- This is just an internal page for ourselves to demonstrate some useful methods we could use to build an app that looks up the current MLB games by date and provides stats. Obviously a real app should have better UI and separate style.css and .js script files in their conventional directory locations.  -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="icon" href="data:,"> <!-- killing favicon console error -->
+    <meta charset="UTF-8" /> <!-- needed to display players names that contain special characters; not working -->
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+
+  </head>
+<body>
+
+<!-- ---------------------------------------
+HTML: Example method to lookup Player Stats.
+--------------------------------------- -->
+<hr>
+<h3>Example method to lookup Player Stats.</h3>
+<p><i>Hardcoded for 2023 D-Backs. Uses the APIs in the stats-data section here: https://appac.github.io/mlb-data-api-docs/#stats-data</i></p>
+
+</i></p>
+<label for="playerStatsSelector">View player stats:</label>
+<select type="text" id="playerStatsSelector">
+</select>
+<button id="playerStatsButton">Go</button>
+<button id="playerStatsClear">Clear</button>
+<div id="playerStatsDiv"></div>
+
+<script>
+
+// ---------------------------------------
+// JS: Example method to lookup Player Stats.
+// ---------------------------------------
+
+// render playerStats dropdown buttons on load
+$(function() {
+  // load 2023 DBacks as example data
+  teamID = 109
+  season = 2023
+  seasonEnd = season + 1
+  urlRoster = `https://lookup-service-prod.mlb.com/json/named.roster_team_alltime.bam?start_season='${season}'&end_season='${seasonEnd}'&team_id='${teamID}'`
+
+  fetch(urlRoster)
+  .then(function (response) {
+    return response.json()
+  })
+  .then(function (data) {
+    console.log(data)
+    let rosterArray = data.roster_team_alltime.queryResults.row   
+    let selector = $("#playerStatsSelector")
+    for (let i = 0; i < rosterArray.length; i++) {
+      selector.append($("<option>")
+      .text(rosterArray[i].name_sort)
+      .attr("value", rosterArray[i].player_id))
+    } 
+  })
+  .catch(function (error) {
+    console.log(error)
+  })
+})
+
+
+// click on player in playerStatsDiv 
+$("#playerStatsButton").on("click", function () {
+    player_id = $("#playerStatsSelector").val()
+    createPlayerCard(player_id, year=2023)
+})
+async function createPlayerCard (player_id, year) {
+
+    // get stats
+    playerDetails = await getPlayerDetails(player_id)
+    primary_position_txt = playerDetails.primary_position_txt
+    team_id = playerDetails.team_id
+    name_display_first_last = playerDetails.name_display_first_last
+
+    // load media (team_id, player_id)
+    teamLogo = await getTeamLogo(team_id)
+    playerImage = await getPlayerImage(player_id, name_display_first_last)
+
+    // seasonPositionStats depending on hitter or pitcher
+    let seasonPositionStats
+    if (primary_position_txt == "P") {
+        seasonPositionStats2023 = await getSeasonPitcherStats(player_id, year=2023)
+        seasonPositionStats2022 = await getSeasonPitcherStats(player_id, year=2022)
+        seasonPositionStats2021 = await getSeasonPitcherStats(player_id, year=2021)
+        seasonPositionStats2020 = await getSeasonPitcherStats(player_id, year=2020)
+        seasonPositionStats2019 = await getSeasonPitcherStats(player_id, year=2019)
+        seasonPositionStats2018 = await getSeasonPitcherStats(player_id, year=2018)
+        careerPositionStats = await getCareerPitcherStats(player_id)
+    }
+    else {
+        seasonPositionStats2023 = await getSeasonHitterStats(player_id, year=2023)
+        seasonPositionStats2022 = await getSeasonHitterStats(player_id, year=2022)
+        seasonPositionStats2021 = await getSeasonHitterStats(player_id, year=2021)
+        seasonPositionStats2020 = await getSeasonHitterStats(player_id, year=2020)
+        seasonPositionStats2019 = await getSeasonHitterStats(player_id, year=2019)
+        seasonPositionStats2018 = await getSeasonHitterStats(player_id, year=2018)
+        careerPositionStats = await getSeasonHitterStats(player_id)
+    }
+    console.log(seasonPositionStats)
+
+    // get transactions
+    transactions = await getTransactions(player_id, startYear=2010)
+
+    // render
+    $("#playerStatsDiv").empty()
+
+    let header = $("<header>")
+        .css({"height": "200px",
+              "background-image": `url('../media/fields/${team_id}.jpg')`
+        })
+
+    let image = $(playerImage).css({"float": "left", 
+                                "border": "1px solid black",
+                                "border-radius": "50%"
+                                })
+    let playerName =  $(`<h1>${playerDetails.name_display_first_last}</h1>`)
+
+    let details = $(`<div>
+        ${playerDetails.primary_position_txt} |
+        ${playerDetails.height_feet}', ${playerDetails.height_inches}" |
+        ${playerDetails.weight}lb |
+        ${playerDetails.age} |
+        ${playerDetails.high_school} </div>`)
+    $("#playerStatsDiv").append(header)
+    $("#playerStatsDiv").append(image, playerName, details)
+
+
+
+    
+    // $("#playerStatsDiv").append("<hr>")
+    // $("#playerStatsDiv").append("<h2>Player Details</h2>")
+    // jsonDump(playerDetails)
+    
+    // $("#playerStatsDiv").append("<hr>")
+    // $("#playerStatsDiv").append("<h2>2023 Season Stats</h2>")
+    // jsonDump(seasonPositionStats2023)
+
+    // $("#playerStatsDiv").append("<hr>")
+    // $("#playerStatsDiv").append("<h2>2022 Season Stats</h2>")
+    // jsonDump(seasonPositionStats2022)
+
+    // $("#playerStatsDiv").append("<hr>")
+    // $("#playerStatsDiv").append("<h2>2021 Season Stats</h2>")
+    // jsonDump(seasonPositionStats2021)
+
+    // $("#playerStatsDiv").append("<hr>")
+    // $("#playerStatsDiv").append("<h2>2020 Season Stats</h2>")
+    // jsonDump(seasonPositionStats2020)
+
+    // $("#playerStatsDiv").append("<hr>")
+    // $("#playerStatsDiv").append("<h2>2019 Season Stats</h2>")
+    // jsonDump(seasonPositionStats2019)
+
+    // $("#playerStatsDiv").append("<hr>")
+    // $("#playerStatsDiv").append("<h2>2018 Season Stats</h2>")
+    // jsonDump(seasonPositionStats2018)
+
+    // $("#playerStatsDiv").append("<hr>")
+    // $("#playerStatsDiv").append("<h2>Career Stats</h2>")
+    // jsonDump(careerPositionStats)
+
+    // $("#playerStatsDiv").append("<hr>")
+    // $("#playerStatsDiv").append("<h2>Transaction History (since 2010)</h2>")
+    // for (r = 0; r < transactions.length; r++) {
+    //   jsonDump(transactions[r])
+    //   $("#playerStatsDiv").append("<hr width='75%'>")
+    // }
+}
+
+// ugly way to display data; just dumping raw json data so we can see what data is available
+function jsonDump (data) {
+    console.log(data)
+    let table = $("<table>")
+    let keys = Object.keys(data)
+    for (let i = 0; i < keys.length; i++ ) {
+        let tr = $("<tr>")
+        let td1 = $(`<td>${keys[i]}</td>`)
+        let td2 = $(`<td>${data[keys[i]]}</td>`)
+        tr.append(td1, td2)
+        table.append(tr)
+    }
+    $("#playerStatsDiv").append(table)
+}
+
+// get image files
+function getTeamLogo(team_id) {
+    let imgsrc = `../media/team-logos/${team_id}.png`
+    let img = $(`<img src="${imgsrc}" width="35px" alt="Image of Team Logo"/>`)
+    let imgHTML = img.prop("outerHTML")
+    return imgHTML
+}
+function getPlayerImage(player_id, name_display_first_last) {
+    let imgsrc = `../media/players/${player_id}.jpg`
+    let img = $(`<img src="${imgsrc}" width="35px" alt="Image of ${name_display_first_last}"/>`)
+    let imgHTML = img.prop("outerHTML")
+    return imgHTML
+}
+
+function getPlayerDetails (player_id) {
+    urlPlayer = `https://lookup-service-prod.mlb.com/json/named.player_info.bam?sport_code='mlb'&player_id='${player_id}'`
+
+    return fetch(urlPlayer)
+        .then(function (response) {
+            return response.json()
+        })
+        .then(function (data) {
+            console.log(data)
+            let playerObject = data.player_info.queryResults.row
+            if (playerObject.player_id) {
+                return playerObject
+            }
+        })
+            .catch(function (error) {
+            console.log(error)
+        })
+}
+
+function getSeasonPitcherStats(player_id, year) {
+  urlSeason = `https://lookup-service-prod.mlb.com/json/named.sport_pitching_tm.bam?league_list_id='mlb'&game_type='R'&season='${year}'&player_id='${player_id}'`
+  console.log(urlSeason)
+
+  return fetch(urlSeason)
+    .then(function (response) {
+        return response.json()
+    })
+    .then(function (data) {
+        console.log(data)
+        let playerObject = data.sport_pitching_tm.queryResults.row
+        if (playerObject) {
+            return playerObject
+        }
+    })
+    .catch(function (error) {
+        console.log(error)
+    })
+}
+
+function getSeasonHitterStats(player_id, year) {
+  urlSeason = `https://lookup-service-prod.mlb.com/json/named.sport_hitting_tm.bam?league_list_id='mlb'&game_type='R'&season='${year}'&player_id='${player_id}'`
+
+  return fetch(urlSeason)
+  .then(function (response) {
+    return response.json()
+  })
+  .then(function (data) {
+    console.log(data)
+    let playerObject = data.sport_hitting_tm.queryResults.row
+    
+    if (playerObject) {
+        return playerObject
+    }
+  })
+  .catch(function (error) {
+    console.log(error)
+  })
+}
+
+function getCareerPitcherStats(player_id, year) {
+  urlSeason = `https://lookup-service-prod.mlb.com/json/named.sport_career_pitching.bam?league_list_id='mlb'&game_type='R'&player_id='${player_id}'`
+  console.log(urlSeason)
+
+  return fetch(urlSeason)
+    .then(function (response) {
+        return response.json()
+    })
+    .then(function (data) {
+        console.log(data)
+        let playerObject = data.sport_career_pitching.queryResults.row
+        if (playerObject) {
+            return playerObject
+        }
+    })
+    .catch(function (error) {
+        console.log(error)
+    })
+}
+
+
+function getCareerHitterStats(player_id, year) {
+  urlSeason = `https://lookup-service-prod.mlb.com/json/named.sport_career_hitting.bam?league_list_id='mlb'&game_type='R'&player_id='${player_id}'`
+
+  return fetch(urlSeason)
+  .then(function (response) {
+    return response.json()
+  })
+  .then(function (data) {
+    console.log(data)
+    let playerObject = data.sport_career_hitting.queryResults.row
+    
+    if (playerObject) {
+        return playerObject
+    }
+  })
+  .catch(function (error) {
+    console.log(error)
+  })
+}
+
+function getTransactions(player_id, startYear) {
+  url = `http://lookup-service-prod.mlb.com/json/named.transaction_all.bam?sport_code='mlb'&start_date='${startYear}0101'&end_date='20241231'&player_id=${player_id}`
+  
+  return fetch(url)
+  .then(function (response) {
+    return response.json()
+  })
+  .then(function (data) {
+    console.log(data)
+    
+    if (data.transaction_all.queryResults.row) {
+        return data.transaction_all.queryResults.row
+    }
+  })
+  .catch(function (error) {
+    console.log(error)
+  })
+}
+
+$("#playerStatsClear").on("click", () => {
+  $("#playerStatsDiv").empty()
+})
+
+// pitching codes:
+// bqs: Blown Quality Starts.
+// hr: Home Runs allowed.
+// whip: Walks and Hits per Inning Pitched: number of baserunners a pitcher has allowed per inning.
+// pip: Pitches per Inning Pitched.
+// rs9: Runs Scored per 9 innings.
+// ab: At Bats against the pitcher.
+// qs: Quality Starts: pitcher completes at least six innings and permits no more than three earned runs.
+// hldr: Holds.
+// ip: Innings Pitched.
+// ir: Inherited Runners.
+// er: Earned Runs.
+// ao: Fly Outs (Air Outs).
+// k9: Strikeouts per 9 innings.
+// slg: Slugging Percentage against.
+// ops: On-base Plus Slugging against.
+// tbf: Total Batters Faced.
+// go_ao: Ground Out/Air Out ratio.
+// sho: Shutouts.
+// hfly: Fly ball hits.
+// spct: Strike Percentage.
+// wpct: Win Percentage.
+// bb: Walks allowed.
+// np: Number of Pitches thrown.
+// hgnd: Ground ball hits.
+// bk: Balks.
+// sb: Stolen Bases against.
+// bq: Base runners allowed.
+// h9: Hits allowed per 9 innings.
+// avg: Batting Average against.
+// sf: Sacrifice Flies allowed.
+// sac: Sacrifice Hits (Bunts) allowed.
+// era: Earned Run Average.
+// wp: Wild Pitches.
+// so: Strikeouts.
+// gidp_opp: Double Play Opportunities.
+// pgs: ?
+// gidp: Grounded Into Double Plays.
+// gf: Games Finished.
+// ppa: Pitches Per At-bat.
+// hld: Holds.
+// sv: Saves.
+// cg: Complete Games.
+// g: Games pitched.
+// h: Hits allowed.
+// ibb: Intentional Walks allowed.
+// go: Ground Outs.
+// kbb: Strikeout-to-Walk Ratio.
+// irs: Inherited Runners Scored.
+// l: Losses.
+// gs: Games Started.
+// svo: Save Opportunities.
+// hr9: Home Runs allowed per 9 innings.
+// cs: Caught Stealing against.
+// r: Runs allowed.
+// s: Strikes thrown.
+// w: Wins.
+// babip: Batting Average on Balls In Play against.
+// bb9: Walks allowed per 9 innings.
+// hb: Hit Batsmen.
+// pk: Pickoffs.
+// obp: On-Base Percentage against.
+// db: Doubles allowed.
+// tr: Triples allowed.
+
+// hitting stat codes:
+// hr: Home Runs.
+// ab: At Bats.
+// hldr: ?
+// ao: Fly Outs (Air Outs).
+// slg: Slugging Percentage.
+// ops: On-base Plus Slugging.
+// hbp: Hit By Pitch.
+// rbi: Runs Batted In.
+// go_ao: Ground Out/Air Out ratio.
+// hfly: Fly ball hits.
+// lob: Left On Base.
+// xbh: Extra-Base Hits.
+// end_date: End date of the statistics period.
+// bb: Base on Balls (Walks).
+// np: Number of Pitches faced.
+// hgnd: Ground ball hits.
+// roe: Reached On Error.
+// sb: Stolen Bases.
+// avg: Batting Average.
+// sf: Sacrifice Flies.
+// sac: Sacrifice Hits (Bunts).
+// wo: Walk-off hits or wins?
+// team_short: Short name of the team.
+// hpop: Pop fly hits.
+// so: Strikeouts.
+// gidp_opp: Opportunities for Grounding Into Double Play.
+// gidp: Grounded Into Double Play.
+// ppa: Pitches Per At-bat.
+// d: Doubles.
+// tpa: Total Plate Appearances.
+// g: Games played.
+// h: Hits.
+// ibb: Intentional Walks.
+// go: Ground Outs.
+// tb: Total Bases.
+// cs: Caught Stealing.
+// r: Runs scored.
+// t: Triples.
+// babip: Batting Average on Balls In Play.
+// obp: On-Base Percentage.
+
+</script>
+</body>
+</html>

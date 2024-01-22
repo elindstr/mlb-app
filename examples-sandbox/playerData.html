@@ -100,6 +100,9 @@ async function createPlayerCard (player_id, year) {
     // get transactions
     transactions = await getTransactions(player_id, startYear=2010)
 
+    // get awards
+    etc = await getEtc(player_id)
+
     // render
     $("#playerStatsDiv").empty()
     $("#playerStatsDiv").append("<hr>")
@@ -180,6 +183,7 @@ function getPlayerImage(player_id, name_display_first_last) {
 
 function getPlayerDetails (player_id) {
     urlPlayer = `https://lookup-service-prod.mlb.com/json/named.player_info.bam?sport_code='mlb'&player_id='${player_id}'`
+    //newurl = `https://statsapi.mlb.com/api/v1/people?personIds=${player_id}`
 
     return fetch(urlPlayer)
         .then(function (response) {
@@ -279,8 +283,26 @@ function getCareerHitterStats(player_id, year) {
 }
 
 function getTransactions(player_id, startYear) {
-  url = `http://lookup-service-prod.mlb.com/json/named.transaction_all.bam?sport_code='mlb'&start_date='${startYear}0101'&end_date='20241231'&player_id=${player_id}`
+  url = `https://lookup-service-prod.mlb.com/json/named.transaction_all.bam?sport_code='mlb'&start_date='${startYear}0101'&end_date='20241231'&player_id=${player_id}`
   
+  return fetch(url)
+  .then(function (response) {
+    return response.json()
+  })
+  .then(function (data) {
+    console.log(data)
+    
+    if (data.transaction_all.queryResults.row) {
+        return data.transaction_all.queryResults.row
+    }
+  })
+  .catch(function (error) {
+    console.log(error)
+  })
+}
+
+function getEtc(player_id) {
+  url = `https://statsapi.mlb.com/api/v1/people?personIds=${player_id}`
   return fetch(url)
   .then(function (response) {
     return response.json()
