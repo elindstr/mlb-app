@@ -99,7 +99,7 @@ $("#gamesDiv").on("click", "button", function () {
 
     // media highlights and recap 
     //url = `http://statsapi.mlb.com/api/v1/game/${gamePk}/content`
-
+    console.log(`fetching game data for gamePk: ${gamePk}`)
     url = `http://statsapi.mlb.com/api/v1.1/game/${gamePk}/feed/live`
     fetch(url)
         .then(function (response) {
