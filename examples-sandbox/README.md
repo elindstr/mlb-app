@@ -1,5 +1,10 @@
 # Notes for Development
 
+## Examples
+* <a href="player-card-with-autocomplete.html">Player Card with Autocomplete Search</a>
+* <a href="lookup-games.html">Lookup Games By Date</a>
+* <a href="player-lookup-by-roster.html">Player Lookup By 2023 Roster</a>
+
 ## Resources 
 
 ### MLB API Resources
