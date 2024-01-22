@@ -135,9 +135,11 @@ async function createPlayerCard (player_id, year) {
 
   $("#playerStatsDiv").append("<hr>")
   $("#playerStatsDiv").append("<h2>Transaction History (since 2010)</h2>")
-  for (r = 0; r < transactions.length; r++) {
-    jsonDump(transactions[r])
-    $("#playerStatsDiv").append("<hr width='75%'>")
+  if (transactions) {
+    for (r = 0; r < transactions.length; r++) {
+      jsonDump(transactions[r])
+      $("#playerStatsDiv").append("<hr width='75%'>")
+    }
   }
 }
 
@@ -277,7 +279,7 @@ function getCareerHitterStats(player_id, year) {
 }
 
 function getTransactions(player_id, startYear) {
-  url = `http://lookup-service-prod.mlb.com/json/named.transaction_all.bam?sport_code='mlb'&start_date='${startYear}0101'&end_date='20241231'&player_id=${player_id}`
+  url = `https://lookup-service-prod.mlb.com/json/named.transaction_all.bam?sport_code='mlb'&start_date='${startYear}0101'&end_date='20241231'&player_id=${player_id}`
   
   return fetch(url)
   .then(function (response) {
