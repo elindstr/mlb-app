@@ -130,32 +130,32 @@ async function createPlayerPage (player_id, year) {
   if (primary_position_txt == "P") {
       seasonPositionStats2023 = await getSeasonPitcherStats(player_id, year=2023)
       seasonPositionStats2022 = await getSeasonPitcherStats(player_id, year=2022)
-      seasonPositionStats2021 = await getSeasonPitcherStats(player_id, year=2021)
-      seasonPositionStats2020 = await getSeasonPitcherStats(player_id, year=2020)
-      seasonPositionStats2019 = await getSeasonPitcherStats(player_id, year=2019)
-      seasonPositionStats2018 = await getSeasonPitcherStats(player_id, year=2018)
+      // seasonPositionStats2021 = await getSeasonPitcherStats(player_id, year=2021)
+      // seasonPositionStats2020 = await getSeasonPitcherStats(player_id, year=2020)
+      // seasonPositionStats2019 = await getSeasonPitcherStats(player_id, year=2019)
+      // seasonPositionStats2018 = await getSeasonPitcherStats(player_id, year=2018)
       careerPositionStats = await getCareerPitcherStats(player_id)
   }
   else {
       seasonPositionStats2023 = await getSeasonHitterStats(player_id, year=2023)
       seasonPositionStats2022 = await getSeasonHitterStats(player_id, year=2022)
-      seasonPositionStats2021 = await getSeasonHitterStats(player_id, year=2021)
-      seasonPositionStats2020 = await getSeasonHitterStats(player_id, year=2020)
-      seasonPositionStats2019 = await getSeasonHitterStats(player_id, year=2019)
-      seasonPositionStats2018 = await getSeasonHitterStats(player_id, year=2018)
+      // seasonPositionStats2021 = await getSeasonHitterStats(player_id, year=2021)
+      // seasonPositionStats2020 = await getSeasonHitterStats(player_id, year=2020)
+      // seasonPositionStats2019 = await getSeasonHitterStats(player_id, year=2019)
+      // seasonPositionStats2018 = await getSeasonHitterStats(player_id, year=2018)
       careerPositionStats = await getCareerHitterStats(player_id)
   }
   console.log(seasonPositionStats)
 
   // get transactions
-  transactions = await getTransactions(player_id, startYear=2010)
+  // transactions = await getTransactions(player_id, startYear=2010)
 
   // render
   $("#mainDiv").empty()
 
   let header = $("<header>")
       .css({"height": "200px",
-            "background-image": `url('../media/fields/${team_id}.jpg')`,
+            "background-image": `url('../assets/media/fields/${team_id}.jpg')`,
             "background-position": "center",
             "background-size": "cover", 
       })
@@ -178,49 +178,219 @@ async function createPlayerPage (player_id, year) {
   $("#mainDiv").append(header)
   $("#mainDiv").append(image, playerName, details)
 
+  // slash line
+  na = "-"
+  $("#mainDiv").append("<br>")
+  $("#mainDiv").append("<br>")
+  if (playerDetails.primary_position_txt = "P") {
+      // Our slash line (pitcher) = 
+      // ERA
+      // whip: Walks and Hits per Inning Pitched: number of baserunners a pitcher has allowed per inning
+      // ip: Innings Pitched
+      // w: Wins.
+      // gs: Games Started.
+      // hld: Holds.
+      
+      slashTable = $("<table>")
 
+      slashRow = $("<tr>")
+      slashThYear = $("<th></th>")
+      slashThERA = $("<th>ERA</th>")
+      slashThWHIP = $("<th>Whip</th>")
+      slashThIP = $("<th>IP</th>")
+      slashThW = $("<th>W</th>")
+      slashThGS = $("<th>GS</th>")
+      slashThHLD = $("<th>HLD</th>")
+      slashRow.append(slashThYear, slashThERA, slashThWHIP, slashThIP, slashThW, slashThGS, slashThHLD)
+      slashTable.append(slashRow)
 
-  
-  $("#mainDiv").append("<hr>")
-  $("#mainDiv").append("<h2>Player Details</h2>")
-  jsonDump(playerDetails)
-  
-  $("#mainDiv").append("<hr>")
-  $("#mainDiv").append("<h2>2023 Season Stats</h2>")
-  jsonDump(seasonPositionStats2023)
+      if (careerPositionStats) {
+        slashRow = $("<tr>")
+        eraCareer = careerPositionStats.era
+        whipCareer = careerPositionStats.whip
+        ipCareer = careerPositionStats.ip
+        wCareer = careerPositionStats.w
+        gsCareer = careerPositionStats.gs
+        hldCareer = careerPositionStats.hld
+        slashTdYear = $(`<td>Career</td>`)
+        slashTdERA = $(`<td>${eraCareer? eraCareer: na}</td>`)
+        slashTdWHIP = $(`<td>${whipCareer? whipCareer: na}</td>`)
+        slashTdIP = $(`<td>${ipCareer? ipCareer: na}</td>`)
+        slashTdW = $(`<td>${wCareer? wCareer: na}</td>`)
+        slashTdGS = $(`<td>${gsCareer? gsCareer: na}</td>`)
+        slashTdHLD = $(`<td>${hldCareer? hldCareer: na}</td>`)
+        slashRow.append(slashTdYear, slashTdERA, slashTdWHIP, slashTdIP, slashTdW, slashTdGS, slashTdHLD)
+        slashTable.append(slashRow)
+      }
 
-  $("#mainDiv").append("<hr>")
-  $("#mainDiv").append("<h2>2022 Season Stats</h2>")
-  jsonDump(seasonPositionStats2022)
+      if (seasonPositionStats2023) {
+        slashRow = $("<tr>")
+        era2023 = seasonPositionStats2023.era
+        whip2023 = seasonPositionStats2023.whip
+        ip2023 = seasonPositionStats2023.ip
+        w2023 = seasonPositionStats2023.w
+        gs2023 = seasonPositionStats2023.gs
+        hld2023 = seasonPositionStats2023.hld
+        slashTdYear = $(`<td>2023</td>`)
+        slashTdERA = $(`<td>${era2023? era2023: na}</td>`)
+        slashTdWHIP = $(`<td>${whip2023? whip2023: na}</td>`)
+        slashTdIP = $(`<td>${ip2023? ip2023: na}</td>`)
+        slashTdW = $(`<td>${w2023? w2023: na}</td>`)
+        slashTdGS = $(`<td>${gs2023? gs2023: na}</td>`)
+        slashTdHLD = $(`<td>${hld2023? hld2023: na}</td>`)
+        slashRow.append(slashTdYear, slashTdERA, slashTdWHIP, slashTdIP, slashTdW, slashTdGS, slashTdHLD)
+        slashTable.append(slashRow)
+      }
 
-  $("#mainDiv").append("<hr>")
-  $("#mainDiv").append("<h2>2021 Season Stats</h2>")
-  jsonDump(seasonPositionStats2021)
+      if (seasonPositionStats2022) {
+        slashRow = $("<tr>")
+        era2022 = seasonPositionStats2022.era
+        whip2022 = seasonPositionStats2022.whip
+        ip2022 = seasonPositionStats2022.ip
+        w2022 = seasonPositionStats2022.w
+        gs2022 = seasonPositionStats2022.gs
+        hld2022 = seasonPositionStats2022.hld
+        slashTdYear = $(`<td>2022</td>`)
+        slashTdERA = $(`<td>${era2022? era2022: na}</td>`)
+        slashTdWHIP = $(`<td>${whip2022? whip2022: na}</td>`)
+        slashTdIP = $(`<td>${ip2022? ip2022: na}</td>`)
+        slashTdW = $(`<td>${w2022? w2022: na}</td>`)
+        slashTdGS = $(`<td>${gs2022? gs2022: na}</td>`)
+        slashTdHLD = $(`<td>${hld2022? hld2022: na}</td>`)
+        slashRow.append(slashTdYear, slashTdERA, slashTdWHIP, slashTdIP, slashTdW, slashTdGS, slashTdHLD)
+        slashTable.append(slashRow)
+      }
 
-  $("#mainDiv").append("<hr>")
-  $("#mainDiv").append("<h2>2020 Season Stats</h2>")
-  jsonDump(seasonPositionStats2020)
-
-  $("#mainDiv").append("<hr>")
-  $("#mainDiv").append("<h2>2019 Season Stats</h2>")
-  jsonDump(seasonPositionStats2019)
-
-  $("#mainDiv").append("<hr>")
-  $("#mainDiv").append("<h2>2018 Season Stats</h2>")
-  jsonDump(seasonPositionStats2018)
-
-  $("#mainDiv").append("<hr>")
-  $("#mainDiv").append("<h2>Career Stats</h2>")
-  jsonDump(careerPositionStats)
-
-  $("#mainDiv").append("<hr>")
-  $("#mainDiv").append("<h2>Transaction History (since 2010)</h2>")
-  if (transactions) {
-    for (r = 0; r < transactions.length; r++) {
-      jsonDump(transactions[r])
-      $("#mainDiv").append("<hr width='75%'>")
-    }
+      $("#mainDiv").append(slashTable)
   }
+  else {
+      // Our slash line (hitter) = 
+      // batting average  (avg)
+      // on-base percentage (obp)
+      // slugging percentage (slg)
+      // On-base Plus Slugging (ops)
+      // Runs Batted In (rbi)
+
+      slashTable = $("<table>")
+
+      slashRow = $("<tr>")
+      slashThYear = $("<th></th>")
+      slashThERA = $("<th>avg</th>")
+      slashThWHIP = $("<th>obp</th>")
+      slashThIP = $("<th>slg</th>")
+      slashThW = $("<th>ops</th>")
+      slashThGS = $("<th>rbi</th>")
+      slashThHLD = $("<th>tpa</th>")
+      slashRow.append(slashThYear, slashThERA, slashThWHIP, slashThIP, slashThW, slashThGS, slashThHLD)
+      slashTable.append(slashRow)
+
+      if (careerPositionStats) {
+        slashRow = $("<tr>")
+        eraCareer = careerPositionStats.avg
+        whipCareer = careerPositionStats.obp
+        ipCareer = careerPositionStats.slg
+        wCareer = careerPositionStats.ops
+        gsCareer = careerPositionStats.rbi
+        hldCareer = careerPositionStats.tpa
+        slashTdYear = $(`<td>Career</td>`)
+        slashTdERA = $(`<td>${eraCareer? eraCareer: na}</td>`)
+        slashTdWHIP = $(`<td>${whipCareer? whipCareer: na}</td>`)
+        slashTdIP = $(`<td>${ipCareer? ipCareer: na}</td>`)
+        slashTdW = $(`<td>${wCareer? wCareer: na}</td>`)
+        slashTdGS = $(`<td>${gsCareer? gsCareer: na}</td>`)
+        slashTdHLD = $(`<td>${hldCareer? hldCareer: na}</td>`)
+        slashRow.append(slashTdYear, slashTdERA, slashTdWHIP, slashTdIP, slashTdW, slashTdGS, slashTdHLD)
+        slashTable.append(slashRow)
+      }
+
+      if (seasonPositionStats2023) {
+        slashRow = $("<tr>")
+        era2023 = seasonPositionStats2023.avg
+        whip2023 = seasonPositionStats2023.obp
+        ip2023 = seasonPositionStats2023.slg
+        w2023 = seasonPositionStats2023.ops
+        gs2023 = seasonPositionStats2023.rbi
+        hld2023 = seasonPositionStats2023.tpa
+        slashTdYear = $(`<td>2023</td>`)
+        slashTdERA = $(`<td>${era2023? era2023: na}</td>`)
+        slashTdWHIP = $(`<td>${whip2023? whip2023: na}</td>`)
+        slashTdIP = $(`<td>${ip2023? ip2023: na}</td>`)
+        slashTdW = $(`<td>${w2023? w2023: na}</td>`)
+        slashTdGS = $(`<td>${gs2023? gs2023: na}</td>`)
+        slashTdHLD = $(`<td>${hld2023? hld2023: na}</td>`)
+        slashRow.append(slashTdYear, slashTdERA, slashTdWHIP, slashTdIP, slashTdW, slashTdGS, slashTdHLD)
+        slashTable.append(slashRow)
+      }
+
+      if (seasonPositionStats2022) {
+        console.log(seasonPositionStats2022)
+        slashRow = $("<tr>")
+        era2022 = seasonPositionStats2022.avg
+        whip2022 = seasonPositionStats2022.obp
+        ip2022 = seasonPositionStats2022.slg
+        w2022 = seasonPositionStats2022.ops
+        gs2022 = seasonPositionStats2022.rbi
+        hld2022 = seasonPositionStats2022.tpa
+        slashTdYear = $(`<td>2022</td>`)
+        slashTdERA = $(`<td>${era2022? era2022: na}</td>`)
+        slashTdWHIP = $(`<td>${whip2022? whip2022: na}</td>`)
+        slashTdIP = $(`<td>${ip2022? ip2022: na}</td>`)
+        slashTdW = $(`<td>${w2022? w2022: na}</td>`)
+        slashTdGS = $(`<td>${gs2022? gs2022: na}</td>`)
+        slashTdHLD = $(`<td>${hld2022? hld2022: na}</td>`)
+        slashRow.append(slashTdYear, slashTdERA, slashTdWHIP, slashTdIP, slashTdW, slashTdGS, slashTdHLD)
+        slashTable.append(slashRow)
+      }
+
+      $("#mainDiv").append(slashTable)
+  }
+
+
+
+
+
+
+  
+//   $("#mainDiv").append("<hr>")
+//   $("#mainDiv").append("<h2>Player Details</h2>")
+//   jsonDump(playerDetails)
+  
+//   $("#mainDiv").append("<hr>")
+//   $("#mainDiv").append("<h2>2023 Season Stats</h2>")
+//   jsonDump(seasonPositionStats2023)
+
+//   $("#mainDiv").append("<hr>")
+//   $("#mainDiv").append("<h2>2022 Season Stats</h2>")
+//   jsonDump(seasonPositionStats2022)
+
+//   $("#mainDiv").append("<hr>")
+//   $("#mainDiv").append("<h2>2021 Season Stats</h2>")
+//   jsonDump(seasonPositionStats2021)
+
+//   $("#mainDiv").append("<hr>")
+//   $("#mainDiv").append("<h2>2020 Season Stats</h2>")
+//   jsonDump(seasonPositionStats2020)
+
+//   $("#mainDiv").append("<hr>")
+//   $("#mainDiv").append("<h2>2019 Season Stats</h2>")
+//   jsonDump(seasonPositionStats2019)
+
+//   $("#mainDiv").append("<hr>")
+//   $("#mainDiv").append("<h2>2018 Season Stats</h2>")
+//   jsonDump(seasonPositionStats2018)
+
+//   $("#mainDiv").append("<hr>")
+//   $("#mainDiv").append("<h2>Career Stats</h2>")
+//   jsonDump(careerPositionStats)
+
+//   $("#mainDiv").append("<hr>")
+//   $("#mainDiv").append("<h2>Transaction History (since 2010)</h2>")
+//   if (transactions) {
+//     for (r = 0; r < transactions.length; r++) {
+//       jsonDump(transactions[r])
+//       $("#mainDiv").append("<hr width='75%'>")
+//     }
+//   }
 }
 
 // ugly way to display data; just dumping raw json data so we can see what data is available
@@ -246,13 +416,13 @@ function jsonDump (data) {
 
 // get image files
 function getTeamLogo(team_id) {
-    let imgsrc = `../media/team-logos/${team_id}.png`
+    let imgsrc = `../assets/media/team-logos/${team_id}.png`
     let img = $(`<img src="${imgsrc}" width="35px" alt="Image of Team Logo"/>`)
     let imgHTML = img.prop("outerHTML")
     return imgHTML
 }
 function getPlayerImage(player_id, name_display_first_last) {
-    let imgsrc = `../media/players/${player_id}.jpg`
+    let imgsrc = `../assets/media/players/${player_id}.jpg`
     let img = $(`<img src="${imgsrc}" width="35px" alt="Image of ${name_display_first_last}"/>`)
     let imgHTML = img.prop("outerHTML")
     return imgHTML
@@ -400,7 +570,7 @@ async function createTeamPage(autoID, year) {
 
   let header = $("<header>")
       .css({"height": "200px",
-            "background-image": `url('../media/fields/${team_id}.jpg')`,
+            "background-image": `url('../assets/media/fields/${team_id}.jpg')`,
             "background-position": "center",
             "background-size": "cover", 
       })
@@ -442,7 +612,7 @@ $("#mainDiv").append("<h2>Team Schedule</h2>")
         let mlbTeam_ids = [109,144,110,111,112,145,113,114,115,116,117,118,108,119,146,158,142,121,147,133,143,134,135,137,136,138,139,140,141,120,1536,1490,1547,1512,1531,1535,1493,1510,1546,165,185,189,191,128,153,176,197,298,166,209,148,221,168,205,211,151,172,178,184,186,188,192,212,157,174,177,180,200,202,163,126,127,220,213,156,129,196,187,224,161,167,169,193,206,208,210,125,130,152,175,181,198,201,219,222,223,299,297,204,199,124,150,123,132,195,155,173]
         
         let awayTeam_id = teamSchedule.dates[d].games[g].teams.away.team.id
-        let awayTeam_imgsrc = `../media/team-logos/${awayTeam_id}.png`
+        let awayTeam_imgsrc = `../assets/media/team-logos/${awayTeam_id}.png`
         let awayTeam_img = $("<span><span>") 
         if (mlbTeam_ids.includes(parseInt(awayTeam_id))) {
           awayTeam_img = $(`<img src="${awayTeam_imgsrc}" width="35px" />`)
@@ -450,7 +620,7 @@ $("#mainDiv").append("<h2>Team Schedule</h2>")
         let awayTeam_img_html = awayTeam_img.prop("outerHTML")
 
         let homeTeam_id = teamSchedule.dates[d].games[g].teams.home.team.id
-        let homeTeam_imgsrc = `../media/team-logos/${homeTeam_id}.png`
+        let homeTeam_imgsrc = `../assets/media/team-logos/${homeTeam_id}.png`
         let homeTeam_img = $("<span><span>") 
         if (mlbTeam_ids.includes(parseInt(homeTeam_id))) {
           homeTeam_img = $(`<img src="${homeTeam_imgsrc}" width="35px" />`)

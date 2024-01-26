@@ -75,7 +75,7 @@ async function createPlayerCard (player_id, year) {
 
   let header = $("<header>")
       .css({"height": "200px",
-            "background-image": `url('../media/fields/${team_id}.jpg')`,
+            "background-image": `url('../../assets/media/fields/${team_id}.jpg')`,
             "background-position": "center",
             "background-size": "cover", 
       })
@@ -166,13 +166,13 @@ function jsonDump (data) {
 
 // get image files
 function getTeamLogo(team_id) {
-    let imgsrc = `../media/team-logos/${team_id}.png`
+    let imgsrc = `../../assets/media/team-logos/${team_id}.png`
     let img = $(`<img src="${imgsrc}" width="35px" alt="Image of Team Logo"/>`)
     let imgHTML = img.prop("outerHTML")
     return imgHTML
 }
 function getPlayerImage(player_id, name_display_first_last) {
-    let imgsrc = `../media/players/${player_id}.jpg`
+    let imgsrc = `../../assets/media/players/${player_id}.jpg`
     let img = $(`<img src="${imgsrc}" width="35px" alt="Image of ${name_display_first_last}"/>`)
     let imgHTML = img.prop("outerHTML")
     return imgHTML

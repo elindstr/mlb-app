@@ -105,3 +105,19 @@
 // t: Triples.
 // babip: Batting Average on Balls In Play.
 // obp: On-Base Percentage.
+
+
+// Our slash line (hitter) = 
+// batting average  (avg)
+// on-base percentage (obp)
+// slugging percentage (slg)
+// On-base Plus Slugging (ops)
+// Runs Batted In (rbi)
+
+// Our slash line (pitcher) = 
+// ip: Innings Pitched
+// ERA
+// whip: Walks and Hits per Inning Pitched: number of baserunners a pitcher has allowed per inning
+// w: Wins.
+// gs: Games Started.
+// hld: Holds.
