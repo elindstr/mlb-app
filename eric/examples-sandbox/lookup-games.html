@@ -60,7 +60,7 @@ $("#gamesByDateButton").on("click", function () {
         let mlbTeam_ids = [109,144,110,111,112,145,113,114,115,116,117,118,108,119,146,158,142,121,147,133,143,134,135,137,136,138,139,140,141,120,1536,1490,1547,1512,1531,1535,1493,1510,1546,165,185,189,191,128,153,176,197,298,166,209,148,221,168,205,211,151,172,178,184,186,188,192,212,157,174,177,180,200,202,163,126,127,220,213,156,129,196,187,224,161,167,169,193,206,208,210,125,130,152,175,181,198,201,219,222,223,299,297,204,199,124,150,123,132,195,155,173]
         
         let awayTeam_id = data.dates[d].games[g].teams.away.team.id
-        let awayTeam_imgsrc = `../media/team-logos/${awayTeam_id}.png`
+        let awayTeam_imgsrc = `../../assets/media/team-logos/${awayTeam_id}.png`
         let awayTeam_img = $("<span><span>") 
         if (mlbTeam_ids.includes(parseInt(awayTeam_id))) {
           awayTeam_img = $(`<img src="${awayTeam_imgsrc}" width="35px" />`)
@@ -68,7 +68,7 @@ $("#gamesByDateButton").on("click", function () {
         let awayTeam_img_html = awayTeam_img.prop("outerHTML")
 
         let homeTeam_id = data.dates[d].games[g].teams.home.team.id
-        let homeTeam_imgsrc = `../media/team-logos/${homeTeam_id}.png`
+        let homeTeam_imgsrc = `../../assets/media/team-logos/${homeTeam_id}.png`
         let homeTeam_img = $("<span><span>") 
         if (mlbTeam_ids.includes(parseInt(homeTeam_id))) {
           homeTeam_img = $(`<img src="${homeTeam_imgsrc}" width="35px" />`)
