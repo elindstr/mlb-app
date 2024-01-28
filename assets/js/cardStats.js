@@ -1,5 +1,3 @@
-const na = "-"
-
 // on load, look up current players (TODO: currently the existing players are placeholders; need to load players from localStorage)
 $(function() { 
     cards = $("#primary-cards").children()
@@ -12,6 +10,8 @@ $(function() {
     }
 })
 
+const na = "-"
+
 async function createFeaturePlayerCard(player_id) {
     // get stats
     const playerDetails = await getPlayerDetails(player_id)
@@ -20,7 +20,7 @@ async function createFeaturePlayerCard(player_id) {
     const name_display_first_last = playerDetails.name_display_first_last
 
     // load media (team_id, player_id)
-    //teamLogo = await getTeamLogo(team_id)
+    teamLogo = await getTeamLogo(team_id)
     const playerImage = await getPlayerImage(player_id, name_display_first_last)    // TODO: Debug
 
     // seasonPositionStats depending on hitter or pitcher
@@ -41,33 +41,31 @@ async function createFeaturePlayerCard(player_id) {
         slashTable = $("<table>")
         slashRow = $("<tr>")
         slashThYear = $("<th></th>")
-        slashThERA = $("<th>ERA</th>")
-        slashThWHIP = $("<th>Whip</th>")
-        slashThIP = $("<th>IP</th>")
-        slashThW = $("<th>W</th>")
-        slashThGS = $("<th>GS</th>")
-        slashThHLD = $("<th>HLD</th>")
+        slashThERA = $("<th>era</th>")
+        slashThWHIP = $("<th>whip</th>")
+        slashThIP = $("<th>ip</th>")
+        slashThW = $("<th>w</th>")
+        slashThGS = $("<th>gs</th>")
+        slashThHLD = $("<th>hld</th>")
         slashRow.append(slashThYear, slashThERA, slashThWHIP, slashThIP, slashThW, slashThGS, slashThHLD)
         slashTable.append(slashRow)
   
-        if (careerPositionStats) {
-          slashRow = $("<tr>")
-          eraCareer = careerPositionStats.era
-          whipCareer = careerPositionStats.whip
-          ipCareer = careerPositionStats.ip
-          wCareer = careerPositionStats.w
-          gsCareer = careerPositionStats.gs
-          hldCareer = careerPositionStats.hld
-          slashTdYear = $(`<td>Career</td>`)
-          slashTdERA = $(`<td>${eraCareer? eraCareer: na}</td>`)
-          slashTdWHIP = $(`<td>${whipCareer? whipCareer: na}</td>`)
-          slashTdIP = $(`<td>${ipCareer? ipCareer: na}</td>`)
-          slashTdW = $(`<td>${wCareer? wCareer: na}</td>`)
-          slashTdGS = $(`<td>${gsCareer? gsCareer: na}</td>`)
-          slashTdHLD = $(`<td>${hldCareer? hldCareer: na}</td>`)
-          slashRow.append(slashTdYear, slashTdERA, slashTdWHIP, slashTdIP, slashTdW, slashTdGS, slashTdHLD)
-          slashTable.append(slashRow)
-        }
+        slashRow = $("<tr>")
+        eraCareer = careerPositionStats? careerPositionStats.era: na
+        whipCareer = careerPositionStats? careerPositionStats.whip: na
+        ipCareer = careerPositionStats? careerPositionStats.ip: na
+        wCareer = careerPositionStats? careerPositionStats.w: na
+        gsCareer = careerPositionStats? careerPositionStats.gs: na
+        hldCareer = careerPositionStats? careerPositionStats.hld: na
+        slashTdYear = $(`<td>Career</td>`)
+        slashTdERA = $(`<td>${eraCareer? eraCareer: na}</td>`)
+        slashTdWHIP = $(`<td>${whipCareer? whipCareer: na}</td>`)
+        slashTdIP = $(`<td>${ipCareer? ipCareer: na}</td>`)
+        slashTdW = $(`<td>${wCareer? wCareer: na}</td>`)
+        slashTdGS = $(`<td>${gsCareer? gsCareer: na}</td>`)
+        slashTdHLD = $(`<td>${hldCareer? hldCareer: na}</td>`)
+        slashRow.append(slashTdYear, slashTdERA, slashTdWHIP, slashTdIP, slashTdW, slashTdGS, slashTdHLD)
+        slashTable.append(slashRow)
   
         if (seasonPositionStats2023) {
           slashRow = $("<tr>")
@@ -120,25 +118,23 @@ async function createFeaturePlayerCard(player_id) {
         slashRow.append(slashThYear, slashThERA, slashThWHIP, slashThIP, slashThW, slashThGS, slashThHLD)
         slashTable.append(slashRow)
     
-        if (careerPositionStats) {
-            slashRow = $("<tr>")
-            eraCareer = careerPositionStats.avg
-            whipCareer = careerPositionStats.obp
-            ipCareer = careerPositionStats.slg
-            wCareer = careerPositionStats.ops
-            gsCareer = careerPositionStats.rbi
-            hldCareer = careerPositionStats.tpa
-            slashTdYear = $(`<td>Career</td>`)
-            slashTdERA = $(`<td>${eraCareer? eraCareer: na}</td>`)
-            slashTdWHIP = $(`<td>${whipCareer? whipCareer: na}</td>`)
-            slashTdIP = $(`<td>${ipCareer? ipCareer: na}</td>`)
-            slashTdW = $(`<td>${wCareer? wCareer: na}</td>`)
-            slashTdGS = $(`<td>${gsCareer? gsCareer: na}</td>`)
-            slashTdHLD = $(`<td>${hldCareer? hldCareer: na}</td>`)
-            slashRow.append(slashTdYear, slashTdERA, slashTdWHIP, slashTdIP, slashTdW, slashTdGS, slashTdHLD)
-            slashTable.append(slashRow)
-        }
-    
+        slashRow = $("<tr>")
+        eraCareer = careerPositionStats? careerPositionStats.avg: na
+        whipCareer = careerPositionStats? careerPositionStats.obp: na
+        ipCareer = careerPositionStats? careerPositionStats.slg: na
+        wCareer = careerPositionStats? careerPositionStats.ops: na
+        gsCareer = careerPositionStats? careerPositionStats.rbi: na
+        hldCareer = careerPositionStats? careerPositionStats.tpa: na
+        slashTdYear = $(`<td>Career</td>`)
+        slashTdERA = $(`<td>${eraCareer? eraCareer: na}</td>`)
+        slashTdWHIP = $(`<td>${whipCareer? whipCareer: na}</td>`)
+        slashTdIP = $(`<td>${ipCareer? ipCareer: na}</td>`)
+        slashTdW = $(`<td>${wCareer? wCareer: na}</td>`)
+        slashTdGS = $(`<td>${gsCareer? gsCareer: na}</td>`)
+        slashTdHLD = $(`<td>${hldCareer? hldCareer: na}</td>`)
+        slashRow.append(slashTdYear, slashTdERA, slashTdWHIP, slashTdIP, slashTdW, slashTdGS, slashTdHLD)
+        slashTable.append(slashRow)
+        
         if (seasonPositionStats2023) {
             slashRow = $("<tr>")
             era2023 = seasonPositionStats2023.avg
@@ -178,13 +174,19 @@ async function createFeaturePlayerCard(player_id) {
         }
     }
 
-    const newCard = $("<div>")
-        .attr("id", player_id)
-        .attr("class", "card")
-    newCard.append(playerImage, name_display_first_last)
-
+    // construct card
+    const playerNameSection = $("<span>")
+        .attr("class", "card-player-name")
+    playerNameSection.append(playerImage, name_display_first_last)
+    teamNameSection = $("<span>")
+        .attr("class", "card-team-name")
+    teamNameSection.append(teamLogo) 
+    slashTableSection = $("<span>")
+        .attr("class", "slash-table")
+    slashTableSection.append(slashTable)
+    
     $(`#${player_id}`).empty()
-    $(`#${player_id}`).append(newCard, slashTable)
+    $(`#${player_id}`).append(playerNameSection, teamNameSection, slashTableSection)
 }
 
 async function createPlayerCard (player_id) {
@@ -205,13 +207,19 @@ async function createPlayerCard (player_id) {
         .attr("class", "card")
     newCard.append(playerImage, name_display_first_last)
 
-    cardExists = $("#secondary-cards").find(`#${player_id}`).length > 0
-    if (cardExists) {
-        $(`#${player_id}`).empty()
-        $(`#${player_id}`).replaceWith(newCard)
+    // render to page if player not already there
+    if (cardExists = $("#primary-cards").find(`#${player_id}`).length > 0) {
+        // pass (player card already in featured section)
     }
     else {
-        $("#secondary-cards").prepend(newCard)
+        if ($("#secondary-cards").find(`#${player_id}`).length > 0) {
+            // player card already in secondary section: update, but don't duplicate
+            $(`#${player_id}`).empty()
+            $(`#${player_id}`).replaceWith(newCard)
+        }
+        else {
+            $("#secondary-cards").prepend(newCard)
+        }
     }
 }
 
@@ -223,6 +231,7 @@ function getTeamLogo(team_id) {
     return imgHTML
 }
 
+// TODO: this function works, but it generates a console error: need to debug. 
 function getPlayerImage(player_id, name_display_first_last) {
     return new Promise((resolve, reject) => {
         let imgsrc = `./assets/media/players/${player_id}.jpg`;

@@ -45,13 +45,27 @@ main {
   flex-direction: column;
 }
 .card {
-  padding: 5px;
-  margin: 5px;
+  padding: 2px;
+  margin: 1px;
   display: inline;
 }
 #primary-cards .card {
   height: 200px;
   width: 50%;
+}
+#primary-cards .card-player-name {
+  float: left
+}
+#primary-cards .card-team-name {
+  float: right
+}
+#primary-cards .slash-table {
+  padding: 5px;
+  text-align: center;
+}
+#primary-cards .slash-table th {
+  padding: 1px;
+  text-align: center;
 }
 
 /* for dragula ui (draggable cards) */
