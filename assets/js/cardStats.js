@@ -1,17 +1,19 @@
 // on load, look up current players (TODO: currently the existing players are placeholders; need to load players from localStorage)
 $(function() { 
-    cards = $("#primary-cards").children()
+    cards = $('#primary-cards').children()
     for (i = 0; i < cards.length; i++) {
         createFeaturePlayerCard(cards[i].id)
     }
-    cards = $("#secondary-cards").children()
+    cards = $('#secondary-cards').children()
     for (i = 0; i < cards.length; i++) {
         createPlayerCard(cards[i].id)
     }
 })
 
-const na = "-"
+// placeholder when no stats available
+const na = '-' 
 
+// called by draggableCards.js when a user drags an item to the primary section
 async function createFeaturePlayerCard(player_id) {
     // get stats
     const playerDetails = await getPlayerDetails(player_id)
@@ -25,7 +27,7 @@ async function createFeaturePlayerCard(player_id) {
 
     // seasonPositionStats depending on hitter or pitcher
     let seasonPositionStats
-    if (primary_position_txt == "P") {
+    if (primary_position_txt == 'P') {
         seasonPositionStats2023 = await getSeasonPitcherStats(player_id, year=2023)
         seasonPositionStats2022 = await getSeasonPitcherStats(player_id, year=2022)
         careerPositionStats = await getCareerPitcherStats(player_id)
@@ -37,20 +39,20 @@ async function createFeaturePlayerCard(player_id) {
     }
 
     // create slash line
-    if (playerDetails.primary_position_txt == "P") {
-        slashTable = $("<table>")
-        slashRow = $("<tr>")
-        slashThYear = $("<th></th>")
-        slashThERA = $("<th>era</th>")
-        slashThWHIP = $("<th>whip</th>")
-        slashThIP = $("<th>ip</th>")
-        slashThW = $("<th>w</th>")
-        slashThGS = $("<th>gs</th>")
-        slashThHLD = $("<th>hld</th>")
+    if (playerDetails.primary_position_txt == 'P') {
+        slashTable = $('<table>')
+        slashRow = $('<tr>')
+        slashThYear = $('<th></th>')
+        slashThERA = $('<th>era</th>')
+        slashThWHIP = $('<th>whip</th>')
+        slashThIP = $('<th>ip</th>')
+        slashThW = $('<th>w</th>')
+        slashThGS = $('<th>gs</th>')
+        slashThHLD = $('<th>hld</th>')
         slashRow.append(slashThYear, slashThERA, slashThWHIP, slashThIP, slashThW, slashThGS, slashThHLD)
         slashTable.append(slashRow)
   
-        slashRow = $("<tr>")
+        slashRow = $('<tr>')
         eraCareer = careerPositionStats? careerPositionStats.era: na
         whipCareer = careerPositionStats? careerPositionStats.whip: na
         ipCareer = careerPositionStats? careerPositionStats.ip: na
@@ -68,7 +70,7 @@ async function createFeaturePlayerCard(player_id) {
         slashTable.append(slashRow)
   
         if (seasonPositionStats2023) {
-          slashRow = $("<tr>")
+          slashRow = $('<tr>')
           era2023 = seasonPositionStats2023.era
           whip2023 = seasonPositionStats2023.whip
           ip2023 = seasonPositionStats2023.ip
@@ -87,7 +89,7 @@ async function createFeaturePlayerCard(player_id) {
         }
   
         if (seasonPositionStats2022) {
-          slashRow = $("<tr>")
+          slashRow = $('<tr>')
           era2022 = seasonPositionStats2022.era
           whip2022 = seasonPositionStats2022.whip
           ip2022 = seasonPositionStats2022.ip
@@ -106,19 +108,19 @@ async function createFeaturePlayerCard(player_id) {
         }
     }
     else { // hitter
-        slashTable = $("<table>")
-        slashRow = $("<tr>")
-        slashThYear = $("<th></th>")
-        slashThERA = $("<th>avg</th>")
-        slashThWHIP = $("<th>obp</th>")
-        slashThIP = $("<th>slg</th>")
-        slashThW = $("<th>ops</th>")
-        slashThGS = $("<th>rbi</th>")
-        slashThHLD = $("<th>tpa</th>")
+        slashTable = $('<table>')
+        slashRow = $('<tr>')
+        slashThYear = $('<th></th>')
+        slashThERA = $('<th>avg</th>')
+        slashThWHIP = $('<th>obp</th>')
+        slashThIP = $('<th>slg</th>')
+        slashThW = $('<th>ops</th>')
+        slashThGS = $('<th>rbi</th>')
+        slashThHLD = $('<th>tpa</th>')
         slashRow.append(slashThYear, slashThERA, slashThWHIP, slashThIP, slashThW, slashThGS, slashThHLD)
         slashTable.append(slashRow)
     
-        slashRow = $("<tr>")
+        slashRow = $('<tr>')
         eraCareer = careerPositionStats? careerPositionStats.avg: na
         whipCareer = careerPositionStats? careerPositionStats.obp: na
         ipCareer = careerPositionStats? careerPositionStats.slg: na
@@ -136,7 +138,7 @@ async function createFeaturePlayerCard(player_id) {
         slashTable.append(slashRow)
         
         if (seasonPositionStats2023) {
-            slashRow = $("<tr>")
+            slashRow = $('<tr>')
             era2023 = seasonPositionStats2023.avg
             whip2023 = seasonPositionStats2023.obp
             ip2023 = seasonPositionStats2023.slg
@@ -155,7 +157,7 @@ async function createFeaturePlayerCard(player_id) {
         }
     
         if (seasonPositionStats2022) {
-            slashRow = $("<tr>")
+            slashRow = $('<tr>')
             era2022 = seasonPositionStats2022.avg
             whip2022 = seasonPositionStats2022.obp
             ip2022 = seasonPositionStats2022.slg
@@ -175,22 +177,22 @@ async function createFeaturePlayerCard(player_id) {
     }
 
     // construct card
-    const playerNameSection = $("<span>")
-        .attr("class", "card-player-name")
+    const playerNameSection = $('<span>')
+        .attr('class', 'card-player-name')
     playerNameSection.append(playerImage, name_display_first_last)
-    teamNameSection = $("<span>")
-        .attr("class", "card-team-name")
+    teamNameSection = $('<span>')
+        .attr('class', 'card-team-name')
     teamNameSection.append(teamLogo) 
-    slashTableSection = $("<span>")
-        .attr("class", "slash-table")
+    slashTableSection = $('<span>')
+        .attr('class', 'slash-table')
     slashTableSection.append(slashTable)
     
     $(`#${player_id}`).empty()
     $(`#${player_id}`).append(playerNameSection, teamNameSection, slashTableSection)
 }
 
+// called by autoComplete.js when user selects a player from the search
 async function createPlayerCard (player_id) {
-    // console.log("creating", player_id)
 
     // get stats
     const playerDetails = await getPlayerDetails(player_id)
@@ -200,34 +202,34 @@ async function createPlayerCard (player_id) {
 
     // load media (team_id, player_id)
     //teamLogo = await getTeamLogo(team_id)
-    const playerImage = await getPlayerImage(player_id, name_display_first_last)    // TODO: Debug
+    const playerImage = await getPlayerImage(player_id, name_display_first_last)
 
-    const newCard = $("<div>")
-        .attr("id", player_id)
-        .attr("class", "card")
+    const newCard = $('<div>')
+        .attr('id', player_id)
+        .attr('class', 'card')
     newCard.append(playerImage, name_display_first_last)
 
     // render to page if player not already there
-    if (cardExists = $("#primary-cards").find(`#${player_id}`).length > 0) {
+    if (cardExists = $('#primary-cards').find(`#${player_id}`).length > 0) {
         // pass (player card already in featured section)
     }
     else {
-        if ($("#secondary-cards").find(`#${player_id}`).length > 0) {
+        if ($('#secondary-cards').find(`#${player_id}`).length > 0) {
             // player card already in secondary section: update, but don't duplicate
             $(`#${player_id}`).empty()
             $(`#${player_id}`).replaceWith(newCard)
         }
         else {
-            $("#secondary-cards").prepend(newCard)
+            $('#secondary-cards').prepend(newCard)
         }
     }
 }
 
-// get image files
+// get image files 
 function getTeamLogo(team_id) {
     let imgsrc = `./assets/media/team-logos/${team_id}.png`
-    let img = $(`<img src="${imgsrc}" width="35px" alt="Image of Team Logo"/>`)
-    let imgHTML = img.prop("outerHTML")
+    let img = $(`<img src='${imgsrc}' width='35px' alt='Image of Team Logo'/>`)
+    let imgHTML = img.prop('outerHTML')
     return imgHTML
 }
 
@@ -237,18 +239,17 @@ function getPlayerImage(player_id, name_display_first_last) {
         let imgsrc = `./assets/media/players/${player_id}.jpg`;
         let img = new Image();
         img.onload = () => {
-            let imgHTML = $(`<img src="${imgsrc}" width="35px" alt="Image of ${name_display_first_last}"/>`).prop("outerHTML");
+            let imgHTML = $(`<img src='${imgsrc}' width='35px' alt='Image of ${name_display_first_last}'/>`).prop('outerHTML');
             resolve(imgHTML);
         };
         img.onerror = () => {
             let defaultImgSrc = `./assets/media/players/404.png`;
-            let imgHTML = $(`<img src="${defaultImgSrc}" width="35px" alt="Default Image"/>`).prop("outerHTML");
+            let imgHTML = $(`<img src='${defaultImgSrc}' width='35px' alt='Default Image'/>`).prop('outerHTML');
             resolve(imgHTML);
         };
         img.src = imgsrc;
     });
 }
-
 
 function getPlayerDetails (player_id) {
     url = `https://lookup-service-prod.mlb.com/json/named.player_info.bam?sport_code='mlb'&player_id='${player_id}'`
