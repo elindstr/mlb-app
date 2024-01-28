@@ -12,17 +12,20 @@ var drake = dragula([document.getElementById('secondary-cards'), document.getEle
 });
 
 drake.on('drag', function(el, source) {
+
     // kill mobile page scrolling while dragging an item
-    $(document).on('touchstart', function(e) {
-        e.preventDefault();
-    });
+    function preventDefault(e) {
+        e.preventDefault()
+    }
+    $(window).on('touchmove', preventDefault, { passive: false })
 })
 
 drake.on("drop", function (el, target, source, sibling) {
     
     // restore mobile page scrolling after the end of a drag drop
-    $(document).off('touchstart');
-
+    if (el._preventDefaultHandler) {
+        $(window).off('touchmove', el._preventDefaultHandler)
+    }
     // transform cards into feature and vice versa when dragged to new section
     if (target.id == "primary-cards") {
         createFeaturePlayerCard(el.id)
