@@ -23,5 +23,5 @@ drake.on("drop", function (el, target, source, sibling) {
 })
 
 // killing mobile scrolling/navigation when touching 
-$("#primary-cards").addEventListener('touchmove', event => event.preventDefault());
-$("#secondary-cards").addEventListener('touchmove', event => event.preventDefault());
+document.getElementById("primary-cards").addEventListener('touchmove', event => event.preventDefault());
+document.getElementById("secondary-cards").addEventListener('touchmove', event => event.preventDefault());
