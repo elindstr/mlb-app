@@ -231,6 +231,7 @@ function getTeamLogo(team_id) {
     return imgHTML
 }
 
+// TODO: this function works, but it generates a console error: need to debug. 
 function getPlayerImage(player_id, name_display_first_last) {
     return new Promise((resolve, reject) => {
         let imgsrc = `./assets/media/players/${player_id}.jpg`;
