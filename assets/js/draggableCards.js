@@ -9,15 +9,15 @@ var drake = dragula([document.getElementById('secondary-cards'), document.getEle
             return true
         }
     }
-});
+})
 
-drake.on("drop", function (el, target, source, sibling) {
+drake.on('drop', function (el, target, source, sibling) {
     
     // transform cards into feature and vice versa when dragged to new section
-    if (target.id == "primary-cards") {
+    if (target.id == 'primary-cards') {
         createFeaturePlayerCard(el.id)
     }
-    if (target.id == "secondary-cards") {
+    if (target.id == 'secondary-cards') {
         createPlayerCard(el.id)
     }
 })
@@ -25,7 +25,7 @@ drake.on("drop", function (el, target, source, sibling) {
 // killing mobile scrolling/navigation when touching 
 $(document).on('touchmove', '#primary-cards, #secondary-cards', function(event) {
     event.preventDefault()
-}, { passive: false });
+}, { passive: false })
 drake.on('drag', function(el, source) {
     $('body').css('touch-action', 'none')
-});
+})
