@@ -30,6 +30,9 @@
     main {
         width: 65%
     }
+    table {
+      padding: 3px;
+    }
   </style>
 <body>
 
@@ -37,7 +40,7 @@
   <div class="row">
     
     <aside class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-      <h1>SwingStats</h1>
+      <h1>SlashLine Stats</h1>
         <div class="form-floating" >
           <input type="text" class="form-control ui-widget"  placeholder="search" id="searchQuery">
           <label for="searchQuery">Search</label>
@@ -180,9 +183,7 @@ async function createPlayerPage (player_id, year) {
 
   // slash line
   na = "-"
-  $("#mainDiv").append("<br>")
-  $("#mainDiv").append("<br>")
-  if (playerDetails.primary_position_txt = "P") {
+  if (playerDetails.primary_position_txt == "P") {
       // Our slash line (pitcher) = 
       // ERA
       // whip: Walks and Hits per Inning Pitched: number of baserunners a pitcher has allowed per inning
