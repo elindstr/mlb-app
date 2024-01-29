@@ -1,13 +1,33 @@
 // docs here: https://github.com/bevacqua/dragula
 
-var drake = dragula([document.getElementById('secondary-cards'), document.getElementById('primary-cards')], {
+// TODO: prevent pulling roster cards into other sections and creating duplicate players
+// TODO: remove element if dropped outside of container
+
+var drake = dragula([
+    document.getElementById('primary-cards'), 
+    document.getElementById('secondary-cards'), 
+    document.getElementById('asideSection')], {
+
+    moves: function (el, target, source, sibling) {
+        // don't sort 'asideSection' if asideIsSortable is "false"
+        if ($(source).attr('id') == "asideSectionX") {
+            return false;
+        }
+        return true
+    },
+
     accepts: function (el, target, source, sibling) {
+        // don't sort 'asideSection' if asideIsSortable is "false"
+        if ($(target).attr('id') == "asideSectionX") {
+            return false;
+        }
+
+        // don't sort 'primary-cards' if it already has 2 items
         if (target === document.getElementById('primary-cards')) {
             return target.children.length < 2
         }
-        else {
-            return true
-        }
+        
+        return true
     }
 })
 
@@ -20,6 +40,13 @@ drake.on('drop', function (el, target, source, sibling) {
     if (target.id == 'secondary-cards') {
         createPlayerCard(el.id)
     }
+    if (target.id == 'asideSection') {
+        getAsideRoster()
+    }
+    if (source.id == 'asideSection') {
+        getAsideRoster()
+    }
+
 })
 
 // killing mobile scrolling/navigation when touching 
