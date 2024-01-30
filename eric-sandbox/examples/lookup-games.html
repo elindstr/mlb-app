@@ -1,0 +1,119 @@
+<!-- This is just an internal page for ourselves to demonstrate some useful methods we could use to build an app that looks up the current MLB games by date and provides stats. Obviously a real app should have better UI and separate style.css and .js script files in their conventional directory locations.  -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="icon" href="data:,"> <!-- killing favicon console error -->
+    <meta charset="UTF-8" /> <!-- needed to display players names that contain special characters; not working -->
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+  </head>
+<body>
+
+    
+  <!-- ---------------------------------------
+  HTML: Example method to lookup games by date.
+  --------------------------------------- -->
+<h3>Example method to lookup games by date.</h3>
+<p><i>Uses API: https://statsapi.mlb.com/api/v1/schedule/games/?sportId=1&startDate=${startDate}&endDate=${endDate}</i></p>
+<label for="gamesStartDateSelector">Start Date:</label>
+<input type="date" id="gamesStartDateSelector" />
+<label for="gamesEndDateSelector">End Date:</label>
+<input type="date" id="gamesEndDateSelector" />
+<button id="gamesByDateButton">Go</button>
+<button id="gamesDivClear">Clear</button>
+<div id="gamesDiv"></div>
+
+
+<script>
+// ---------------------------------------
+// JS: Example method to lookup games by date.
+// ---------------------------------------
+
+// lookup games by date
+$("#gamesByDateButton").on("click", function () {
+  let startDate =  $("#gamesStartDateSelector").val()
+  let endDate =  $("#gamesEndDateSelector").val()
+  let urlGamesByDate = `https://statsapi.mlb.com/api/v1/schedule/games/?sportId=1&startDate=${startDate}&endDate=${endDate}`
+
+  fetch(urlGamesByDate)
+  .then(function (response) {
+    return response.json()
+  })
+  .then(function (data) {
+    console.log(data)
+    
+    // render gamesDiv
+    $("#gamesDiv").empty()
+
+    // iterate through result game dates
+    for (let d = 0; d < data.dates.length; d++) {
+      $("#gamesDiv").append(`<h3>Games on ${data.dates[d].date}</h3>`)
+      
+      // iterate through games on that day
+      for (let g = 0; g < data.dates[d].games.length; g++) {
+
+        // teams playing each other
+        let awayTeam = data.dates[d].games[g].teams.away.team.name
+        let homeTeam = data.dates[d].games[g].teams.home.team.name
+
+        // prepare team logo images
+        let mlbTeam_ids = [109,144,110,111,112,145,113,114,115,116,117,118,108,119,146,158,142,121,147,133,143,134,135,137,136,138,139,140,141,120,1536,1490,1547,1512,1531,1535,1493,1510,1546,165,185,189,191,128,153,176,197,298,166,209,148,221,168,205,211,151,172,178,184,186,188,192,212,157,174,177,180,200,202,163,126,127,220,213,156,129,196,187,224,161,167,169,193,206,208,210,125,130,152,175,181,198,201,219,222,223,299,297,204,199,124,150,123,132,195,155,173]
+        
+        let awayTeam_id = data.dates[d].games[g].teams.away.team.id
+        let awayTeam_imgsrc = `../../assets/media/team-logos/${awayTeam_id}.png`
+        let awayTeam_img = $("<span><span>") 
+        if (mlbTeam_ids.includes(parseInt(awayTeam_id))) {
+          awayTeam_img = $(`<img src="${awayTeam_imgsrc}" width="35px" />`)
+        } 
+        let awayTeam_img_html = awayTeam_img.prop("outerHTML")
+
+        let homeTeam_id = data.dates[d].games[g].teams.home.team.id
+        let homeTeam_imgsrc = `../../assets/media/team-logos/${homeTeam_id}.png`
+        let homeTeam_img = $("<span><span>") 
+        if (mlbTeam_ids.includes(parseInt(homeTeam_id))) {
+          homeTeam_img = $(`<img src="${homeTeam_imgsrc}" width="35px" />`)
+        } 
+        let homeTeam_img_html = homeTeam_img.prop("outerHTML")
+
+        // render game content to gamesDiv, including the team logo if its an MLB team
+        $("#gamesDiv").append(`<p>${awayTeam}${awayTeam_img_html} @ ${homeTeam}${homeTeam_img_html}</p>`)
+
+        $("#gamesDiv").append(`<button id="${data.dates[d].games[g].gamePk}">View Game</button>`)
+      }
+    }
+
+  })
+  .catch(function (error) {
+    console.log(error)
+  })
+})
+
+// clear games div
+$("#gamesDivClear").on("click", function () {
+  $("#gamesDiv").empty()
+})
+
+$("#gamesDiv").on("click", "button", function () {
+    gamePk = $(this).attr("id")
+    $("#gamesDiv").empty()
+
+    // media highlights and recap 
+    //url = `https://statsapi.mlb.com/api/v1/game/${gamePk}/content`
+    console.log(`fetching game data for gamePk: ${gamePk}`)
+    url = `https://statsapi.mlb.com/api/v1.1/game/${gamePk}/feed/live`
+    fetch(url)
+        .then(function (response) {
+            return response.json()
+        })
+        .then(function (data) {
+            console.log(data)
+        })
+        .catch(function (error) {
+            console.log(error)
+        })
+})
+
+
+</script>
+</body>
+</html>
