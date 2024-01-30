@@ -23,55 +23,60 @@ body {
 }
 
 /* Player Cards */
-main {
-  display: flex
-}
-
-article {
-  width: 65%;
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-}
-
-.draggable-cards {
-  width: 80%;
-  margin: auto;
-  border: 1px solid black;
-  margin: 5px auto;
-  padding: 10px;  
-}
+/* Player Cards */
 #primary-cards {
   display: flex;
   flex-direction: row;
 }
-#secondary-cards {
-  display: flex;
-  flex-direction: column;
-}
-.card {
-  padding: 2px;
-  margin: 1px;
-  display: inline;
-}
+
 #primary-cards .card {
-  height: 200px;
-  width: 50%;
+  width: 100%;
+  border: 1px solid #ddd;
+  margin: 10px;
+  padding: 15px;
+  text-align: center;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
 #primary-cards .card-player-name {
-  float: left
+  font-size: 1.2em;
+  font-weight: bold;
 }
+
 #primary-cards .card-team-name {
-  float: right
+  font-size: 1.1em;
+  color: #555;
 }
-#primary-cards .slash-table {
-  padding: 5px;
+
+/* Table Styling */
+table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
   text-align: center;
 }
-#primary-cards .slash-table th {
-  padding: 1px;
-  text-align: center;
+
+th {
+  background-color: #f2f2f2;
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  #primary-cards {
+      flex-direction: column;
+  }
+
+  #primary-cards .card {
+      width: 100%;
+  }
+}
+
 
 /* for dragula ui (draggable cards) */
 .gu-mirror{position:fixed!important;margin:0!important;z-index:9999!important;opacity:.8}.gu-hide{display:none!important}.gu-unselectable{-webkit-user-select:none!important;-moz-user-select:none!important;-ms-user-select:none!important;user-select:none!important}.gu-transit{opacity:.2}
