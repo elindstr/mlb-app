@@ -7,6 +7,14 @@ for (let i = 0; i < team_ids.length; i++) {
     }    
 }
 
+const teamElement = document.getElementById("teams")
+
+teamElement.addEventListener("change", function() {
+    myTeamId = this.value;
+    console.log(myTeamId)
+    getAsideRoster();
+});
+
 // run on load
 $(function() {
     
@@ -46,7 +54,7 @@ const teamIDs = [109, 144, 110, 111, 112, 145, 113, 114, 115, 116, 117, 118, 108
 
 // get team roster
 async function getAsideRoster() {
-    let teamId = 109            // TODO: make dynamic
+    let teamId = myTeamId          
     playersData = await fetchAsideRoster(teamId)
     players = playersData.roster_40.queryResults.row
 
@@ -124,7 +132,7 @@ let seasonEnd =
 async function getAsideGames() {
     let startDate = todayStr
     let endDate =  seasonEnd
-    let teamId = 109            // TODO: make dynamic
+    let teamId = myTeamId           
     games = await fetchAsideGames(startDate, endDate, teamId)
 
     if (games.totalGames > 0) {
@@ -192,6 +200,8 @@ function fetchAsideGames(startDate, endDate, teamId) {
     let imgHTML = img.prop('outerHTML')
     return imgHTML
   }
+
+
 
 
         // // render asideSection

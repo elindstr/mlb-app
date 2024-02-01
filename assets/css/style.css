@@ -160,3 +160,26 @@ aside {
 #drag-container {
   display: flex;
 }
+nav {
+  display: flex;
+}
+
+#favoriteTeamContainer {
+  margin: auto;
+  border: solid black 1px;
+  width: 30%;
+  margin: auto;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+#teamsDropdown {
+ display: flex;
+}
+
+#teamsearch {
+  justify-content: center;
+  display: flex;
+  width: 90%;
+  border-radius: 5px;
+}
