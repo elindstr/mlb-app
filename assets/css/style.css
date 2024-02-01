@@ -221,6 +221,19 @@ aside {
   margin: 1px;
 }
 
+.asideSection-player {
+  padding: 3px;
+  margin: 1px;
+  display: flow;
+}
+.asideSection img {
+  width: 20px;
+}
+#asideSectionX{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -239,11 +252,6 @@ aside {
   aside {
     padding: 1px;
     margin: 1px;
-  }
-  .asideSection-player {
-    padding: 1px;
-    margin: 1px;
-    display: inline-block;
   }
   .asideSection img {
     width: 20px;

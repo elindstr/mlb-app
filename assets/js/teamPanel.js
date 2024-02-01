@@ -208,7 +208,7 @@ async function getAsideGames() {
     if (games.totalGames > 0) {
         $(".asideSection").empty()
 
-        gamesDisplayLimit = 10
+        gamesDisplayLimit = 20
         for (d = 0; d < gamesDisplayLimit; d++) {
             for (g = 0; g < games.dates[d].totalGames; g++) {
 
