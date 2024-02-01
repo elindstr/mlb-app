@@ -1,8 +1,20 @@
-## SlashLine Stats
+## Slash Line Stats
 
-## User Story:
+Slash Line Stats (SLS) is a JavaScript web app providing realtime Major League Baseball [slash line](https://www.mlb.com/glossary/miscellaneous/slash-line) stats for user-generated head-to-head comparisons. SLS aggregates stats from an extensive array of API endpoints and curates an easy-to-read slash line of just the stats you really care to know. View team rosters, team schedules, and the check the current weather at your team's stadium. Use the autocomplete search bar to find any player.
 
-As a baseball enthusiast, I want to compare the seasonal statistics of two players, so that I can analyze their performance and see who is the statistically better player in a head to head.
+SLS is deployed on [GitHub pages](https://elindstr.github.io/slash-line-stats/).
+
+## Screenshots
+
+...
+
+## Design Process
+
+SLS began with a simple user story:
+
+```
+As a baseball enthusiast, I want to compare the slash line stats of two players so I can analyze their performance. When I'm watching a live game, I want to be able to open an app, see my favorite team and its roster, see other teams and their players, and easily select and compare players' slash lines. 
+```
 
 ## Acceptance Criteria:
 
