@@ -1,9 +1,11 @@
 // docs here: https://github.com/bevacqua/dragula
 
-// TODO: prevent pulling roster cards into other sections and creating duplicate players
 // TODO: remove element if dropped outside of container
 
 
+
+
+// dragula functions
 var drake = dragula([
     document.getElementById('primary-cards'), 
     document.getElementById('secondary-cards'), 
@@ -38,11 +40,12 @@ var drake = dragula([
 // 
 $(document).ready(function() {
     $('body').on('mouseup', function () {
-        console.log("mouseup")
         killDuplicates()
+        checkforEmptyDropBoxes()
     })
 })
 
+// Player card element ids are based on the MLB PlayerID. This prevents an error when multiple elements with the same ID are created. Whenever there is a mouseup event, this hunts for duplicate ids and destroys the second element.
 function killDuplicates () {
     let uniqueList = []    
     let primaryCards = document.getElementById('primary-cards').children
@@ -66,6 +69,36 @@ function killDuplicates () {
         }
     }
 }
+
+// Display message so user knows the box is interactive.
+function checkforEmptyDropBoxes() {
+    updateEmptyBoxGuide('primary-cards', 'emptyBoxGuidePrimary')
+    updateEmptyBoxGuide('secondary-cards', 'emptyBoxGuideSecondary')
+}
+function updateEmptyBoxGuide(containerId, guideId) {
+    const container = document.getElementById(containerId)
+    
+    // count children, excluding the guide box
+    let childrenCount = 0;
+    for (let i = 0; i < container.children.length; i++) {
+        if (!container.children[i].classList.contains('emptyBoxGuide')) {
+            childrenCount++
+        }
+    }    
+    const guideExists = $('#' + guideId).length > 0
+
+    // if no children and no guidebox, create guidebox 
+    if (childrenCount == 0 && !guideExists) {
+        let emptyBoxGuide = $('<p>')
+            .attr('id', guideId)
+            .attr('class', 'emptyBoxGuide')
+            .text('Drag player cards here.')
+        container.appendChild(emptyBoxGuide[0])
+    } else if (childrenCount > 0 && guideExists) {
+        $('#' + guideId).remove()
+    }
+}
+
 
 
 

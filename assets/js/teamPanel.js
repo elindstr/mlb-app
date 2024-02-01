@@ -1,27 +1,35 @@
-// TODO: get teamID dynamically
-let myTeamId = "109"
-let myTeamName
+// global variable
+let myTeamId
 
 // team selector
-const teamElement = document.getElementById("teams")
-teamElement.addEventListener("change", function() {
+const teamsSelector = document.getElementById("teamsSelector")
+teamsSelector.addEventListener("change", function() {
     myTeamId = this.value;
-    getAsideRoster()
-    getFieldImage(myTeamId)
+    updateTeam()
 });
 
-// run on load
-$(function() {
-    
-    // generate aside title
-    $("#myTeamName").text(myTeamName)
+function updateTeam (){
 
-    // on load, get roster
+    // update local storage
+    localStorage.setItem('myTeamId', myTeamId);
+
+    // update team content
     getAsideRoster()
+    getFieldImage()
+    getTeamStadiumWeather()
 
-})
+    // update selector  value
+    document.getElementById("teamsSelector").value = myTeamId
 
-// handle buttons
+    // reset team tabs
+    $('.nav').find('*').removeClass('active');
+    $('#teamRosterBtn').addClass('active');
+
+    // restore team tab id so side roster is draggable
+    $(".asideSection").attr('id', 'asideSection')
+}
+
+// handle side table buttons
 $('#teamRosterBtn').on('click', function () {
     getAsideRoster()
 
@@ -47,15 +55,31 @@ $('#teamGamesBtn').on('click', function () {
 // Teams
 const teamIDs = [109, 144, 110, 111, 112, 145, 113, 114, 115, 116, 117, 118, 108, 119, 146, 158, 142, 121, 147, 133, 143, 134, 135, 137, 136, 138, 139, 140, 141, 120]
 
-function getFieldImage(myTeamId) {
+function getFieldImage() {
     let imgsrc = `url(./assets/media/fields/${myTeamId}.jpg)`
-    document.querySelector('nav').style.backgroundImage = imgsrc
+    document.querySelector('header').style.backgroundImage = imgsrc
+}
+
+async function getTeamStadiumWeather() {
+    teamAPI = await fetchTeamAPI()
+    //console.log(teamAPI)
+    teamCity = teamAPI.teams[0].locationName
+    teamStadium = teamAPI.teams[0].venue.name
+    cityGeoAPI = await fetchCityLatLon(teamCity)
+    cityLat = cityGeoAPI[0].lat
+    cityLon = cityGeoAPI[0].lon
+    cityWeatherAPI = await fetchCityWeather(cityLat, cityLon)
+    //console.log(cityWeatherAPI)
+    teamWeatherTemp = cityWeatherAPI.list[0].main.temp
+    teamWeatherDescription = cityWeatherAPI.list[0].weather[0].main
+    
+    $('#teamStadium').text(`${teamStadium}`)
+    $('#teamWeather').text(`Current Weather: ${parseInt(teamWeatherTemp)}°, ${teamWeatherDescription}`)
 }
 
 // get team roster
-async function getAsideRoster() {
-    let teamId = myTeamId          
-    playersData = await fetchAsideRoster(teamId)
+async function getAsideRoster() {          
+    playersData = await fetchAsideRoster()
     players = playersData.roster_40.queryResults.row
 
     $(".asideSection").empty()
@@ -74,12 +98,10 @@ async function getAsideRoster() {
         playerDiv.append(playerImage, playerName)
         $(".asideSection").append(playerDiv)
     }
-
-
 }
 
-function fetchAsideRoster(teamId) {
-    let url = `https://lookup-service-prod.mlb.com/json/named.roster_40.bam?team_id=${teamId}`
+function fetchAsideRoster() {
+    let url = `https://lookup-service-prod.mlb.com/json/named.roster_40.bam?team_id=${myTeamId}`
     return fetch(url)
         .then(function (response) {
             return response.json()
@@ -93,6 +115,50 @@ function fetchAsideRoster(teamId) {
             console.log(error)
         })
 }
+
+function fetchTeamAPI() {
+    let url = `https://statsapi.mlb.com/api/v1/teams/${myTeamId}`
+    return fetch(url)
+        .then(function (response) {
+            return response.json()
+        })
+        .then(function (data) {
+            return data
+                
+        })
+        .catch(function (error) {
+            console.log(error)
+        })
+}
+
+function fetchCityLatLon(teamCity) {
+    let url = `https://api.openweathermap.org/geo/1.0/direct?q=${teamCity}&limit=1&appid=0a46e3a36e6ff99db3768d2451ea6ee6`
+    return fetch(url)
+        .then(function (response) {
+            return response.json()
+        })
+        .then(function (data) {
+            return data
+        })
+        .catch(function (error) {
+            console.log(error)
+        })
+}
+
+function fetchCityWeather(cityLat, cityLon) {
+    let url = `https://api.openweathermap.org/data/2.5/forecast?lat=${cityLat}&lon=${cityLon}&appid=0a46e3a36e6ff99db3768d2451ea6ee6&units=imperial`
+    return fetch(url)
+        .then(function (response) {
+            return response.json()
+        })
+        .then(function (data) {
+            return data
+        })
+        .catch(function (error) {
+            console.log(error)
+        })
+}
+
 
 // TODO: this function works, but it generates a console error; still searching for a method to suppress this error msg. After development phase, we can swap this for a fetch function that won't generate a console error; but that will generate a CORS error when testing locally.
 function getPlayerImage(player_id, name_display_first_last) {
@@ -131,9 +197,8 @@ let seasonEnd =
 // get upcoming games
 async function getAsideGames() {
     let startDate = todayStr
-    let endDate =  seasonEnd
-    let teamId = myTeamId           
-    games = await fetchAsideGames(startDate, endDate, teamId)
+    let endDate =  seasonEnd         
+    games = await fetchAsideGames(startDate, endDate, myTeamId)
 
     if (games.totalGames > 0) {
         $(".asideSection").empty()
