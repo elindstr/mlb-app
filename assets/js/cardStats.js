@@ -42,7 +42,7 @@ async function createFeaturePlayerCard(player_id) {
     if (playerDetails.primary_position_txt == 'P') {
         slashTable = $('<table>');
         slashRow = $('<tr>');
-        slashThYear = $('<th></th>');
+        slashThYear = $('<th>Year</th>');
         slashThERA = $('<th>ERA</th>');
         slashThWHIP = $('<th>WHIP</th>');
         slashThBBK = $('<th>BB:K</th>');
@@ -89,7 +89,7 @@ async function createFeaturePlayerCard(player_id) {
     else { // hitter
         slashTable = $('<table>');
         slashRow = $('<tr>');
-        slashThYear = $('<th></th>');
+        slashThYear = $('<th>Year</th>');
         slashThAvg = $('<th>Avg</th>');
         slashThOBP = $('<th>OBP</th>');
         slashThSLG = $('<th>SLG</th>');;
