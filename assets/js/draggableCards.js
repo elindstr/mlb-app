@@ -121,9 +121,10 @@ drake.on('drop', function (el, target, source, sibling) {
 })
 
 // killing mobile scrolling/navigation when touching 
-$(document).on('touchmove', '#primary-cards, #secondary-cards', function(event) {
-    event.preventDefault()
-}, { passive: false })
-drake.on('drag', function(el, source) {
-    $('body').css('touch-action', 'none')
-})
+// $(document).on('touchmove', '#primary-cards, #secondary-cards', function(event) {
+//     event.preventDefault()
+// }, { passive: false })
+
+// drake.on('drag', function(el, source) {
+//     $('body').css('touch-action', 'none')
+// })
