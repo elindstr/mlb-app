@@ -13,7 +13,13 @@ SLS is deployed on [GitHub pages](https://elindstr.github.io/slash-line-stats/).
 SLS began with a simple user story:
 
 ```
-As a baseball enthusiast, I want to compare the slash line stats of two players so I can analyze their performance. When I'm watching a live game, I want to be able to open an app, see my favorite team and its roster, see other teams and their players, and easily select and compare players' slash lines. 
+As a baseball enthusiast, I want to compare the
+slash line stats of two players so I can analyze
+their performance. When I'm watching a live game,
+I want to be able to open an app, see my favorite
+team and its roster, see other teams and their
+players, and easily select and compare players' 
+slash lines. 
 ```
 
 ## Acceptance Criteria:
