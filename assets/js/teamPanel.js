@@ -52,6 +52,11 @@ $('#teamGamesBtn').on('click', function () {
     $(this).addClass('active')
 })
 
+$('.asideSection').on('click', '.team-logo-button', function () {
+    myTeamId = $(this).attr('data-id')
+    updateTeam()
+})
+
 // Teams
 const teamIDs = [109, 144, 110, 111, 112, 145, 113, 114, 115, 116, 117, 118, 108, 119, 146, 158, 142, 121, 147, 133, 143, 134, 135, 137, 136, 138, 139, 140, 141, 120]
 
@@ -220,22 +225,36 @@ async function getAsideGames() {
                 
                 let homeTeamLogo
                 if (teamIDs.includes(homeTeamid)) {
-                    homeTeamLogo = getTeamLogo(homeTeamid)
+                    homeTeamLogoImg = getTeamLogo(homeTeamid)
+                    homeTeamLogo = $('<button>')
+                        .addClass('team-logo-button')
+                        .html(homeTeamLogoImg)
+                        .attr('data-id', homeTeamid)
+
                 } else {
                     homeTeamLogo = homeTeamName
+
                 }
                 let awayTeamLogo
                 if (teamIDs.includes(awayTeamid)) {
-                    awayTeamLogo = getTeamLogo(awayTeamid)
+                    awayTeamLogoImg = getTeamLogo(awayTeamid)
+                    awayTeamLogo = $('<button>')
+                    .addClass('team-logo-button')
+                    .html(awayTeamLogoImg)
+                    .attr('data-id', awayTeamid)
+
                 } else {
                     awayTeamLogo = awayTeamName
                 }
 
-
                 //render details
-                const asideSectionDiv = $('<div>').attr('gamePk', gamePk)
-                const asideSectionDt = $(`<span>${dateTimeStr}</span>`)
-                const asideSectionTeams = $(`<span>${homeTeamLogo} v. ${awayTeamLogo}</span>`)
+                const asideSectionDiv = $('<div>')
+                    .attr('gamePk', gamePk)
+                    .attr('class', 'schedule-game')
+                const asideSectionDt = $('<span>').text(dateTimeStr)
+                const asideSectionVs = $('<span>').text(' v. ')
+                const asideSectionTeams = $('<span>').append(homeTeamLogo, asideSectionVs, awayTeamLogo)
+                
                 asideSectionDiv.append(asideSectionDt, asideSectionTeams)
                 $(".asideSection").append(asideSectionDiv)
             }

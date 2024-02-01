@@ -211,6 +211,15 @@ aside {
 .nav-link {
   color:rgb(10, 10, 88);
 }
+.schedule-game {
+  padding: 1px;
+  margin: 1px;
+}
+.team-logo-button {
+  border: 0px;
+  padding: 1px;
+  margin: 1px;
+}
 
 
 /* Responsive Design */
