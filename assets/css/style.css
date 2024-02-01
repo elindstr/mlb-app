@@ -50,7 +50,14 @@ body {
   font-size: 1.1em;
   color: #555;
 }
-
+#secondary-cards {
+  display: flex;
+  flex-direction: column;
+}
+#secondary-cards .card {
+  display:inline-block;
+  margin: 2px;
+  padding: 2px;
 
 /* Add styles for stat lines */
 #primary-cards .card-stats {
