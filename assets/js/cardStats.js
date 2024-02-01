@@ -52,36 +52,24 @@ async function createFeaturePlayerCard(player_id) {
         slashRow = $('<tr>')
         eraCareer = careerPositionStats ? careerPositionStats.era : na
         whipCareer = careerPositionStats ? careerPositionStats.whip : na
-        ipCareer = careerPositionStats ? careerPositionStats.ip : na
-        wCareer = careerPositionStats ? careerPositionStats.w : na
-        gsCareer = careerPositionStats ? careerPositionStats.gs : na
-        hldCareer = careerPositionStats ? careerPositionStats.hld : na
+        kbbCareer = careerPositionStats ? careerPositionStats.kbb : na
         slashTdYear = $(`<td>Career</td>`)
         slashTdERA = $(`<td>${eraCareer ? eraCareer : na}</td>`)
         slashTdWHIP = $(`<td>${whipCareer ? whipCareer : na}</td>`)
-        slashTdIP = $(`<td>${ipCareer ? ipCareer : na}</td>`)
-        slashTdW = $(`<td>${wCareer ? wCareer : na}</td>`)
-        slashTdGS = $(`<td>${gsCareer ? gsCareer : na}</td>`)
-        slashTdHLD = $(`<td>${hldCareer ? hldCareer : na}</td>`)
-        slashRow.append(slashTdYear, slashTdERA, slashTdWHIP, slashTdIP, slashTdW, slashTdGS, slashTdHLD)
+        slashTdKBB = $(`<td>${kbbCareer ? kbbCareer : na}</td>`)
+        slashRow.append(slashTdYear, slashTdERA, slashTdWHIP, slashTdKBB)
         slashTable.append(slashRow)
 
         if (seasonPositionStats2023) {
             slashRow = $('<tr>')
             era2023 = seasonPositionStats2023.era
             whip2023 = seasonPositionStats2023.whip
-            ip2023 = seasonPositionStats2023.ip
-            w2023 = seasonPositionStats2023.w
-            gs2023 = seasonPositionStats2023.gs
-            hld2023 = seasonPositionStats2023.hld
+            kbb2023 = seasonPositionStats2023.kbb
             slashTdYear = $(`<td>2023</td>`)
             slashTdERA = $(`<td>${era2023 ? era2023 : na}</td>`)
             slashTdWHIP = $(`<td>${whip2023 ? whip2023 : na}</td>`)
-            slashTdIP = $(`<td>${ip2023 ? ip2023 : na}</td>`)
-            slashTdW = $(`<td>${w2023 ? w2023 : na}</td>`)
-            slashTdGS = $(`<td>${gs2023 ? gs2023 : na}</td>`)
-            slashTdHLD = $(`<td>${hld2023 ? hld2023 : na}</td>`)
-            slashRow.append(slashTdYear, slashTdERA, slashTdWHIP, slashTdIP, slashTdW, slashTdGS, slashTdHLD)
+            slashTdKBB = $(`<td>${kbb2023 ? kbb2023 : na}</td>`)
+            slashRow.append(slashTdYear, slashTdERA, slashTdWHIP, slashTdKBB)
             slashTable.append(slashRow)
         }
 
@@ -89,18 +77,12 @@ async function createFeaturePlayerCard(player_id) {
             slashRow = $('<tr>')
             era2022 = seasonPositionStats2022.era
             whip2022 = seasonPositionStats2022.whip
-            ip2022 = seasonPositionStats2022.ip
-            w2022 = seasonPositionStats2022.w
-            gs2022 = seasonPositionStats2022.gs
-            hld2022 = seasonPositionStats2022.hld
+            kbb2022 = seasonPositionStats2022.kbb
             slashTdYear = $(`<td>2022</td>`)
             slashTdERA = $(`<td>${era2022 ? era2022 : na}</td>`)
             slashTdWHIP = $(`<td>${whip2022 ? whip2022 : na}</td>`)
-            slashTdIP = $(`<td>${ip2022 ? ip2022 : na}</td>`)
-            slashTdW = $(`<td>${w2022 ? w2022 : na}</td>`)
-            slashTdGS = $(`<td>${gs2022 ? gs2022 : na}</td>`)
-            slashTdHLD = $(`<td>${hld2022 ? hld2022 : na}</td>`)
-            slashRow.append(slashTdYear, slashTdERA, slashTdWHIP, slashTdIP, slashTdW, slashTdGS, slashTdHLD)
+            slashTdKBB = $(`<td>${kbb2022 ? kbb2022 : na}</td>`)
+            slashRow.append(slashTdYear, slashTdERA, slashTdWHIP, slashTdKBB)
             slashTable.append(slashRow)
         }
     }
@@ -110,26 +92,19 @@ async function createFeaturePlayerCard(player_id) {
         slashThYear = $('<th></th>');
         slashThAvg = $('<th>Avg</th>');
         slashThOBP = $('<th>OBP</th>');
-        slashThSLG = $('<th>SLG</th>');
-        slashThBBK = $('<th>BB:K</th>');
-        slashRow.append(slashThYear, slashThAvg, slashThOBP, slashThSLG, slashThBBK);
+        slashThSLG = $('<th>SLG</th>');;
+        slashRow.append(slashThYear, slashThAvg, slashThOBP, slashThSLG);
         slashTable.append(slashRow);
 
         slashRow = $('<tr>')
         eraCareer = careerPositionStats ? careerPositionStats.avg : na
         whipCareer = careerPositionStats ? careerPositionStats.obp : na
         ipCareer = careerPositionStats ? careerPositionStats.slg : na
-        wCareer = careerPositionStats ? careerPositionStats.ops : na
-        gsCareer = careerPositionStats ? careerPositionStats.rbi : na
-        hldCareer = careerPositionStats ? careerPositionStats.tpa : na
         slashTdYear = $(`<td>Career</td>`)
         slashTdERA = $(`<td>${eraCareer ? eraCareer : na}</td>`)
         slashTdWHIP = $(`<td>${whipCareer ? whipCareer : na}</td>`)
         slashTdIP = $(`<td>${ipCareer ? ipCareer : na}</td>`)
-        slashTdW = $(`<td>${wCareer ? wCareer : na}</td>`)
-        slashTdGS = $(`<td>${gsCareer ? gsCareer : na}</td>`)
-        slashTdHLD = $(`<td>${hldCareer ? hldCareer : na}</td>`)
-        slashRow.append(slashTdYear, slashTdERA, slashTdWHIP, slashTdIP, slashTdW, slashTdGS, slashTdHLD)
+        slashRow.append(slashTdYear, slashTdERA, slashTdWHIP, slashTdIP)
         slashTable.append(slashRow)
 
         if (seasonPositionStats2023) {
@@ -137,17 +112,11 @@ async function createFeaturePlayerCard(player_id) {
             era2023 = seasonPositionStats2023.avg
             whip2023 = seasonPositionStats2023.obp
             ip2023 = seasonPositionStats2023.slg
-            w2023 = seasonPositionStats2023.ops
-            gs2023 = seasonPositionStats2023.rbi
-            hld2023 = seasonPositionStats2023.tpa
             slashTdYear = $(`<td>2023</td>`)
             slashTdERA = $(`<td>${era2023 ? era2023 : na}</td>`)
             slashTdWHIP = $(`<td>${whip2023 ? whip2023 : na}</td>`)
             slashTdIP = $(`<td>${ip2023 ? ip2023 : na}</td>`)
-            slashTdW = $(`<td>${w2023 ? w2023 : na}</td>`)
-            slashTdGS = $(`<td>${gs2023 ? gs2023 : na}</td>`)
-            slashTdHLD = $(`<td>${hld2023 ? hld2023 : na}</td>`)
-            slashRow.append(slashTdYear, slashTdERA, slashTdWHIP, slashTdIP, slashTdW, slashTdGS, slashTdHLD)
+            slashRow.append(slashTdYear, slashTdERA, slashTdWHIP, slashTdIP)
             slashTable.append(slashRow)
         }
 
@@ -156,17 +125,11 @@ async function createFeaturePlayerCard(player_id) {
             era2022 = seasonPositionStats2022.avg
             whip2022 = seasonPositionStats2022.obp
             ip2022 = seasonPositionStats2022.slg
-            w2022 = seasonPositionStats2022.ops
-            gs2022 = seasonPositionStats2022.rbi
-            hld2022 = seasonPositionStats2022.tpa
             slashTdYear = $(`<td>2022</td>`)
             slashTdERA = $(`<td>${era2022 ? era2022 : na}</td>`)
             slashTdWHIP = $(`<td>${whip2022 ? whip2022 : na}</td>`)
             slashTdIP = $(`<td>${ip2022 ? ip2022 : na}</td>`)
-            slashTdW = $(`<td>${w2022 ? w2022 : na}</td>`)
-            slashTdGS = $(`<td>${gs2022 ? gs2022 : na}</td>`)
-            slashTdHLD = $(`<td>${hld2022 ? hld2022 : na}</td>`)
-            slashRow.append(slashTdYear, slashTdERA, slashTdWHIP, slashTdIP, slashTdW, slashTdGS, slashTdHLD)
+            slashRow.append(slashTdYear, slashTdERA, slashTdWHIP, slashTdIP)
             slashTable.append(slashRow)
         }
     }
