@@ -26,17 +26,9 @@ var drake = dragula([
 
         // don't sort 'primary-cards' if it already has 2 items
         if (target === document.getElementById('primary-cards')) {
-            console.log(target.children.length)
-            if ( (target.children.length > 1) || (isDuplicate(el.id)) ) {
+            if (target.children.length > 1) {
                 return false
             } 
-        }
-        
-        // don't sort 'secondary-cards' if el is a duplicate
-        if (target === document.getElementById('secondary-cards') ) {
-            if (isDuplicate(el.id)) {
-             return false
-            }
         }
 
         return true
@@ -44,31 +36,34 @@ var drake = dragula([
 })
 
 // 
-function isDuplicate(elID) {
-    let uniqueID = true
-    let cardCount = $('#primary-cards').children().length
+$(document).ready(function() {
+    $('body').on('mouseup', function () {
+        console.log("mouseup")
+        killDuplicates()
+    })
+})
 
-    for (let i = 0; i < cardCount; i++) {
-        if (elID == $('#primary-cards').children().eq(i).attr('id')) {
-            badSection = "primary-cards"
-            uniqueID = false 
+function killDuplicates () {
+    let uniqueList = []    
+    let primaryCards = document.getElementById('primary-cards').children
+    for (let i = 0; i < primaryCards.length; i ++) {
+        if (!uniqueList.includes(primaryCards[i].id)) {
+            uniqueList.push(primaryCards[i].id)
+        }
+        else {
+            primaryCards[i].remove()
             break
         }
     }
-    cardCount = $('#secondary-cards').children().length
-    for (let i = 0; i < cardCount; i++) {
-        if (elID == $('#secondary-cards').children().eq(i).attr('id')) {
-            badSection = "secondary-cards"
-            uniqueID = false 
+    let secondaryCards = document.getElementById('secondary-cards').children
+    for (let i = 0; i < secondaryCards.length; i ++) {
+        if (!uniqueList.includes(secondaryCards[i].id)) {
+            uniqueList.push(secondaryCards[i].id)
+        }
+        else {
+            secondaryCards[i].remove()
             break
         }
-    }              
-    if (!uniqueID) {
-        // $(`#${badSection} #${el.id}`).remove()
-        return true
-    }
-    else {
-        return false
     }
 }
 

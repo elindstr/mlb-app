@@ -27,6 +27,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  min-height: 200px;
 }
 
 #primary-cards .card {
@@ -53,6 +54,7 @@ body {
 #secondary-cards {
   display: flex;
   flex-direction: column;
+  min-height: 500px;
 }
 #secondary-cards .card {
   display:inline-block;
