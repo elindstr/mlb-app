@@ -7,7 +7,7 @@ body {
 
 /* Search Box */
 #searchContainer {
-  width: 50%;  
+  width: 60%;  
   min-width: 220px;
   background-color: rgb(10, 10, 88);
   color: rgb(255, 211, 92);
@@ -23,20 +23,22 @@ body {
 }
 
 /* Player Cards */
-/* Player Cards */
 #primary-cards {
   display: flex;
-  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 
 #primary-cards .card {
-  width: 100%;
+  flex: 1;
+  max-width: 300px;
   border: 1px solid #ddd;
   margin: 10px;
   padding: 15px;
   text-align: center;
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
 #primary-cards .card-player-name {
@@ -48,7 +50,6 @@ body {
   font-size: 1.1em;
   color: #555;
 }
-
 #secondary-cards {
   display: flex;
   flex-direction: column;
@@ -57,6 +58,35 @@ body {
   display:inline-block;
   margin: 2px;
   padding: 2px;
+
+/* Add styles for stat lines */
+#primary-cards .card-stats {
+  margin-top: 10px;
+  font-size: 1em;
+  color: #888;
+  position: relative;
+}
+
+/* Tooltip styles with text */
+#primary-cards .card-stats::before {
+  content: 'Your Tooltip Text Here'; 
+  position: absolute;
+  top: -30px; 
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px; 
+  padding: 5px;
+  background-color: #333;
+  color: #fff;
+  border-radius: 5px;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  pointer-events: none;
+}
+
+/* Show tooltip on hover */
+#primary-cards .card-stats:hover::before {
+  opacity: 1;
 }
 .delete-button {
   float: right;
@@ -130,7 +160,6 @@ aside {
 #drag-container {
   display: flex;
 }
-
 nav {
   display: flex;
 }
