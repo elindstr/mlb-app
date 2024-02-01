@@ -49,6 +49,28 @@ body {
   color: #555;
 }
 
+#secondary-cards {
+  display: flex;
+  flex-direction: column;
+}
+#secondary-cards .card {
+  display:inline-block;
+  margin: 2px;
+  padding: 2px;
+}
+.delete-button {
+  float: right;
+  border: 0px;
+  background-color: white;
+  color: rgb(184, 184, 184);
+  transition: .2s all ease;
+  font-size: 1.2em;
+}
+.delete-button:hover {
+  color: rgb(71, 71, 71);
+}
+
+
 /* Table Styling */
 table {
   width: 100%;

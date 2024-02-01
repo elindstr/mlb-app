@@ -137,7 +137,10 @@ async function createFeaturePlayerCard(player_id) {
     // construct card
     const playerNameSection = $('<span>')
         .attr('class', 'card-player-name')
-    playerNameSection.append(playerImage, name_display_first_last)
+    const deleteButton = $('<button>')
+        .attr('class', 'delete-button')
+        .html('&times;')
+    playerNameSection.append(playerImage, name_display_first_last, deleteButton)
     teamNameSection = $('<span>')
         .attr('class', 'card-team-name')
     teamNameSection.append(teamLogo)
@@ -165,7 +168,10 @@ async function createPlayerCard(player_id) {
     const newCard = $('<div>')
         .attr('id', player_id)
         .attr('class', 'card')
-    newCard.append(playerImage, name_display_first_last)
+    const deleteButton = $('<button>')
+        .attr('class', 'delete-button')
+        .html('&times;')
+    newCard.append(playerImage, name_display_first_last, deleteButton)
 
     // render to page if player not already there
     if (cardExists = $('#primary-cards').find(`#${player_id}`).length > 0) {
