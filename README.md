@@ -1,7 +1,7 @@
 ## Slash Line Stats
 
 Slash Line Stats (SLS) is a JavaScript web app providing realtime Major League Baseball [slash line](https://www.mlb.com/glossary/miscellaneous/slash-line) stats for user-generated head-to-head comparisons. SLS aggregates stats from an extensive array of API endpoints and curates an easy-to-read slash line of just the stats you really care to know. View team rosters, team schedules, and the check the current weather at your team's stadium. Use the autocomplete search bar to find any player.
-
+ 
 SLS is deployed on [GitHub pages](https://elindstr.github.io/slash-line-stats/).
 
 ## Screenshots
