@@ -154,9 +154,10 @@ aside {
   padding: 2%; 
   margin-top: 10px;
 }
-#asideSection-player {
+.asideSection-player {
   padding: 2px;
-  margin: 1px;
+  padding-left: 10px;
+  margin: 0px;
 }
 
 #drag-container {
