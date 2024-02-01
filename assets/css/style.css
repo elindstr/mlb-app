@@ -158,18 +158,6 @@ th {
   background-color: #f2f2f2;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  #primary-cards {
-      flex-direction: column;
-  }
-
-  #primary-cards .card {
-      width: 100%;
-  }
-}
-
-
 /* for dragula ui (draggable cards) */
 .gu-mirror{position:fixed!important;margin:0!important;z-index:9999!important;opacity:.8}.gu-hide{display:none!important}.gu-unselectable{-webkit-user-select:none!important;-moz-user-select:none!important;-ms-user-select:none!important;user-select:none!important}.gu-transit{opacity:.2}
 
@@ -222,4 +210,42 @@ aside {
 }
 .nav-link {
   color:rgb(10, 10, 88);
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  #primary-cards {
+      flex-direction: column;
+  }
+
+  #primary-cards .card {
+      width: 100%;
+  }
+
+  table, th, td {
+    margin-top: 1px;
+    padding: 1px
+  }
+  aside {
+    padding: 1px;
+    margin: 1px;
+  }
+  .asideSection-player {
+    padding: 1px;
+    margin: 1px;
+    display: inline-block;
+  }
+  .asideSection img {
+    width: 20px;
+  }
+}
+@media (max-width: 700px) {
+  .asideSection {
+    position: fixed;
+    bottom: 0px;
+    height: 60%;        /* TO FIX */
+    overflow-y: auto;
+    border: 1px solid #dcdcdc;
+  }
 }

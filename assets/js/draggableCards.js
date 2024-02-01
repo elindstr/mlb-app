@@ -2,9 +2,6 @@
 
 // TODO: remove element if dropped outside of container
 
-
-
-
 // dragula functions
 var drake = dragula([
     document.getElementById('primary-cards'), 
@@ -104,6 +101,9 @@ function updateEmptyBoxGuide(containerId, guideId) {
 
 drake.on('drop', function (el, target, source, sibling) {
     
+    killDuplicates()
+    checkforEmptyDropBoxes()
+
     // transform cards into feature and vice versa when dragged to new section
     if (target.id == 'primary-cards') {
         createFeaturePlayerCard(el.id)
@@ -121,10 +121,10 @@ drake.on('drop', function (el, target, source, sibling) {
 })
 
 // killing mobile scrolling/navigation when touching 
-// $(document).on('touchmove', '#primary-cards, #secondary-cards', function(event) {
-//     event.preventDefault()
-// }, { passive: false })
+$(document).on('touchmove', '#primary-cards, #secondary-cards', function(event) {
+    event.preventDefault()
+}, { passive: false })
 
-// drake.on('drag', function(el, source) {
-//     $('body').css('touch-action', 'none')
-// })
+drake.on('drag', function(el, source) {
+    $('body').css('touch-action', 'none')
+})
