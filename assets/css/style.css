@@ -4,11 +4,14 @@ body {
   margin: 5px auto;
   width: 100%
 }
+nav {
+  background-position: center;
+  background-size: cover;
+}
 
 /* Search Box */
-#searchContainer {
-  width: 60%;  
-  min-width: 220px;
+#searchContainer { 
+  min-width: 100px;
   background-color: rgb(10, 10, 88);
   color: rgb(255, 211, 92);
   padding: 10px;
@@ -176,8 +179,9 @@ nav {
   border-radius: 5px;
 }
 
-#teamsDropdown {
- display: flex;
+.teamsDropdown {
+ font-size: 1.2em;
+
 }
 
 #teamsearch {

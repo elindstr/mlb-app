@@ -25,35 +25,18 @@
 
     <nav>
          <div id='searchContainer'>
+            <h1>Player Search</h1>
                 <div class='form-floating' >
                 <input type='text' class='form-control ui-widget'  placeholder='search' id='searchQuery'>
-                <label for='searchQuery'>Player Search</label>
+                <label for='searchQuery'>Search</label>
                 </div>
          </div>
 
-    </nav> 
-
-    <main>
-        <div id="drag-container">
-
-            <aside>
-                <div id='primary-cards' class='draggable-cards'>
-                    <div id='677944' class='card'>Slade Cecconi (677944)</div>
-                </div>
-
-                <div>
-                    <div id='secondary-cards' class='draggable-cards'>
-                        <div id='682998' class='card'>Corbin Carroll (682998)</div>
-                        <div id='612434' class='card'>Miguel Castro (612434)</div>
-                </div>
-            </aside>    
-
-
-            <section id="playerSection">
-                
+         <div id="favoriteTeamContainer">
+            <h1> Choose Team</h1>
                 <div class="teamSearch">
                     <select name="teams" class="teamsDropdown" id="teams">
-                        <option value="">Choose Team</option>
+                        <option value="">Choose Favorite Team</option>
                         <option value="108"> Angels</option>
                         <option value="109"> D-Backs</option>
                         <option value="110"> Orioles</option>
@@ -84,10 +67,33 @@
                         <option value="146"> Marlins</option>
                         <option value="147"> Yanks</option>
                         <option value="158"> Brewers</option>
+
                     </select>
                 </div>
+         </div>
+    </nav> 
 
-                <!-- <h2 id="myTeamName">{Team}</h2> -->
+    <main>
+        <div id="drag-container">
+
+            <aside>
+                <div id='primary-cards' class='draggable-cards'>
+                    <div id='677944' class='card'>Slade Cecconi (677944)</div>
+                </div>
+
+                <div>
+                    <div id='secondary-cards' class='draggable-cards'>
+                        <div id='682998' class='card'>Corbin Carroll (682998)</div>
+                        <div id='612434' class='card'>Miguel Castro (612434)</div>
+                
+            
+                </div>
+            </aside>    
+
+
+            <section id="playerSection">
+
+                <h2 id="myTeamName">{Team}</h2>
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
                             <button id="teamRosterBtn" class="nav-link active">Roster</button>

@@ -1,18 +1,13 @@
 // TODO: get teamID dynamically
 let myTeamId = "109"
 let myTeamName
-for (let i = 0; i < team_ids.length; i++) {
-    if (myTeamId == team_ids[i][1]) {
-        myTeamName = team_ids[i][0]
-    }    
-}
 
+// team selector
 const teamElement = document.getElementById("teams")
-
 teamElement.addEventListener("change", function() {
     myTeamId = this.value;
-    console.log(myTeamId)
-    getAsideRoster();
+    getAsideRoster()
+    getFieldImage(myTeamId)
 });
 
 // run on load
@@ -51,6 +46,11 @@ $('#teamGamesBtn').on('click', function () {
 
 // Teams
 const teamIDs = [109, 144, 110, 111, 112, 145, 113, 114, 115, 116, 117, 118, 108, 119, 146, 158, 142, 121, 147, 133, 143, 134, 135, 137, 136, 138, 139, 140, 141, 120]
+
+function getFieldImage(myTeamId) {
+    let imgsrc = `url(./assets/media/fields/${myTeamId}.jpg)`
+    document.querySelector('nav').style.backgroundImage = imgsrc
+}
 
 // get team roster
 async function getAsideRoster() {
