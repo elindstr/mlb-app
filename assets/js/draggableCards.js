@@ -10,27 +10,69 @@ var drake = dragula([
     document.getElementById('asideSection')], {
 
     moves: function (el, target, source, sibling) {
-        // don't sort 'asideSection' if asideIsSortable is "false"
-        if ($(source).attr('id') == "asideSectionX") {
+        // don't sort 'asideSection' if asideIsSortable is 'false'
+        if ($(source).attr('id') == 'asideSectionX') {
             return false;
         }
         return true
     },
 
     accepts: function (el, target, source, sibling) {
-        // don't sort 'asideSection' if asideIsSortable is "false"
-        if ($(target).attr('id') == "asideSectionX") {
+
+        // don't sort 'asideSection' if asideIsSortable is 'false'
+        if ($(target).attr('id') == 'asideSectionX') {
             return false;
         }
 
         // don't sort 'primary-cards' if it already has 2 items
         if (target === document.getElementById('primary-cards')) {
-            return target.children.length < 2
+            console.log(target.children.length)
+            if ( (target.children.length > 1) || (isDuplicate(el.id)) ) {
+                return false
+            } 
         }
         
+        // don't sort 'secondary-cards' if el is a duplicate
+        if (target === document.getElementById('secondary-cards') ) {
+            if (isDuplicate(el.id)) {
+             return false
+            }
+        }
+
         return true
     }
 })
+
+// 
+function isDuplicate(elID) {
+    let uniqueID = true
+    let cardCount = $('#primary-cards').children().length
+
+    for (let i = 0; i < cardCount; i++) {
+        if (elID == $('#primary-cards').children().eq(i).attr('id')) {
+            badSection = "primary-cards"
+            uniqueID = false 
+            break
+        }
+    }
+    cardCount = $('#secondary-cards').children().length
+    for (let i = 0; i < cardCount; i++) {
+        if (elID == $('#secondary-cards').children().eq(i).attr('id')) {
+            badSection = "secondary-cards"
+            uniqueID = false 
+            break
+        }
+    }              
+    if (!uniqueID) {
+        // $(`#${badSection} #${el.id}`).remove()
+        return true
+    }
+    else {
+        return false
+    }
+}
+
+
 
 drake.on('drop', function (el, target, source, sibling) {
     
