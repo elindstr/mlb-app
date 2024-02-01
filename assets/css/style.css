@@ -4,11 +4,14 @@ body {
   margin: 5px auto;
   width: 100%
 }
+nav {
+  background-position: center;
+  background-size: cover;
+}
 
 /* Search Box */
-#searchContainer {
-  width: 60%;  
-  min-width: 220px;
+#searchContainer { 
+  min-width: 100px;
   background-color: rgb(10, 10, 88);
   color: rgb(255, 211, 92);
   padding: 10px;
@@ -27,6 +30,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  min-height: 200px;
 }
 
 #primary-cards .card {
@@ -53,6 +57,7 @@ body {
 #secondary-cards {
   display: flex;
   flex-direction: column;
+  min-height: 500px;
 }
 #secondary-cards .card {
   display:inline-block;
@@ -152,9 +157,10 @@ aside {
   padding: 2%; 
   margin-top: 10px;
 }
-#asideSection-player {
+.asideSection-player {
   padding: 2px;
-  margin: 1px;
+  padding-left: 10px;
+  margin: 0px;
 }
 
 #drag-container {
@@ -173,8 +179,9 @@ nav {
   border-radius: 5px;
 }
 
-#teamsDropdown {
- display: flex;
+.teamsDropdown {
+ font-size: 1.2em;
+
 }
 
 #teamsearch {

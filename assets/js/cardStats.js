@@ -152,6 +152,13 @@ async function createFeaturePlayerCard(player_id) {
     $(`#${player_id}`).append(playerNameSection, teamNameSection, slashTableSection)
 }
 
+$('#primary-cards').on('click', '.delete-button', function () {
+    $(this).parent().parent().remove()
+});
+$('#secondary-cards').on('click', '.delete-button', function () {
+    $(this).parent().remove()
+});
+
 // called by autoComplete.js when user selects a player from the search
 async function createPlayerCard(player_id) {
 
