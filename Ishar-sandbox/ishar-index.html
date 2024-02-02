@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    
+    <title>Pick your Team</title>
+
+</head>
+<body>
+    <div id="teamModal" class="modal fade" data-bs-backdrop="static" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content" style="width: 90%; margin-left: -25px;">
+            <div class="modal-header" style="text-align:center !important;background-color: #002D72;color: white;" >
+              <h5 class="modal-title">Select Your Favorite Team</h5>
+              
+            </div>
+            
+            <div class="row">
+              <div class="col-sm-5">
+                 <select id="teamID" class="form-select" aria-label="Select Your Team" style="margin-left: 1px;margin-top: 30px;width: 125%; border-style: none;">
+                  <option selected>Select Your Team</option>
+                  <option value="1">Arizona Diamondbacks</option>
+                  <option value="2">Atlanta Braves</option>
+                  <option value="3">Baltimore Orioles</option>
+                  <option value="4">Boston Red Sox</option>
+                  <option value="5">Chicago White Sox</option>
+                  <option value="6">Chicago Cubs</option>
+                  <option value="7">Cincinnati Reds</option>
+                  <option value="8">Cleveland Indians</option>
+                  <option value="9">Colorado Rockies</option>
+                  <option value="10">Detroit Tigers</option>
+                  <option value="11">Houston Astros</option>
+                  <option value="12">Kansas City Royals</option>
+                  <option value="13">Los Angeles Angels</option>
+                  <option value="14">Los Angeles Dodgers</option>
+                  <option value="15">Miami Marlins</option>
+                  <option value="16">Milwaukee Brewers</option>
+                  <option value="17">Minnesota Twins</option>
+                  <option value="18">New York Yankees</option>
+                  <option value="19">New York Mets</option>
+                  <option value="20">Oakland Athletics</option>
+                  <option value="21">Philadelphia Phillies</option>
+                  <option value="22">Pittsburgh Pirates</option>
+                  <option value="23">San Diego Padres</option>
+                  <option value="24">San Francisco Giants</option>
+                  <option value="25">Seattle Mariners</option>
+                  <option value="26">St. Louis Cardinals</option>
+                  <option value="27">Tampa Bay Rays</option>
+                  <option value="28">Texas Rangers</option>
+                  <option value="29">Toronto Blue Jays</option>
+                  <option value="30">Washington Nationals</option>
+                 </select>
+              </div>
+            <div class="col-sm-1">
+            </div>
+            <div class="col-sm-5"> 
+              <img id="imageFile" style="width: 100px; height: 100px; float: right;padding-top: 1px;padding-bottom: 3px;" src="./assets/media/team-logos/mlb logo download.png" alt="mlb logo">
+
+            </div>
+            
+            </div>
+           
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Skip This Step</button>
+              <button type="button" class=" btn btn-success">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script src="landingpage.js"></script>
+
+</body>
+</html>
