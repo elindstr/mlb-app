@@ -6,6 +6,12 @@ SLS is deployed on [GitHub pages](https://elindstr.github.io/slash-line-stats/).
 
 ## Screenshots
 
+![image](https://github.com/elindstr/slash-line-stats/assets/149442786/7f01c34b-eef9-456b-ad63-88e052855f4b)
+
+![image](https://github.com/elindstr/slash-line-stats/assets/149442786/a9dac917-0ea3-439d-bb49-6c6ad406e56b)
+
+
+
 ...
 
 ## Design Process
@@ -22,39 +28,30 @@ players, and easily select and compare players'
 slash lines. 
 ```
 
-## Acceptance Criteria:
+## Features:
 
 1. **Player Selection:**
-   - On the app's main page, I can select Player 1 and Player 2 from dropdown menus.
-   - Each dropdown menu displays a list of baseball players, allowing me to easily choose the players I want to compare.
+   - On the app's main page, you can select Player 1 and Player 2 from dropdown menus and then compare the stats of each player!
+   - Each dropdown menu displays the most current 40 man roster for each MLB team.
 
-2. **Season Selection:**
-   - There is a dropdown menu for selecting the baseball season I am interested in.
-   - The dropdown contains available seasons, allowing me to choose the specific season for which I want to compare player statistics.
+2. **Comparison:**
+   - By dragging two player cards to the main box, you're able to compare the most recent season slash line stats of any two MLB players.
 
-3. **Comparison Button:**
-   - A "Compare Players" button triggers the comparison process.
-   - Clicking the button fetches and displays statistics for the selected players in the chosen season.
-
-4. **Results Display:**
-   - After comparison, a table is presented with clear rows for each player and columns for relevant hitting statistics.
+3. **Results Display:**
    - Statistics include Batting Average (AVG), On-Base Percentage (OBP), and Slugging Percentage (SLG).
    - Pitching statistics should include Earned Run Average (ERA), Walks and Hits Per Inning Pitched (WHIP), and Strikeout-to-Walk Ratio (K/BB)
 
-5. **Visual Clarity:**
+4. **Visual Clarity:**
    - The UI provides a clear and visually appealing display of the comparison results.
    - The layout is organized, and statistics are easy to read and understand.
 
-6. **Responsive Design:**
+5. **Responsive Design:**
    - The app is designed to be responsive, ensuring a consistent and user-friendly experience across various devices and screen sizes.
+   - 
+6. **Persistent Selections:**
+    - After making a comparison, the selected players and season remain selected, allowing you to easily modify your selections for further comparisons.
 
-8. **Accessibility:**
-   - The app is designed with accessibility in mind, ensuring it can be used by individuals with diverse needs, including keyboard navigation and screen readers.
-
-9. **User Feedback:**
-   - The app provides feedback to confirm that the comparison process is underway.
-   - Clear messages or indicators notify the user of successful comparisons or any issues encountered.
-
-10. **Persistent Selections:**
-    - After making a comparison, the selected players and season remain selected, allowing me to easily modify my selections for further comparisons.
+ 7. **Games Schedule**
+    - The "Next Games" tab holds the current list of scheduled games for the team you have selected in the drop down menu.
+    - You can also click the team icon in the "Next Games" tab to auto populate the roster for that team!    
 
