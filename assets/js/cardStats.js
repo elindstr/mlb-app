@@ -1,4 +1,4 @@
-// on load, look up current players (TODO: currently the existing players are placeholders; need to load players from localStorage)
+// on load, look up current players
 $(function () {
     cards = $('#primary-cards').children()
     for (i = 0; i < cards.length; i++) {
@@ -151,6 +151,15 @@ async function createFeaturePlayerCard(player_id) {
     $(`#${player_id}`).empty()
     $(`#${player_id}`).append(playerNameSection, teamNameSection, slashTableSection)
 }
+
+$('#primary-cards').on('click', '.delete-button', function () {
+    $(this).parent().parent().remove()
+    checkforEmptyDropBoxes()
+});
+$('#secondary-cards').on('click', '.delete-button', function () {
+    $(this).parent().remove()
+    checkforEmptyDropBoxes()
+});
 
 // called by autoComplete.js when user selects a player from the search
 async function createPlayerCard(player_id) {
