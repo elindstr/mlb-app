@@ -79,7 +79,7 @@ async function getTeamStadiumWeather() {
     teamWeatherDescription = cityWeatherAPI.list[0].weather[0].main
     
     $('#teamStadium').text(`${teamStadium}`)
-    $('#teamWeather').text(`Current Weather: ${parseInt(teamWeatherTemp)}°, ${teamWeatherDescription}`)
+    $('#teamWeather').text(`Currently: ${parseInt(teamWeatherTemp)}°, ${teamWeatherDescription}`)
 }
 
 // get team roster
