@@ -1,28 +1,28 @@
 // TODO: get teamID dynamically
 let myTeamId = "109"
-let myTeamName
+let myTeamName 
 for (let i = 0; i < team_ids.length; i++) {
     if (myTeamId == team_ids[i][1]) {
         myTeamName = team_ids[i][0]
     }    
-}
+};
 
 const teamElement = document.getElementById("teams")
 
 teamElement.addEventListener("change", function() {
     myTeamId = this.value;
+
     console.log(myTeamId)
     getAsideRoster();
+    updateTeamName();
+
 });
 
 // run on load
 $(function() {
-    
-    // generate aside title
-    $("#myTeamName").text(myTeamName)
-
     // on load, get roster
-    getAsideRoster()
+    getAsideRoster();
+    updateTeamName();
 
 })
 
@@ -51,6 +51,19 @@ $('#teamGamesBtn').on('click', function () {
 
 // Teams
 const teamIDs = [109, 144, 110, 111, 112, 145, 113, 114, 115, 116, 117, 118, 108, 119, 146, 158, 142, 121, 147, 133, 143, 134, 135, 137, 136, 138, 139, 140, 141, 120]
+
+//update Roster name
+
+function updateTeamName() {
+    for (let i = 0; i < team_ids.length; i++) {
+        if (myTeamId == team_ids[i][1]) {
+            myTeamName = team_ids[i][0]
+        }    
+    };
+// generate aside title
+    $("#myTeamName").text(myTeamName);
+    
+};
 
 // get team roster
 async function getAsideRoster() {
