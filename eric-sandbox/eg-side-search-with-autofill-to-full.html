@@ -120,9 +120,10 @@ async function createPlayerPage (player_id, year) {
 
   // get stats
   playerDetails = await getPlayerDetails(player_id)
-  primary_position_txt = playerDetails.primary_position_txt
+  console.log(playerDetails)
+  primary_position_txt = playerDetails.primaryPosition.name
   team_id = playerDetails.team_id
-  name_display_first_last = playerDetails.name_display_first_last
+  name_display_first_last = nameFirstLast
 
   // load media (team_id, player_id)
   teamLogo = await getTeamLogo(team_id)
@@ -430,18 +431,20 @@ function getPlayerImage(player_id, name_display_first_last) {
 }
 
 function getPlayerDetails (player_id) {
-    urlPlayer = `https://lookup-service-prod.mlb.com/json/named.player_info.bam?sport_code='mlb'&player_id='${player_id}'`
+  //?sportId=1&startDate=${startDate}&endDate=${endDate}&teamId=${team_id}`
+
+  urlPlayer = `https://statsapi.mlb.com/api/v1/people/${player_id}`
+    //urlPlayer = `https://statsapi.mlb.com/api/v1/people/?sport_code='mlb'&player_id='${player_id}'`
+    //urlPlayer = proxyUrl + `https://lookup-service-prod.mlb.com/json/named.player_info.bam?sport_code='mlb'&player_id='${player_id}'`
 
     return fetch(urlPlayer)
         .then(function (response) {
+            //console.log(response)
             return response.json()
         })
         .then(function (data) {
             console.log(data)
-            let playerObject = data.player_info.queryResults.row
-            if (playerObject.player_id) {
-                return playerObject
-            }
+            return data.people[0]
         })
             .catch(function (error) {
             console.log(error)
@@ -449,7 +452,9 @@ function getPlayerDetails (player_id) {
 }
 
 function getSeasonPitcherStats(player_id, year) {
-  urlSeason = `https://lookup-service-prod.mlb.com/json/named.sport_pitching_tm.bam?league_list_id='mlb'&game_type='R'&season='${year}'&player_id='${player_id}'`
+  urlSeason = `https://statsapi.mlb.com/api/v1/people/${player_id}/stats/sport_pitching_tm.bam?league_list_id='mlb'&game_type='R'&season='${year}'`
+
+  //urlSeason = proxyUrl + `https://lookup-service-prod.mlb.com/json/named.sport_pitching_tm.bam?league_list_id='mlb'&game_type='R'&season='${year}'&player_id='${player_id}'`
   console.log(urlSeason)
 
   return fetch(urlSeason)
@@ -469,7 +474,7 @@ function getSeasonPitcherStats(player_id, year) {
 }
 
 function getSeasonHitterStats(player_id, year) {
-  urlSeason = `https://lookup-service-prod.mlb.com/json/named.sport_hitting_tm.bam?league_list_id='mlb'&game_type='R'&season='${year}'&player_id='${player_id}'`
+  urlSeason = proxyUrl + `https://lookup-service-prod.mlb.com/json/named.sport_hitting_tm.bam?league_list_id='mlb'&game_type='R'&season='${year}'&player_id='${player_id}'`
 
   return fetch(urlSeason)
   .then(function (response) {
@@ -489,7 +494,7 @@ function getSeasonHitterStats(player_id, year) {
 }
 
 function getCareerPitcherStats(player_id, year) {
-  urlSeason = `https://lookup-service-prod.mlb.com/json/named.sport_career_pitching.bam?league_list_id='mlb'&game_type='R'&player_id='${player_id}'`
+  urlSeason = proxyUrl + `https://lookup-service-prod.mlb.com/json/named.sport_career_pitching.bam?league_list_id='mlb'&game_type='R'&player_id='${player_id}'`
   console.log(urlSeason)
 
   return fetch(urlSeason)
@@ -510,7 +515,7 @@ function getCareerPitcherStats(player_id, year) {
 
 
 function getCareerHitterStats(player_id, year) {
-  urlSeason = `https://lookup-service-prod.mlb.com/json/named.sport_career_hitting.bam?league_list_id='mlb'&game_type='R'&player_id='${player_id}'`
+  urlSeason = proxyUrl + `https://lookup-service-prod.mlb.com/json/named.sport_career_hitting.bam?league_list_id='mlb'&game_type='R'&player_id='${player_id}'`
 
   return fetch(urlSeason)
   .then(function (response) {
@@ -530,7 +535,7 @@ function getCareerHitterStats(player_id, year) {
 }
 
 function getTransactions(player_id, startYear) {
-  url = `https://lookup-service-prod.mlb.com/json/named.transaction_all.bam?sport_code='mlb'&start_date='${startYear}0101'&end_date='20241231'&player_id=${player_id}`
+  url = proxyUrl + `https://lookup-service-prod.mlb.com/json/named.transaction_all.bam?sport_code='mlb'&start_date='${startYear}0101'&end_date='20241231'&player_id=${player_id}`
   
   return fetch(url)
   .then(function (response) {
@@ -638,7 +643,6 @@ $("#mainDiv").append("<h2>Team Schedule</h2>")
 $("#mainDiv").append("<hr>")
 $("#mainDiv").append("<h2>Team Roster</h2>")
 jsonDump(teamRoster.roster_team_alltime.queryResults.row)
-
 }
 
 function getTeamGeneral(team_id) {
@@ -659,7 +663,7 @@ function getTeamGeneral(team_id) {
 function getTeamSchedule(team_id) {
   startDate = "2024-01-01"
   endDate = "2024-12-01"
-  let url = `https://statsapi.mlb.com/api/v1/schedule/games/?sportId=1&startDate=${startDate}&endDate=${endDate}&teamId=${team_id}`
+  let url = proxyUrl + `https://statsapi.mlb.com/api/v1/schedule/games/?sportId=1&startDate=${startDate}&endDate=${endDate}&teamId=${team_id}`
   return fetch(url)
       .then(function (response) {
         return response.json()
@@ -677,7 +681,7 @@ function getTeamSchedule(team_id) {
 function getTeamRoster(team_id, season) {
   seasonStart=2023
   seasonEnd=2024
-  url = `https://lookup-service-prod.mlb.com/json/named.roster_team_alltime.bam?start_season='${seasonStart}'&end_season='${seasonEnd}'&team_id='${team_id}'`
+  url = proxyUrl + `https://lookup-service-prod.mlb.com/json/named.roster_team_alltime.bam?start_season='${seasonStart}'&end_season='${seasonEnd}'&team_id='${team_id}'`
   return fetch(url)
       .then(function (response) {
         return response.json()
