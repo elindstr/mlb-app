@@ -243,16 +243,17 @@ function getPlayerDetails(player_id) {
 }
 
 function getSeasonPitcherStats(player_id, year) {
-    url = `https://lookup-service-prod.mlb.com/json/named.sport_pitching_tm.bam?league_list_id='mlb'&game_type='R'&season='${year}'&player_id='${player_id}'`
+    url = `https://statsapi.mlb.com/api/v1/people/${player_id}?hydrate=stats(sportId=1,group=[pitching],type=season,season=${year})`
+    //url = `https://lookup-service-prod.mlb.com/json/named.sport_pitching_tm.bam?league_list_id='mlb'&game_type='R'&season='${year}'&player_id='${player_id}'`
     return fetch(url)
         .then(function (response) {
             return response.json()
         })
         .then(function (data) {
-            // console.log(data)
-            let playerObject = data.sport_pitching_tm.queryResults.row
+            //console.log(data)
+            let playerObject = data.people[0].stats
             if (playerObject) {
-                return playerObject
+                return data.people[0].stats[0].splits[0].stat
             }
         })
         .catch(function (error) {
@@ -261,17 +262,17 @@ function getSeasonPitcherStats(player_id, year) {
 }
 
 function getSeasonHitterStats(player_id, year) {
-    url = `https://lookup-service-prod.mlb.com/json/named.sport_hitting_tm.bam?league_list_id='mlb'&game_type='R'&season='${year}'&player_id='${player_id}'`
+    url = `https://statsapi.mlb.com/api/v1/people/${player_id}?hydrate=stats(sportId=1,group=[hitting],type=season,season=${year})`
+    //url = `https://lookup-service-prod.mlb.com/json/named.sport_hitting_tm.bam?league_list_id='mlb'&game_type='R'&season='${year}'&player_id='${player_id}'`
     return fetch(url)
         .then(function (response) {
             return response.json()
         })
         .then(function (data) {
-            // console.log(data)
-            let playerObject = data.sport_hitting_tm.queryResults.row
-
+            //console.log(data)
+            let playerObject = data.people[0].stats
             if (playerObject) {
-                return playerObject
+                return data.people[0].stats[0].splits[0].stat
             }
         })
         .catch(function (error) {
@@ -280,16 +281,17 @@ function getSeasonHitterStats(player_id, year) {
 }
 
 function getCareerPitcherStats(player_id, year) {
-    url = `https://lookup-service-prod.mlb.com/json/named.sport_career_pitching.bam?league_list_id='mlb'&game_type='R'&player_id='${player_id}'`
+    url = `https://statsapi.mlb.com/api/v1/people/${player_id}?hydrate=stats(sportId=1,group=[pitching],type=[career])` 
+    //url = `https://lookup-service-prod.mlb.com/json/named.sport_career_pitching.bam?league_list_id='mlb'&game_type='R'&player_id='${player_id}'`
     return fetch(url)
         .then(function (response) {
             return response.json()
         })
         .then(function (data) {
             // console.log(data)
-            let playerObject = data.sport_career_pitching.queryResults.row
+            let playerObject = data.people[0].stats
             if (playerObject) {
-                return playerObject
+                return data.people[0].stats[0].splits[0].stat
             }
         })
         .catch(function (error) {
@@ -298,17 +300,17 @@ function getCareerPitcherStats(player_id, year) {
 }
 
 function getCareerHitterStats(player_id, year) {
-    url = `https://lookup-service-prod.mlb.com/json/named.sport_career_hitting.bam?league_list_id='mlb'&game_type='R'&player_id='${player_id}'`
+    url = `https://statsapi.mlb.com/api/v1/people/${player_id}?hydrate=stats(sportId=1,group=[hitting],type=[career])` 
+    //url = `https://lookup-service-prod.mlb.com/json/named.sport_career_hitting.bam?league_list_id='mlb'&game_type='R'&player_id='${player_id}'`
     return fetch(url)
         .then(function (response) {
             return response.json()
         })
         .then(function (data) {
             // console.log(data)
-            let playerObject = data.sport_career_hitting.queryResults.row
-
+            let playerObject = data.people[0].stats
             if (playerObject) {
-                return playerObject
+                return data.people[0].stats[0].splits[0].stat
             }
         })
         .catch(function (error) {

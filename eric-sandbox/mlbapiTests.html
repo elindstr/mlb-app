@@ -21,7 +21,7 @@ function getPlayerDetails (player_id) {
     })
 }
 
-//getCareerPitcherStats(660271)
+getCareerPitcherStats(660271)
 function getCareerPitcherStats(player_id) {
     url = `https://statsapi.mlb.com/api/v1/people/${player_id}?hydrate=stats(group=[hitting,pitching],type=[career])` 
     //url = `https://statsapi.mlb.com/api/v1/people/${player_id}?hydrate=stats(group=[hitting],type=[career])` 
@@ -38,10 +38,10 @@ function getCareerPitcherStats(player_id) {
 }
 
 // getSeasonPitcherStats(660271, 2023)
-// getSeasonPitcherStats(660271, 2022)
+getSeasonPitcherStats(660271, 2022)
 function getSeasonPitcherStats(player_id, year) {
-    url = `https://statsapi.mlb.com/api/v1/people/${player_id}?hydrate=stats(group=[hitting,pitching],type=season,season=${year})`
-    //sportId=1
+    //url = `https://statsapi.mlb.com/api/v1/people/${player_id}?hydrate=stats(sportId=1,group=[hitting,pitching],type=season,season=${year})`
+    url = `https://statsapi.mlb.com/api/v1/people/${player_id}?hydrate=stats(sportId=1,group=[pitching],type=season,season=${year})`
 
         return fetch(url)
         .then(function (response) {
@@ -56,7 +56,7 @@ function getSeasonPitcherStats(player_id, year) {
 }
 
 
-getRoster(660271, 2022)
+//getRoster(660271, 2022)
 function getRoster(player_id, year) {
     url = `http://statsapi.mlb.com/api/v1/teams/109/roster/depthChart`
 
