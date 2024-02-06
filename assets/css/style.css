@@ -261,3 +261,10 @@ aside {
     width: 20px;
   }
 }
+
+.asideSection {
+  bottom: 0px;
+  height: 50%;        /* TO FIX */
+  overflow-y: auto;
+  border: 1px solid #dcdcdc;
+}
