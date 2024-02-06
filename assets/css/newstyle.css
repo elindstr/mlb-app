@@ -1,11 +1,17 @@
 /* Player Cards */
-.emptyBoxGuide {
+  #primary-cards .emptyBoxGuide {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+  .emptyBoxGuide {
+    padding: 20px;
+    text-align: center;
     border: 1px dotted black;
-    transition: .5s all ease;
+    transition: .5s all ease-in-out;
   }
   .emptyBoxGuide:hover {
     border: 1px dotted black;
-    font-size: 1.2em;
+    font-size: 1.4em;
   }
   #primary-cards {
     display: flex;
