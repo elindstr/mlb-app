@@ -62,7 +62,7 @@ const teamIDs = [109, 144, 110, 111, 112, 145, 113, 114, 115, 116, 117, 118, 108
 
 function getFieldImage() {
     let imgsrc = `url(./assets/media/fields/${myTeamId}.jpg)`
-    document.querySelector('header').style.backgroundImage = imgsrc
+    document.querySelector('body').style.backgroundImage = imgsrc
 }
 
 async function getTeamStadiumWeather() {
