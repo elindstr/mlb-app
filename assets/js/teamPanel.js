@@ -75,18 +75,19 @@ async function getTeamStadiumWeather() {
 
 // get team roster
 async function getAsideRoster() {  
-    players = await fetchAsideRoster()
+    const players = await fetchAsideRoster()
     $("#asideGames").empty()
     $("#asideRoster").empty()
+
     for (p = 0; p < players.length; p++) {
         // get details
-        playerID = players[p].person.id
-        playerName = players[p].person.fullName
-        playerPosition = players[p].position.abbreviation
-        playerImage = await getPlayerImage(playerID, playerName)
+        const playerID = players[p].person.id
+        const playerName = players[p].person.fullName
+        const playerPosition = players[p].position.abbreviation
+        const playerImage = await getPlayerImage(playerID, playerName)
 
         // render
-        playerDiv = $("<div>")
+        let playerDiv = $("<div>")
             .attr('id', playerID)
             .attr('class', "card asideSection-player")
         playerDiv.append(playerImage, playerName)
