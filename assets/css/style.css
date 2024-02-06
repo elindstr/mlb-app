@@ -189,7 +189,6 @@ aside {
   border: solid black 1px;
   padding: 10px; 
   margin: 10px;
-  touch-action: none;
 }
 .asideSection-player {
   padding: 2px;

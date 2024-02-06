@@ -12,24 +12,33 @@
 <div id="player_id"></div>
 
 <script>
+
   $("button").on("click", fetchPlayers)
-  const seasonStart = 2023
-  const seasonEnd = 2024
-  const proxyUrl = "https://cors-anywhere.herokuapp.com/"
-  const targetUrl = "https://lookup-service-prod.mlb.com/json/named.roster_team_alltime.bam?start_season=%272023%27&end_season=%272024%27&team_id=%27111%27"
+  
+  const teamIds = [["D-backs", 109], ["Braves", 144], ["Orioles", 110], ["Red Sox", 111], ["Cubs", 112], ["White Sox", 145], ["Reds", 113], ["Guardians", 114], ["Rockies", 115], ["Tigers", 116], ["Astros", 117], ["Royals", 118], ["Angels", 108], ["Dodgers", 119], ["Marlins", 146], ["Brewers", 158], ["Twins", 142], ["Mets", 121], ["Yankees", 147], ["Athletics", 133], ["Phillies", 143], ["Pirates", 134], ["Padres", 135], ["Giants", 137], ["Mariners", 136], ["Cardinals", 138], ["Rays", 139], ["Rangers", 140], ["Blue Jays", 141], ["Nationals", 120] ]
+  let players = []
 
   async function fetchPlayers() {
-      let teams = await getTeams()
-      let players = []
-      for (let t = 0; t < teams.length; t++) {
-          console.log(t+1, "of", teams.length)
-          const roster = await getRoster(teams[t].team_id)
-          players = players.concat(roster)
-          await delay(100)
-      }
+    
+    
+    for (let t = 0; t < teamIds.length; t++) {
+        console.log(t+1, "of", teamIds.length)
 
-      renderTeamList(teams)
-      $("#team_id").append("<p>")
+        let teamId = teamIds[t][1]
+        const roster = await getRoster(teamId)
+        console.log(roster)
+
+        for (r = 0; r < roster.length; r++) {
+            players.push([roster[r].person.fullName, roster[r].person.id, teamIds[t][0]])
+        }
+        
+        await delay(500)
+    }
+
+    players.sort((a, b) => a[0].localeCompare(b[0]));
+
+    //   renderTeamList(teams)
+    //   $("#team_id").append("<p>")
       await renderPlayerList(players)
       
   }
@@ -37,60 +46,27 @@
     return new Promise(resolve => setTimeout(resolve, ms))
   }
 
-  function renderTeamList(teams) {
-    const listDiv = $("#team_id");
-    listDiv.empty();
-    listDiv.append("team_ids = [");
-    for (let i = 0; i < teams.length; i++) {
-      let team = teams[i];
-      if (i === teams.length - 1) {
-          listDiv.append(`["${team.name}", ${team.team_id}] ]`);
-      } else {
-          listDiv.append(`["${team.name}", ${team.team_id}], `);
-      }
-    }
-}
-
 function renderPlayerList(players) {
+    //console.log(players)
+
     const listDiv = $("#player_id");
     listDiv.empty();
     listDiv.append("player_ids = [");
     for (let i = 0; i < players.length; i++) {
-        let player = players[i];
-        if (i === players.length - 1) {
-            listDiv.append(`["${player.name_display_first_last}", ${player.player_id}, ${player.team_id}] ]`);
-        } else {
-            listDiv.append(`["${player.name_display_first_last}", ${player.player_id}, ${player.team_id}], `);
-        }
+        listDiv.append(`["${players[i][0]}", ${players[i][1]}, "${players[i][2]}"], `);
     }
+    listDiv.append("]");
 }
 
 
-  async function getTeams() {
-    const urlTeams = `https://lookup-service-prod.mlb.com/json/named.team_all_season.bam?sport_code='mlb'&all_star_sw='N'&sort_order=name_asc&season='${seasonStart}'`
-
-    try {
-        const response = await fetch(urlTeams)
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`)
-        }
-        const data = await response.json()
-        return data.team_all_season.queryResults.row
-    } catch (error) {
-        console.error("Error fetching teams:", error)
-        return []
-    }
-  }
-
-
   async function getRoster(team_id) {
-      const urlRoster = `https://lookup-service-prod.mlb.com/json/named.roster_40.bam?team_id=${team_id}`
+      const urlRoster = `http://statsapi.mlb.com/api/v1/teams/${team_id}/roster/`
 
       try {
           const response = await fetch(urlRoster)
           const data = await response.json()
           console.log(data)
-          return data.roster_40.queryResults.row
+          return data.roster
       } catch (error) {
           console.error("Error fetching roster:", error)
           return []
