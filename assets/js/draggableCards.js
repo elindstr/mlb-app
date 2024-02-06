@@ -6,22 +6,13 @@
 var drake = dragula([
     document.getElementById('primary-cards'), 
     document.getElementById('secondary-cards'), 
-    document.getElementById('asideSection')], {
+    document.getElementById('asideRoster')], {
 
     moves: function (el, target, source, sibling) {
-        // don't sort 'asideSection' if asideIsSortable is 'false'
-        if ($(source).attr('id') == 'asideSectionX') {
-            return false;
-        }
         return true
     },
 
     accepts: function (el, target, source, sibling) {
-
-        // don't sort 'asideSection' if asideIsSortable is 'false'
-        if ($(target).attr('id') == 'asideSectionX') {
-            return false;
-        }
 
         // don't sort 'primary-cards' if it already has 2 items
         if (target === document.getElementById('primary-cards')) {
@@ -44,6 +35,8 @@ $(document).ready(function() {
 
 // Player card element ids are based on the MLB PlayerID. This prevents an error when multiple elements with the same ID are created. Whenever there is a mouseup event, this hunts for duplicate ids and destroys the second element.
 function killDuplicates () {
+    updateTeam() // so players don't get removed from roster
+
     let uniqueList = []    
     let primaryCards = document.getElementById('primary-cards').children
     for (let i = 0; i < primaryCards.length; i ++) {
