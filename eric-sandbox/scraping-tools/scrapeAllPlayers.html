@@ -9,7 +9,10 @@
     <h2>Export team_id and player_id from API data as list objects</h2>
 <button>Go</button>
 <div id="team_id"></div>
+
 <div id="player_id"></div>
+
+<div id="pythonList"></div>
 
 <script>
 
@@ -39,7 +42,8 @@
 
     //   renderTeamList(teams)
     //   $("#team_id").append("<p>")
-      await renderPlayerList(players)
+      //await renderPlayerList(players)
+      await renderPythonList(players)
       
   }
   function delay(ms) {
@@ -58,6 +62,19 @@ function renderPlayerList(players) {
     listDiv.append("]");
 }
 
+function renderPythonList(players) {
+    //console.log(players)
+
+    //eg: names = [{"name_first_last": "Austin Adams", "player_id": "613534"},
+
+    const listDiv = $("#pythonList");
+    listDiv.empty();
+    listDiv.append("names = [");
+    for (let i = 0; i < players.length; i++) {
+        listDiv.append(`{"name_first_last": "${players[i][0]}", "player_id": "${players[i][1]}"}, `);
+    }
+    listDiv.append("]");
+}
 
   async function getRoster(team_id) {
       const urlRoster = `http://statsapi.mlb.com/api/v1/teams/${team_id}/roster/`

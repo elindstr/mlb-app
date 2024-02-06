@@ -105,7 +105,7 @@ async function getAsideRoster() {
 }
 
 function fetchAsideRoster() {
-    url =  `https://statsapi.mlb.com/api/v1/teams/${myTeamId}/roster/depthChart`
+    url =  `https://statsapi.mlb.com/api/v1/teams/${myTeamId}/roster/`
     //let url = `https://lookup-service-prod.mlb.com/json/named.roster_40.bam?team_id=${myTeamId}`
     return fetch(url)
         .then(function (response) {
