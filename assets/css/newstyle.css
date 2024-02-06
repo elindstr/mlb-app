@@ -81,29 +81,6 @@ table {
   /* for dragula ui (draggable cards) */
 .gu-mirror{position:fixed!important;margin:0!important;z-index:9999!important;opacity:.8}.gu-hide{display:none!important}.gu-unselectable{-webkit-user-select:none!important;-moz-user-select:none!important;-ms-user-select:none!important;user-select:none!important}.gu-transit{opacity:.2}
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    #primary-cards {
-        flex-direction: column;
-    }
-  
-    #primary-cards .card {
-        width: 100%;
-    }
-  
-    table, th, td {
-      margin-top: 1px;
-      padding: 1px
-    }
-    aside {
-      padding: 1px;
-      margin: 1px;
-    }
-    .asideSection img {
-      width: 20px;
-    }
-  }
-
   /* Show tooltip on hover */
 #primary-cards .card-stats:hover::before {
     opacity: 1;
@@ -125,6 +102,31 @@ table {
     overflow-y: auto;
 }
 
+/* Responsive Design */
+@media (max-width: 991px) {
+  table {
+    font-size: 12px !important;
+  }
+}
+@media (max-width: 768px) {
+  #primary-cards {
+    flex-direction: column;
+  }
+  #primary-cards .card {
+    width: 100%;
+  }
+  table, th, td {
+    margin-top: 1px;
+    padding: 1px
+  }
+  aside {
+    padding: 1px;
+    margin: 1px;
+  }
+  .asideSection img {
+    width: 20px;
+  }
+}
 @media (max-width: 575.98px) {
     body {
         font-size: 9px;

@@ -35,7 +35,9 @@ $(document).ready(function() {
 
 // Player card element ids are based on the MLB PlayerID. This prevents an error when multiple elements with the same ID are created. Whenever there is a mouseup event, this hunts for duplicate ids and destroys the second element.
 function killDuplicates () {
-    updateTeam() // so players don't get removed from roster
+    
+    //updateTeam() // so players don't get removed from roster
+                    //TODO: write player cards with unique IDs, and use a data-playerID to pass playerID values
 
     let uniqueList = []    
     let primaryCards = document.getElementById('primary-cards').children
