@@ -167,33 +167,27 @@ function fetchCityWeather(cityLat, cityLon) {
 
 // TODO: this function works, but it generates a console error; still searching for a method to suppress this error msg. After development phase, we can swap this for a fetch function that won't generate a console error; but that will generate a CORS error when testing locally.
 function getPlayerImage(player_id, name_display_first_last) {
-return new Promise((resolve, reject) => {
-    let imgsrc = `./assets/media/players/${player_id}.jpg`;
+    return new Promise((resolve, reject) => {
+        let imgsrc = `./assets/media/players/${player_id}.jpg`
+        let img = new Image()
 
-    fetch(imgsrc)
-        .then((response) => {
-        if (response.ok) {
-            return response.blob();
-        } else {
-            throw new Error('Image load failed');
+        img.onload = () => {
+            let imgHTML = $(`<img src='${imgsrc}' width='35px' alt='Image of ${name_display_first_last}'/>`)
+                .prop('outerHTML')
+            resolve(imgHTML)
         }
-        })
-        .then((blob) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-            const imgHTML = `<img src='${reader.result}' width='35px' alt='Image of ${name_display_first_last}'/>`;
-            resolve(imgHTML);
-        };
-        reader.readAsDataURL(blob);
-        })
-        .catch((error) => {
-        let defaultImgSrc = `./assets/media/players/404.png`;
-        let imgHTML = `<img src='${defaultImgSrc}' width='35px' alt='Default Image'/>`;
-        resolve(imgHTML);
 
-        console.log("note: ignore GET error; error handled with default 404 image");
-        });
-    });
+        img.onerror = () => {
+            let defaultImgSrc = `./assets/media/players/404.png`
+            let imgHTML = $(`<img src='${defaultImgSrc}' width='35px' alt='Default Image'/>`)
+                .prop('outerHTML')
+            resolve(imgHTML)
+
+            console.log("note: ignore GET error; error handled with default 404 image")
+        }
+
+        img.src = imgsrc
+    })
 }
 
 // get dates 
