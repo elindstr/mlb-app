@@ -183,7 +183,7 @@ function getPlayerImage(player_id, name_display_first_last) {
                 .prop('outerHTML')
             resolve(imgHTML)
 
-            console.log("note: ignore GET error; error handled with default 404 image")
+            //console.log("note: ignore GET error; error handled with default 404 image")
         }
 
         img.src = imgsrc
