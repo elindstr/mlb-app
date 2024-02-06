@@ -84,16 +84,15 @@ async function getTeamStadiumWeather() {
 
 // get team roster
 async function getAsideRoster() {          
-    playersData = await fetchAsideRoster()
-    players = playersData.roster_40.queryResults.row
-
+    players = await fetchAsideRoster()
     $(".asideSection").empty()
     $(".asideSection").addClass("aside-draggable")
     for (p = 0; p < players.length; p++) {
 
         // get details
-        playerID = players[p].player_id
-        playerName = players[p].name_display_first_last
+        playerID = players[p].person.id
+        playerName = players[p].person.fullName
+        playerPosition = players[p].position.abbreviation
         playerImage = await getPlayerImage(playerID, playerName)
 
         // render
@@ -106,14 +105,15 @@ async function getAsideRoster() {
 }
 
 function fetchAsideRoster() {
-    let url = `https://lookup-service-prod.mlb.com/json/named.roster_40.bam?team_id=${myTeamId}`
+    url =  `http://statsapi.mlb.com/api/v1/teams/${myTeamId}/roster/depthChart`
+    //let url = `https://lookup-service-prod.mlb.com/json/named.roster_40.bam?team_id=${myTeamId}`
     return fetch(url)
         .then(function (response) {
             return response.json()
         })
         .then(function (data) {
-            // console.log(data)
-            return data
+            //console.log(data)
+            return data.roster
                 
         })
         .catch(function (error) {
