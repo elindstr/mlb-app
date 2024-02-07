@@ -144,7 +144,7 @@ async function createFeaturePlayerCard(player_id, element) {
     playerNameSection.append(playerImage, name_display_first_last, deleteButton)
     teamNameSection = $('<span>')
         .attr('class', 'card-team-name')
-    teamNameSection.append(teamLogo)
+    //teamNameSection.append(teamLogo)
     slashTableSection = $('<span>')
         .attr('class', 'slash-table')
     slashTableSection.append(slashTable)
@@ -287,7 +287,7 @@ async function createFeaturePlayerCardFromScratch(player_id) {
 
     let teamNameSection = $('<span>')
     .attr('class', 'card-team-name');
-    teamNameSection.append(teamLogo);
+    //teamNameSection.append(teamLogo);
 
     let slashTableSection = $('<span>')
     .attr('class', 'slash-table');

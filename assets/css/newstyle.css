@@ -1,9 +1,24 @@
+body {
+  box-sizing: border-box;
+}
 main {
   background-color: rgba(41, 44, 47, .8);
 }
 h2 {
   text-align: center;
 }
+.narrow {
+  padding: 0px;
+}
+.inactive {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  transition: all .2s ease-in-out;
+}
+.inactive:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
 /* Player Cards */
   #primary-cards .emptyBoxGuide {
     padding-top: 60px;
@@ -114,7 +129,7 @@ table {
   }
 
   .scrollable-content {
-    max-height: 400px;
+    max-height: 450px;
     overflow-y: auto;
 }
   #asideRoster div {
@@ -124,6 +139,23 @@ table {
   content: "";
   display: table;
   clear: both;
+}
+
+
+.card img {
+  width: 35px;
+}
+#primary-cards img {
+  width: 75px;
+}
+#secondary-cards img {
+  width: 45px;
+}
+#asideRoster img {
+  width: 35px;
+}
+#asideGames img {
+  width: 35px;
 }
 
 /* Responsive Design */
@@ -147,8 +179,19 @@ table {
     padding: 1px;
     margin: 1px;
   }
-  .asideSection img {
+
+
+  #primary-cards img {
+    width: 50px;
+  }
+  #secondary-cards img {
+    width: 30px;
+  }
+  #asideRoster img {
     width: 20px;
+  }
+  #asideGames img {
+    width: 14px;
   }
 }
 @media (max-width: 575.98px) {
@@ -157,5 +200,8 @@ table {
     }
     input, label, select {
       font-size: 9px !important;
+    }
+    #asideGames img {
+      width: 10px;
     }
 }
