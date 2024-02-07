@@ -1,20 +1,22 @@
-// on load, look up current players
+// on load, look up any current players
 $(function () {
-    cards = $('#primary-cards').children()
-    for (i = 0; i < cards.length; i++) {
-        createFeaturePlayerCard(cards[i].id)
-    }
-    cards = $('#secondary-cards').children()
-    for (i = 0; i < cards.length; i++) {
-        createPlayerCard(cards[i].id)
-    }
+    // cards = $('#primary-cards').children()
+    // for (i = 0; i < cards.length; i++) {
+    //     createFeaturePlayerCard(cards[i].id)
+    // }
+    // cards = $('#secondary-cards').children()
+    // for (i = 0; i < cards.length; i++) {
+    //     createPlayerCard(cards[i].id)
+    // }
 })
 
 // placeholder when no stats available
 const na = '-'
 
 // called by draggableCards.js when a user drags an item to the primary section
-async function createFeaturePlayerCard(player_id) {
+async function createFeaturePlayerCard(player_id, element) {
+    console.log(player_id)
+
     // get stats
     const playerDetails = await getPlayerDetails(player_id)
     const primary_position_txt = playerDetails.primary_position_txt
@@ -135,7 +137,7 @@ async function createFeaturePlayerCard(player_id) {
     }
 
     // construct card
-    const playerNameSection = $('<span>')
+    let playerNameSection = $('<span>')
         .attr('class', 'card-player-name')
     const deleteButton = $('<button>')
         .attr('class', 'delete-button')
@@ -148,8 +150,10 @@ async function createFeaturePlayerCard(player_id) {
         .attr('class', 'slash-table')
     slashTableSection.append(slashTable)
 
-    $(`#${player_id}`).empty()
-    $(`#${player_id}`).append(playerNameSection, teamNameSection, slashTableSection)
+    
+    $(element).empty() //XXX testing 
+    $(element).append(playerNameSection, teamNameSection, slashTableSection)
+    killDuplicates()
 }
 
 $('#primary-cards').on('click', '.delete-button', function () {
@@ -163,6 +167,7 @@ $('#secondary-cards').on('click', '.delete-button', function () {
 
 // called by autoComplete.js when user selects a player from the search
 async function createPlayerCard(player_id) {
+    console.log("new player card", player_id)
 
     // get stats
     const playerDetails = await getPlayerDetails(player_id)
@@ -175,8 +180,9 @@ async function createPlayerCard(player_id) {
     const playerImage = await getPlayerImage(player_id, name_display_first_last)
 
     const newCard = $('<div>')
-        .attr('id', player_id)
+        .attr('data-id', player_id) //XXX testing without id
         .attr('class', 'card')
+
     const deleteButton = $('<button>')
         .attr('class', 'delete-button')
         .html('&times;')
@@ -196,6 +202,8 @@ async function createPlayerCard(player_id) {
             $('#secondary-cards').prepend(newCard)
         }
     }
+
+    killDuplicates()
 }
 
 // get image files 
