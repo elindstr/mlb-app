@@ -22,10 +22,8 @@ function updateTeam() {
     getTeamStadiumWeather()
 
     // update active tab
-    $('#teamRosterBtn').addClass('active')
-    $('#teamGamesBtn').removeClass('active');
-
-    // update active show
+    $('#teamRosterBtn').removeClass('inactive')
+    $('#teamGamesBtn').addClass('inactive');
     $('#teamRoster').addClass('active show')
 }
 
@@ -38,8 +36,8 @@ $('#teamGamesBtn').on('click', function () {
     getAsideGames()
 
     // update active tab
-    $('#teamRosterBtn').removeClass('active')
-    $('#teamGamesBtn').addClass('active');
+    $('#teamRosterBtn').addClass('inactive')
+    $('#teamGamesBtn').removeClass('inactive');
 })
 
 $('#asideGames').on('click', '.team-logo-button', function () {
@@ -164,14 +162,14 @@ function getPlayerImage(player_id, name_display_first_last) {
         let img = new Image()
 
         img.onload = () => {
-            let imgHTML = $(`<img src='${imgsrc}' width='35px' alt='Image of ${name_display_first_last}'/>`)
+            let imgHTML = $(`<img src='${imgsrc}' alt='Image of ${name_display_first_last}'/>`)
                 .prop('outerHTML')
             resolve(imgHTML)
         }
 
         img.onerror = () => {
             let defaultImgSrc = `./assets/media/players/404.png`
-            let imgHTML = $(`<img src='${defaultImgSrc}' width='35px' alt='Default Image'/>`)
+            let imgHTML = $(`<img src='${defaultImgSrc}' alt='Default Image'/>`)
                 .prop('outerHTML')
             resolve(imgHTML)
 
