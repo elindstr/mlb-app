@@ -46,14 +46,14 @@ async function createFeaturePlayerCard(player_id, element) {
         slashThYear = $('<th>Year</th>');
         slashThERA = $('<th>ERA</th>');
         slashThWHIP = $('<th>WHIP</th>');
-        slashThBBK = $('<th>BB:K</th>');
+        slashThBBK = $('<th>K:BB</th>');
         slashRow.append(slashThYear, slashThERA, slashThWHIP, slashThBBK);
         slashTable.append(slashRow);
 
         slashRow = $('<tr>')
         eraCareer = careerPositionStats ? careerPositionStats.era : na
         whipCareer = careerPositionStats ? careerPositionStats.whip : na
-        kbbCareer = careerPositionStats ? careerPositionStats.kbb : na
+        kbbCareer = careerPositionStats ? careerPositionStats.strikeoutWalkRatio : na
         slashTdYear = $(`<td>Career</td>`)
         slashTdERA = $(`<td>${eraCareer ? eraCareer : na}</td>`)
         slashTdWHIP = $(`<td>${whipCareer ? whipCareer : na}</td>`)
@@ -65,7 +65,7 @@ async function createFeaturePlayerCard(player_id, element) {
             slashRow = $('<tr>')
             era2023 = seasonPositionStats2023.era
             whip2023 = seasonPositionStats2023.whip
-            kbb2023 = seasonPositionStats2023.kbb
+            kbb2023 = seasonPositionStats2023.strikeoutWalkRatio
             slashTdYear = $(`<td>2023</td>`)
             slashTdERA = $(`<td>${era2023 ? era2023 : na}</td>`)
             slashTdWHIP = $(`<td>${whip2023 ? whip2023 : na}</td>`)
@@ -78,7 +78,7 @@ async function createFeaturePlayerCard(player_id, element) {
             slashRow = $('<tr>')
             era2022 = seasonPositionStats2022.era
             whip2022 = seasonPositionStats2022.whip
-            kbb2022 = seasonPositionStats2022.kbb
+            kbb2022 = seasonPositionStats2022.strikeoutWalkRatio
             slashTdYear = $(`<td>2022</td>`)
             slashTdERA = $(`<td>${era2022 ? era2022 : na}</td>`)
             slashTdWHIP = $(`<td>${whip2022 ? whip2022 : na}</td>`)
@@ -187,14 +187,14 @@ async function createFeaturePlayerCardFromScratch(player_id) {
         slashThYear = $('<th>Year</th>');
         slashThERA = $('<th>ERA</th>');
         slashThWHIP = $('<th>WHIP</th>');
-        slashThBBK = $('<th>BB:K</th>');
+        slashThBBK = $('<th>K:BB</th>');
         slashRow.append(slashThYear, slashThERA, slashThWHIP, slashThBBK);
         slashTable.append(slashRow);
 
         slashRow = $('<tr>')
         eraCareer = careerPositionStats ? careerPositionStats.era : na
         whipCareer = careerPositionStats ? careerPositionStats.whip : na
-        kbbCareer = careerPositionStats ? careerPositionStats.kbb : na
+        kbbCareer = careerPositionStats ? careerPositionStats.strikeoutWalkRatio : na
         slashTdYear = $(`<td>Career</td>`)
         slashTdERA = $(`<td>${eraCareer ? eraCareer : na}</td>`)
         slashTdWHIP = $(`<td>${whipCareer ? whipCareer : na}</td>`)
@@ -206,7 +206,7 @@ async function createFeaturePlayerCardFromScratch(player_id) {
             slashRow = $('<tr>')
             era2023 = seasonPositionStats2023.era
             whip2023 = seasonPositionStats2023.whip
-            kbb2023 = seasonPositionStats2023.kbb
+            kbb2023 = seasonPositionStats2023.strikeoutWalkRatio
             slashTdYear = $(`<td>2023</td>`)
             slashTdERA = $(`<td>${era2023 ? era2023 : na}</td>`)
             slashTdWHIP = $(`<td>${whip2023 ? whip2023 : na}</td>`)
@@ -219,7 +219,7 @@ async function createFeaturePlayerCardFromScratch(player_id) {
             slashRow = $('<tr>')
             era2022 = seasonPositionStats2022.era
             whip2022 = seasonPositionStats2022.whip
-            kbb2022 = seasonPositionStats2022.kbb
+            kbb2022 = seasonPositionStats2022.strikeoutWalkRatio
             slashTdYear = $(`<td>2022</td>`)
             slashTdERA = $(`<td>${era2022 ? era2022 : na}</td>`)
             slashTdWHIP = $(`<td>${whip2022 ? whip2022 : na}</td>`)

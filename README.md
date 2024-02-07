@@ -1,18 +1,14 @@
 ## Slash Line Stats
 
-Slash Line Stats (SLS) is a JavaScript web app providing realtime Major League Baseball [slash line](https://www.mlb.com/glossary/miscellaneous/slash-line) stats for user-generated head-to-head comparisons. SLS aggregates stats from an extensive array of API endpoints and curates an easy-to-read slash line of just the stats you really care to know. View team rosters, team schedules, and the check the current weather at your team's stadium. Use the autocomplete search bar to find any player.
+Slash Line Stats (SLS) is a JavaScript web application providing realtime Major League Baseball [slash line](https://www.mlb.com/glossary/miscellaneous/slash-line) stats for user-generated head-to-head comparisons. SLS aggregates stats from an extensive array of API endpoints and curates an easy-to-read slash line of just the stats you want to know. View team rosters, team schedules, and the check the current weather at your team's stadium. Use the autocomplete search bar to find any player.
  
 SLS is deployed on [GitHub pages](https://elindstr.github.io/slash-line-stats/).
 
 ## Screenshots
 
-![image](https://github.com/elindstr/slash-line-stats/assets/149442786/7f01c34b-eef9-456b-ad63-88e052855f4b)
+<img src="./assets/media/Screenshot 2024-02-06 at 10.52.55 PM.png" width="400px">
 
-![image](https://github.com/elindstr/slash-line-stats/assets/149442786/a9dac917-0ea3-439d-bb49-6c6ad406e56b)
-
-
-
-...
+<img src="./assets/media/Screenshot 2024-02-06 at 11.03.17 PM.png" width="200px">
 
 ## Design Process
 
@@ -54,4 +50,3 @@ slash lines.
  7. **Games Schedule**
     - The "Next Games" tab holds the current list of scheduled games for the team you have selected in the drop down menu.
     - You can also click the team icon in the "Next Games" tab to auto populate the roster for that team!    
-
