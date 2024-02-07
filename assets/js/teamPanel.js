@@ -67,8 +67,8 @@ async function getTeamStadiumWeather() {
     teamWeatherTemp = cityWeatherAPI.list[0].main.temp
     teamWeatherDescription = cityWeatherAPI.list[0].weather[0].main
     
-    $('#teamStadium').text(`${teamStadium}`)
-    $('#teamWeather').text(`Currently: ${parseInt(teamWeatherTemp)}°, ${teamWeatherDescription}`)
+    $('#teamWeather').text(`Currently ${parseInt(teamWeatherTemp)}°, ${teamWeatherDescription}`)
+    $('#teamStadium').text(`@ ${teamStadium}`)
 }
 
 // get team roster
@@ -223,8 +223,9 @@ async function getAsideGames() {
                         .attr('data-id', homeTeamid)
 
                 } else {
-                    homeTeamLogo = homeTeamName
-
+                    homeTeamLogo = $('<span>')
+                        .text(homeTeamName)
+                        .addClass('minorLeagueTiny')
                 }
                 let awayTeamLogo
                 if (teamIDs.includes(awayTeamid)) {
@@ -235,18 +236,21 @@ async function getAsideGames() {
                     .attr('data-id', awayTeamid)
 
                 } else {
-                    awayTeamLogo = awayTeamName
+                    awayTeamLogo = $('<span>')
+                        .text(awayTeamName)
+                        .addClass('minorLeagueTiny')
                 }
-
+                
                 //render details
                 const asideSectionDiv = $('<div>')
                     .attr('gamePk', gamePk)
                     .attr('class', 'schedule-game')
                 const asideSectionDt = $('<span>').text(dateTimeStr)
-                const asideSectionVs = $('<span>').text(' v. ')
+                const asideSpace = $('<span>').html('<br>')
+                const asideSectionVs = $('<span>').text(' v ')
                 const asideSectionTeams = $('<span>').append(homeTeamLogo, asideSectionVs, awayTeamLogo)
                 
-                asideSectionDiv.append(asideSectionDt, asideSectionTeams)
+                asideSectionDiv.append(asideSectionDt, asideSpace, asideSectionTeams)
                 $("#asideGames").append(asideSectionDiv)
             }
         }
