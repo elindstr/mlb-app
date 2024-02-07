@@ -104,8 +104,6 @@ drake.on('drop', function (el, target, source, sibling) {
     // transform cards into feature and vice versa when dragged to new section
     if (target.id == 'primary-cards') {
         let PlayerId = el.getAttribute('data-id')
-        console.log(PlayerId)
-        console.log(el.id)
         createFeaturePlayerCard(PlayerId, el) //XXX testing
         updateTeam()
     }

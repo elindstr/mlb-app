@@ -118,6 +118,9 @@ table {
     max-height: 400px;
     overflow-y: auto;
 }
+  #asideRoster div {
+    padding-left: 2px;
+  }
 .clearfix::after {
   content: "";
   display: table;
