@@ -1,3 +1,9 @@
+main {
+  background-color: rgba(41, 44, 47, .8);
+}
+h2 {
+  text-align: center;
+}
 /* Player Cards */
   #primary-cards .emptyBoxGuide {
     padding-top: 60px;
@@ -44,9 +50,9 @@
   #secondary-cards {
     display: flex;
     flex-direction: column;
-    min-height: 500px;
+    min-height: 330px;
     margin-top: 1px;
-  
+    border: 1px solid black;
   }
   #secondary-cards .card {
     display:inline-block;
@@ -109,8 +115,13 @@ table {
   }
 
   .scrollable-content {
-    max-height: 500px; /* Adjust the height as needed */
+    max-height: 400px;
     overflow-y: auto;
+}
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
 /* Responsive Design */
