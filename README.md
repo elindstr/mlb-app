@@ -10,9 +10,7 @@ SLS is deployed on [GitHub pages](https://elindstr.github.io/slash-line-stats/).
 
 <img src="./assets/media/Screenshot 2024-02-06 at 11.03.17 PM.png" width="200px">
 
-## Design Process
-
-SLS began with a simple user story:
+## User Story
 
 ```
 As a baseball enthusiast, I want to compare the
