@@ -15,7 +15,6 @@ const na = '-'
 
 // called by draggableCards.js when a user drags an item to the primary section
 async function createFeaturePlayerCard(player_id, element) {
-    console.log(player_id)
 
     // get stats
     const playerDetails = await getPlayerDetails(player_id)
@@ -157,7 +156,6 @@ async function createFeaturePlayerCard(player_id, element) {
 
 // This is stupid. But this is a fix.
 async function createFeaturePlayerCardFromScratch(player_id) {
-    console.log(player_id)
 
     // get stats
     const playerDetails = await getPlayerDetails(player_id)
