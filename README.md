@@ -6,7 +6,7 @@ SLS is deployed on [GitHub pages](https://elindstr.github.io/slash-line-stats/).
 
 ## Screenshots
 
-<img src="./assets/media/Screenshot 2024-02-06 at 10.52.55 PM.png" width="400px">
+<img src="./assets/media/Screenshot 2024-02-07 at 9.00.40 AM.png" width="400px">
 
 <img src="./assets/media/Screenshot 2024-02-06 at 11.03.17 PM.png" width="200px">
 
