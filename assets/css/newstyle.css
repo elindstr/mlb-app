@@ -52,7 +52,6 @@ h2 {
     flex-direction: column;
     min-height: 330px;
     margin-top: 1px;
-    border: 1px solid black;
   }
   #secondary-cards .card {
     display:inline-block;
