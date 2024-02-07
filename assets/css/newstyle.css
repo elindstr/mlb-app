@@ -153,6 +153,9 @@ table {
 }
 @media (max-width: 575.98px) {
     body {
-        font-size: 9px;
+      font-size: 9px;
+    }
+    input, label, select {
+      font-size: 9px !important;
     }
 }
