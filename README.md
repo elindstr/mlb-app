@@ -25,15 +25,17 @@ slash lines.
 ## Features:
 
 1. **Player Selection:**
-   - On the app's main page, you can select Player 1 and Player 2 from dropdown menus and then compare the stats of each player!
-   - Each dropdown menu displays the most current 40 man roster for each MLB team.
+   - Select a team and the active roster displays dynamically. You can drag the player items from the roster to the comparison board.
+   - View the team's schedule, click on the opposing team, and drag players from the opposing roster.
+   - Or use the search box, which features an autocomplete engine for all current MLB players. Select a result and that player is added to the main board.
 
 2. **Comparison:**
-   - By dragging two player cards to the main box, you're able to compare the most recent season slash line stats of any two MLB players.
+   - By dragging two player cards to the main comparison box, you're able to compare the slash line stats of any two MLB players.
 
 3. **Results Display:**
-   - Statistics include Batting Average (AVG), On-Base Percentage (OBP), and Slugging Percentage (SLG).
-   - Pitching statistics should include Earned Run Average (ERA), Walks and Hits Per Inning Pitched (WHIP), and Strikeout-to-Walk Ratio (K/BB)
+   - Hitting stats include Batting Average (AVG), On-Base Percentage (OBP), and Slugging Percentage (SLG).
+   - Pitching stat include Earned Run Average (ERA), Walks and Hits Per Inning Pitched (WHIP), and Strikeout-to-Walk Ratio (K:BB).
+   - If available, stats are show for career and last two seasons.
 
 4. **Visual Clarity:**
    - The UI provides a clear and visually appealing display of the comparison results.
@@ -41,10 +43,17 @@ slash lines.
 
 5. **Responsive Design:**
    - The app is designed to be responsive, ensuring a consistent and user-friendly experience across various devices and screen sizes.
-   - 
+
 6. **Persistent Selections:**
-    - After making a comparison, the selected players and season remain selected, allowing you to easily modify your selections for further comparisons.
+    - The app remembers your last-selected team, so when you close and reopen your browser, you can pick up right where you left off.
 
  7. **Games Schedule**
     - The "Next Games" tab holds the current list of scheduled games for the team you have selected in the drop down menu.
-    - You can also click the team icon in the "Next Games" tab to auto populate the roster for that team!    
+    - You can also click the team icon in the "Next Games" tab to auto populate the roster for that team!
+
+  8. **Media**
+    - The app includes all player images in the MLB.com database and background images for every team's stadium.
+     
+  9. **Field Name and Weather**
+    - Along with the team stadium image, the app displays the name of the stadium and the current weather at that stadium.
+       
