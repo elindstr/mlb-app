@@ -89,6 +89,7 @@ async function getAsideRoster() {
         // render
         let playerDiv = $("<div>")
             .attr('id', playerID)
+            .attr('data-id', playerID)
             .attr('class', "card asideSection-player")
         playerDiv.append(playerImage, playerName)
         $('#asideRoster').append(playerDiv)
