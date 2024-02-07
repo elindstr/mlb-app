@@ -9,7 +9,12 @@ var drake = dragula([
     document.getElementById('asideRoster')], {
 
     moves: function (el, target, source, sibling) {
-        return true
+        if (el.classList.contains('emptyBoxGuide')) {
+            return false
+        }
+        else {
+            return true
+        }
     },
 
     accepts: function (el, target, source, sibling) {
