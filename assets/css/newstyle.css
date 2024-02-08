@@ -129,7 +129,7 @@ table {
   }
 
   .scrollable-content {
-    max-height: 450px;
+    max-height: 550px;
     overflow-y: auto;
 }
   #asideRoster div {
