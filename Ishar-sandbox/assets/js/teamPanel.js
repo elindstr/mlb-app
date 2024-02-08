@@ -1,5 +1,35 @@
 // global variable
 let myTeamId
+let getTeamId
+
+// Modal-team selector
+const teamID = document.getElementById("teamID")
+teamID.addEventListener("change", function() {getTeamId = this.value;});
+
+// show modal
+var modal = document.getElementById('teamModal');
+
+$(window).on('load',function()
+{
+    let storageTeamId = localStorage.getItem('getTeamId')
+    
+if (storageTeamId>0) { 
+}
+
+   else {$('#teamModal').modal('show');
+}
+
+});
+
+function filterTeam()
+{ 
+//update Modal team storage
+    localStorage.setItem('getTeamId', getTeamId);
+
+	myTeamId = getTeamId;
+    updateTeam();
+	$('#teamModal').modal('hide');
+}
 
 // team selector
 const teamsSelector = document.getElementById("teamsSelector")
@@ -28,6 +58,7 @@ function updateTeam (){
     // restore team tab id so side roster is draggable
     $(".asideSection").attr('id', 'asideSection')
 }
+
 
 // handle side table buttons
 $('#teamRosterBtn').on('click', function () {
@@ -161,6 +192,7 @@ function fetchCityWeather(cityLat, cityLon) {
         })
         .catch(function (error) {
             console.log(error)
+
         })
 }
 

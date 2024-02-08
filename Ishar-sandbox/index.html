@@ -21,6 +21,7 @@
   </head>
 
 
+
 <body>
     <div id="teamModal" class="modal fade" data-bs-backdrop="static" tabindex="-1">
         <div class="modal-dialog">
@@ -33,7 +34,7 @@
             <div class="row">
               <div class="col-sm-5">
                  <select id="teamID" class="form-select" aria-label="Select Your Team" style="margin-left: 1px;margin-top: 30px;width: 125%; border-style: none;">
-                  <option selected>Select Your Team</option>
+                  <option selected="selected" value="0">Select Your Team</option>
                   <option value="109">Arizona Diamondbacks</option>
                   <option value="144">Atlanta Braves</option>
                   <option value="110">Baltimore Orioles</option>
@@ -69,15 +70,15 @@
             <div class="col-sm-1">
             </div>
             <div class="col-sm-5"> 
-              <img id="imageFile" style="width: 100px; height: 100px; float: right;padding-top: 1px;padding-bottom: 3px;" src="./assets/media/team-logos/mlb logo download.png" alt="mlb logo">
+              <img id="imageFile" style="width: 100px; height: 100px; float: right;padding-top: 1px;padding-bottom: 3px;" src="./assets/media2/team-logos/mlb logo download.png" alt="mlb logo">
 
             </div>
             
             </div>
            
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Skip This Step</button>
-              <button type="button" class=" btn btn-success">Save changes</button>
+            <!--<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Skip This Step</button>-->
+            <button type="button" class=" btn btn-success" onclick="filterTeam()">Save Team</button>
             </div>
           </div>
         </div>
@@ -188,6 +189,7 @@
     <script src='./assets/js/teamPanel.js'></script>
     <script src='./assets/js/script.js'></script>
     <script src="landingpage.js"></script>
+    
 
     
 </body>
