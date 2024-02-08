@@ -6,54 +6,43 @@ const teamsSelector = document.getElementById("teamsSelector")
 teamsSelector.addEventListener("change", function() {
     myTeamId = this.value;
     updateTeam()
-});
+})
 
-function updateTeam (){
+function updateTeam() {
 
     // update local storage
     localStorage.setItem('myTeamId', myTeamId);
+
+    // update selector value
+    document.getElementById("teamsSelector").value = myTeamId
 
     // update team content
     getAsideRoster()
     getFieldImage()
     getTeamStadiumWeather()
 
-    // update selector  value
-    document.getElementById("teamsSelector").value = myTeamId
-
-    // reset team tabs
-    $('.nav').find('*').removeClass('active');
-    $('#teamRosterBtn').addClass('active');
-
-    // restore team tab id so side roster is draggable
-    $(".asideSection").attr('id', 'asideSection')
+    // update active tab
+    $('#teamRosterBtn').removeClass('inactive')
+    $('#teamGamesBtn').addClass('inactive');
+    $('#teamRoster').addClass('active show')
 }
 
 // handle side table buttons
 $('#teamRosterBtn').on('click', function () {
-    getAsideRoster()
-
-    // restore id
-    $(".asideSection").attr('id', 'asideSection')
-
-    // make nav button active
-    $('.nav').find('*').removeClass('active');
-    $(this).addClass('active')
+    updateTeam()
 })
 
 $('#teamGamesBtn').on('click', function () {
     getAsideGames()
 
-    // restore id
-    $(".asideSection").attr('id', 'asideSectionX')
-
-    // make nav button active
-    $('.nav').find('*').removeClass('active');
-    $(this).addClass('active')
+    // update active tab
+    $('#teamRosterBtn').addClass('inactive')
+    $('#teamGamesBtn').removeClass('inactive');
 })
 
-$('.asideSection').on('click', '.team-logo-button', function () {
+$('#asideGames').on('click', '.team-logo-button', function () {
     myTeamId = $(this).attr('data-id')
+    // console.log("new team:", myTeamId)
     updateTeam()
 })
 
@@ -62,7 +51,7 @@ const teamIDs = [109, 144, 110, 111, 112, 145, 113, 114, 115, 116, 117, 118, 108
 
 function getFieldImage() {
     let imgsrc = `url(./assets/media/fields/${myTeamId}.jpg)`
-    document.querySelector('header').style.backgroundImage = imgsrc
+    document.querySelector('body').style.backgroundImage = imgsrc
 }
 
 async function getTeamStadiumWeather() {
@@ -78,42 +67,43 @@ async function getTeamStadiumWeather() {
     teamWeatherTemp = cityWeatherAPI.list[0].main.temp
     teamWeatherDescription = cityWeatherAPI.list[0].weather[0].main
     
-    $('#teamStadium').text(`${teamStadium}`)
-    $('#teamWeather').text(`Current Weather: ${parseInt(teamWeatherTemp)}°, ${teamWeatherDescription}`)
+    $('#teamWeather').text(`Currently ${parseInt(teamWeatherTemp)}°, ${teamWeatherDescription}`)
+    $('#teamStadium').text(`@ ${teamStadium}`)
 }
 
 // get team roster
-async function getAsideRoster() {          
-    playersData = await fetchAsideRoster()
-    players = playersData.roster_40.queryResults.row
+async function getAsideRoster() {  
+    const players = await fetchAsideRoster()
+    $("#asideGames").empty()
+    $("#asideRoster").empty()
 
-    $(".asideSection").empty()
-    $(".asideSection").addClass("aside-draggable")
     for (p = 0; p < players.length; p++) {
-
         // get details
-        playerID = players[p].player_id
-        playerName = players[p].name_display_first_last
-        playerImage = await getPlayerImage(playerID, playerName)
+        const playerID = players[p].person.id
+        const playerName = players[p].person.fullName
+        const playerPosition = players[p].position.abbreviation
+        const playerImage = await getPlayerImage(playerID, playerName)
 
         // render
-        playerDiv = $("<div>")
+        let playerDiv = $("<div>")
             .attr('id', playerID)
+            .attr('data-id', playerID)
             .attr('class', "card asideSection-player")
         playerDiv.append(playerImage, playerName)
-        $(".asideSection").append(playerDiv)
+        $('#asideRoster').append(playerDiv)
     }
 }
 
 function fetchAsideRoster() {
-    let url = `https://lookup-service-prod.mlb.com/json/named.roster_40.bam?team_id=${myTeamId}`
+    url =  `https://statsapi.mlb.com/api/v1/teams/${myTeamId}/roster/`
+    //let url = `https://lookup-service-prod.mlb.com/json/named.roster_40.bam?team_id=${myTeamId}`
     return fetch(url)
         .then(function (response) {
             return response.json()
         })
         .then(function (data) {
-            // console.log(data)
-            return data
+            //console.log(data)
+            return data.roster
                 
         })
         .catch(function (error) {
@@ -172,18 +162,18 @@ function getPlayerImage(player_id, name_display_first_last) {
         let img = new Image()
 
         img.onload = () => {
-            let imgHTML = $(`<img src='${imgsrc}' width='35px' alt='Image of ${name_display_first_last}'/>`)
+            let imgHTML = $(`<img src='${imgsrc}' alt='Image of ${name_display_first_last}'/>`)
                 .prop('outerHTML')
             resolve(imgHTML)
         }
 
         img.onerror = () => {
             let defaultImgSrc = `./assets/media/players/404.png`
-            let imgHTML = $(`<img src='${defaultImgSrc}' width='35px' alt='Default Image'/>`)
+            let imgHTML = $(`<img src='${defaultImgSrc}' alt='Default Image'/>`)
                 .prop('outerHTML')
             resolve(imgHTML)
 
-            console.log("note: ignore GET error; error handled with default 404 image")
+            //console.log("note: ignore GET error; error handled with default 404 image")
         }
 
         img.src = imgsrc
@@ -206,7 +196,8 @@ async function getAsideGames() {
     games = await fetchAsideGames(startDate, endDate, myTeamId)
 
     if (games.totalGames > 0) {
-        $(".asideSection").empty()
+        $("#asideGames").empty()
+        $("#asideRoster").empty()
 
         gamesDisplayLimit = 20
         for (d = 0; d < gamesDisplayLimit; d++) {
@@ -232,8 +223,9 @@ async function getAsideGames() {
                         .attr('data-id', homeTeamid)
 
                 } else {
-                    homeTeamLogo = homeTeamName
-
+                    homeTeamLogo = $('<span>')
+                        .text(homeTeamName)
+                        .addClass('minorLeagueTiny')
                 }
                 let awayTeamLogo
                 if (teamIDs.includes(awayTeamid)) {
@@ -244,19 +236,22 @@ async function getAsideGames() {
                     .attr('data-id', awayTeamid)
 
                 } else {
-                    awayTeamLogo = awayTeamName
+                    awayTeamLogo = $('<span>')
+                        .text(awayTeamName)
+                        .addClass('minorLeagueTiny')
                 }
-
+                
                 //render details
                 const asideSectionDiv = $('<div>')
                     .attr('gamePk', gamePk)
                     .attr('class', 'schedule-game')
                 const asideSectionDt = $('<span>').text(dateTimeStr)
-                const asideSectionVs = $('<span>').text(' v. ')
+                const asideSpace = $('<span>').html('<br>')
+                const asideSectionVs = $('<span>').text(' v ')
                 const asideSectionTeams = $('<span>').append(homeTeamLogo, asideSectionVs, awayTeamLogo)
                 
-                asideSectionDiv.append(asideSectionDt, asideSectionTeams)
-                $(".asideSection").append(asideSectionDiv)
+                asideSectionDiv.append(asideSectionDt, asideSpace, asideSectionTeams)
+                $("#asideGames").append(asideSectionDiv)
             }
         }
     }
@@ -284,48 +279,3 @@ function fetchAsideGames(startDate, endDate, teamId) {
     let imgHTML = img.prop('outerHTML')
     return imgHTML
   }
-
-
-
-
-        // // render asideSection
-        // $('#asideSection').empty()
-  
-        // //   // iterate through result game dates
-        // //   for (let d = 0; d < 5; d++) {
-            
-        // //     $('#gamesDiv').append(`<h3>Games on ${data.dates[d].date}</h3>`)
-            
-        // //     // iterate through games on that day
-        // //     for (let g = 0; g < data.dates[d].games.length; g++) {
-      
-        // //       // teams playing each other
-        // //       let awayTeam = data.dates[d].games[g].teams.away.team.name
-        // //       let homeTeam = data.dates[d].games[g].teams.home.team.name
-      
-        // //       // prepare team logo images
-        // //       let mlbTeam_ids = [109,144,110,111,112,145,113,114,115,116,117,118,108,119,146,158,142,121,147,133,143,134,135,137,136,138,139,140,141,120,1536,1490,1547,1512,1531,1535,1493,1510,1546,165,185,189,191,128,153,176,197,298,166,209,148,221,168,205,211,151,172,178,184,186,188,192,212,157,174,177,180,200,202,163,126,127,220,213,156,129,196,187,224,161,167,169,193,206,208,210,125,130,152,175,181,198,201,219,222,223,299,297,204,199,124,150,123,132,195,155,173]
-              
-        // //       let awayTeam_id = data.dates[d].games[g].teams.away.team.id
-        // //       let awayTeam_imgsrc = `../../assets/media/team-logos/${awayTeam_id}.png`
-        // //       let awayTeam_img = $('<span><span>') 
-        // //       if (mlbTeam_ids.includes(parseInt(awayTeam_id))) {
-        // //         awayTeam_img = $(`<img src='${awayTeam_imgsrc}' width='35px' />`)
-        // //       } 
-        // //       let awayTeam_img_html = awayTeam_img.prop('outerHTML')
-      
-        // //       let homeTeam_id = data.dates[d].games[g].teams.home.team.id
-        // //       let homeTeam_imgsrc = `../../assets/media/team-logos/${homeTeam_id}.png`
-        // //       let homeTeam_img = $('<span><span>') 
-        // //       if (mlbTeam_ids.includes(parseInt(homeTeam_id))) {
-        // //         homeTeam_img = $(`<img src='${homeTeam_imgsrc}' width='35px' />`)
-        // //       } 
-        // //       let homeTeam_img_html = homeTeam_img.prop('outerHTML')
-      
-        // //       // render game content to gamesDiv, including the team logo if its an MLB team
-        // //       $('#gamesDiv').append(`<p>${awayTeam}${awayTeam_img_html} @ ${homeTeam}${homeTeam_img_html}</p>`)
-      
-        // // //       $('#gamesDiv').append(`<button id='${data.dates[d].games[g].gamePk}'>View Game</button>`)
-        // //     }
-        // //   }
-      

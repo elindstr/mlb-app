@@ -4,6 +4,7 @@
     <link rel='icon' href='data:,'>
     <meta charset='UTF-8' />
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Slashline Stats</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,95 +18,136 @@
     <link rel='stylesheet' href='https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css'>
 
     <!-- Our Styles -->
-    <link rel='stylesheet' href='assets/css/style.css' />
+    <link rel="stylesheet" href="./assets/css/newstyle.css">
   </head>
 
 
 <body>
-    <header>
-        <div>
-            <div id="stadium-forecast">
-                <div id="teamStadium"></div>
-                <div id="teamWeather"></div>
+    <header class="bg-dark text-white p-1 center">
+        <div class="container-fluid center">
+          <div class="row align-items-center center center-logo">
+            <div class="col-xl-4 center center-logo">
+                <!-- Logo -->
+                <img src="./assets/design/Slashline-Stats-2-1-2024.png" alt="Logo" class="img-fluid center" style="max-width: 400px;">
             </div>
-            <div id='searchContainer'>
-                <div class='form-floating' >
-                    <input type='text' class='form-control ui-widget'  placeholder='search' id='searchQuery'>
-                    <label for='searchQuery'>Player Search</label>
+            <div class="col-md-4">
+              <!-- Weather Widget -->
+              <div class="d-flex align-items-center">
+                <span class="mr-2">
+                    <div id="teamWeather"></div>
+                    <div id="teamStadium"></div>
+                </span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <!-- Search Bar -->
+              <div class="input-group">
+                <input id='searchQuery' type="text" class="form-control" placeholder="Player Search" aria-label="Search">
+              </div>
+            </div>
+          </div>
+        </div>
+    </header>
+    
+
+
+    <main class="container mt-4 text-white">
+        <div class="row">
+            <div class="col-9 border p-3">
+                <!-- Left Column Content -->
+                <h2>Player Matchup</h2>
+                <div class="row">
+                    <div class="col-12 border p-2 bg-light text-black" placeholder="Drag player cards here">
+                        <div id='primary-cards' class='draggable-cards '>
+            
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 border p-2 bg-light text-black" placeholder="Drag player cards here">
+                        <div id='secondary-cards' class='col-md-12 draggable-cards clearfix'>
+            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-3 border p-1">
+                <!-- Right Column Content -->
+                <div class="container narrow">
+                    <div class="teamSearch narrow">
+                        <label for="teamsSelector" class="form-label narrow">Select Team:</label>
+                        <select name="teams" class="form-select teamsDropdown narrow" id="teamsSelector">
+                            <option value="108"> Angels</option>
+                            <option value="117"> Astros</option>
+                            <option value="133"> Athletics</option>
+                            <option value="141"> Blue Jays</option>
+                            <option value="144"> Braves</option>
+                            <option value="158"> Brewers</option>
+                            <option value="138"> Cardinals</option>
+                            <option value="112"> Cubs</option>
+                            <option value="109"> D-Backs</option>
+                            <option value="119"> Dodgers</option>
+                            <option value="137"> Giants</option>
+                            <option value="114"> Guardians</option>
+                            <option value="136"> Mariners</option>
+                            <option value="146"> Marlins</option>
+                            <option value="121"> Mets</option>
+                            <option value="120"> Nationals</option>
+                            <option value="110"> Orioles</option>
+                            <option value="135"> Padres</option>
+                            <option value="143"> Phillies</option>
+                            <option value="134"> Pirates</option>
+                            <option value="140"> Rangers</option>
+                            <option value="139"> Rays</option>
+                            <option value="111"> Red Sox</option>
+                            <option value="113"> Reds</option>
+                            <option value="115"> Rockies</option>
+                            <option value="118"> Royals</option>
+                            <option value="116"> Tigers</option>
+                            <option value="142"> Twins</option>
+                            <option value="145"> White Sox</option>
+                            <option value="147"> Yanks</option>
+                        </select>
+                    </div>
+                </div>
+                <h2></h2>
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <button id="teamRosterBtn" class="nav-link active" data-bs-toggle="tab" data-bs-target="#teamRoster">Roster</button>
+                    </li>
+                    <li class="nav-item">
+                        <button id="teamGamesBtn" class="nav-link inactive" data-bs-toggle="tab" data-bs-target="#teamGames">Games</button>
+                    </li>
+                </ul>
+    
+                <div class="tab-content mt-3">
+                    <div class="tab-pane fade show active scrollable-content" id="teamRoster">
+
+                        <!-- Content for Roster tab goes here -->
+                        <div id="asideRoster" class="asideSection"></div>
+                    </div>
+                    
+                    <div class="tab-pane fade teams-center" id="teamGames">
+                        <!-- Content for Next Games tab goes here -->
+                        <div id="asideGames" class="asideSection teams-center"></div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="h1-div">
-            <h1>Slash Line Stats</h1>
-        </div>
-    </header> 
-
-
-
-    <main>
-
-        <aside>
-            <div id='primary-cards' class='draggable-cards'>
-            
-            </div>
-
-            <div id='secondary-cards' class='draggable-cards'>
-            
-            </div>
-        </aside>    
-
-        <section id="playerSection">
-            
-            <div class="teamSearch">
-                <select name="teams" class="teamsDropdown" id="teamsSelector">
-                    <option value="108"> Angels</option>
-                    <option value="109"> D-Backs</option>
-                    <option value="110"> Orioles</option>
-                    <option value="111"> Red Sox</option>
-                    <option value="112"> Cubs</option>
-                    <option value="113"> Reds</option>
-                    <option value="114"> Guardians</option>
-                    <option value="115"> Rockies</option>
-                    <option value="116"> Tigers</option>
-                    <option value="117"> Astros</option>
-                    <option value="118"> Royals</option>
-                    <option value="119"> Dodgers</option>
-                    <option value="120"> Nationals</option>
-                    <option value="121"> Mets</option>
-                    <option value="133"> Athletics</option>
-                    <option value="134"> Pirates</option>
-                    <option value="135"> Padres</option>
-                    <option value="136"> Mariners</option>
-                    <option value="137"> Giants</option>
-                    <option value="138"> Cardinals</option>
-                    <option value="139"> Rays</option>
-                    <option value="140"> Rangers</option>
-                    <option value="141"> Blue Jays</option>
-                    <option value="142"> Twins</option>
-                    <option value="143"> Phillies</option>
-                    <option value="144"> Braves</option>
-                    <option value="145"> White Sox</option>
-                    <option value="146"> Marlins</option>
-                    <option value="147"> Yanks</option>
-                    <option value="158"> Brewers</option>
-                </select>
-            </div>
-
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <button id="teamRosterBtn" class="nav-link active">Roster</button>
-                </li>
-                <li class="nav-item">
-                    <button id="teamGamesBtn" class="nav-link">Next Games</button>
-                </li>
-            </ul>
-
-            <div id="asideSection" class="asideSection"></div>
-    
-        </section>
-
+        <!-- Additional content in the main section goes here -->
     </main>
+
+    <footer class="bg-dark text-white p-3">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p>&copy; 2024 Slashline Stats. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
 
      <!-- jQuery and jQuery UI scripts -->
     <script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>

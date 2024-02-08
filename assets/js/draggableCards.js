@@ -6,22 +6,18 @@
 var drake = dragula([
     document.getElementById('primary-cards'), 
     document.getElementById('secondary-cards'), 
-    document.getElementById('asideSection')], {
+    document.getElementById('asideRoster')], {
 
     moves: function (el, target, source, sibling) {
-        // don't sort 'asideSection' if asideIsSortable is 'false'
-        if ($(source).attr('id') == 'asideSectionX') {
-            return false;
+        if (el.classList.contains('emptyBoxGuide')) {
+            return false
         }
-        return true
+        else {
+            return true
+        }
     },
 
     accepts: function (el, target, source, sibling) {
-
-        // don't sort 'asideSection' if asideIsSortable is 'false'
-        if ($(target).attr('id') == 'asideSectionX') {
-            return false;
-        }
 
         // don't sort 'primary-cards' if it already has 2 items
         if (target === document.getElementById('primary-cards')) {
@@ -44,27 +40,36 @@ $(document).ready(function() {
 
 // Player card element ids are based on the MLB PlayerID. This prevents an error when multiple elements with the same ID are created. Whenever there is a mouseup event, this hunts for duplicate ids and destroys the second element.
 function killDuplicates () {
+    //updateTeam() // so players don't get removed from roster
+                    //TODO: write player cards with unique IDs, and use a data-playerID to pass playerID values
+
     let uniqueList = []    
     let primaryCards = document.getElementById('primary-cards').children
     for (let i = 0; i < primaryCards.length; i ++) {
-        if (!uniqueList.includes(primaryCards[i].id)) {
-            uniqueList.push(primaryCards[i].id)
+
+        let targetId = primaryCards[i].getAttribute('data-id')
+        if (!uniqueList.includes(targetId)) {
+            uniqueList.push(targetId)
         }
         else {
             primaryCards[i].remove()
             break
         }
     }
+
     let secondaryCards = document.getElementById('secondary-cards').children
     for (let i = 0; i < secondaryCards.length; i ++) {
-        if (!uniqueList.includes(secondaryCards[i].id)) {
-            uniqueList.push(secondaryCards[i].id)
+
+        let targetId = secondaryCards[i].getAttribute('data-id')
+        if (!uniqueList.includes(targetId)) {
+            uniqueList.push(targetId)
         }
         else {
             secondaryCards[i].remove()
             break
         }
     }
+    //console.log(uniqueList)
 }
 
 // Display message so user knows the box is interactive.
@@ -96,9 +101,6 @@ function updateEmptyBoxGuide(containerId, guideId) {
     }
 }
 
-
-
-
 drake.on('drop', function (el, target, source, sibling) {
     
     killDuplicates()
@@ -106,10 +108,13 @@ drake.on('drop', function (el, target, source, sibling) {
 
     // transform cards into feature and vice versa when dragged to new section
     if (target.id == 'primary-cards') {
-        createFeaturePlayerCard(el.id)
+        let PlayerId = el.getAttribute('data-id')
+        createFeaturePlayerCard(PlayerId, el) //XXX testing
+        updateTeam()
     }
     if (target.id == 'secondary-cards') {
-        createPlayerCard(el.id)
+        let PlayerId = el.getAttribute('data-id')
+        createPlayerCard(PlayerId)
     }
     if (target.id == 'asideSection') {
         getAsideRoster()
@@ -121,10 +126,10 @@ drake.on('drop', function (el, target, source, sibling) {
 })
 
 // killing mobile scrolling/navigation when touching 
-$(document).on('touchmove', '#primary-cards, #secondary-cards', function(event) {
-    event.preventDefault()
-}, { passive: false })
+// $(document).on('touchmove', '#primary-cards, #secondary-cards', function(event) {
+//     event.preventDefault()
+// }, { passive: false })
 
-drake.on('drag', function(el, source) {
-    $('body').css('touch-action', 'none')
-})
+// drake.on('drag', function(el, source) {
+//     $('body').css('touch-action', 'none')
+// })

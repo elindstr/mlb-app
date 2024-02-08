@@ -8,6 +8,10 @@ body {
   width: 100%
 }
 /* header  */
+#headerCover{
+  background-color: rgba(255, 255, 255,.5);
+  z-index: 10;
+}
 header {
   display: flex;
   background-position: center;
@@ -268,12 +272,10 @@ aside {
     width: 20px;
   }
 }
-@media (max-width: 700px) {
-  .asideSection {
-    position: fixed;
-    bottom: 0px;
-    height: 60%;        /* TO FIX */
-    overflow-y: auto;
-    border: 1px solid #dcdcdc;
-  }
+
+.asideSection {
+  bottom: 0px;
+  height: 50%;        /* TO FIX */
+  overflow-y: auto;
+  border: 1px solid #dcdcdc;
 }

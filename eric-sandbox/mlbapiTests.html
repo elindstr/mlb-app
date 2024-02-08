@@ -1,0 +1,79 @@
+<html>
+<body>
+
+<script>
+
+
+//getPlayerDetails(663586) // hitter
+//getPlayerDetails(660271) // pitcher
+function getPlayerDetails (player_id) {
+    url = `https://statsapi.mlb.com/api/v1/people/${player_id}`
+    return fetch(url)
+    .then(function (response) {
+        //console.log(response)
+        return response.json()
+    })
+    .then(function (data) {
+        console.log(data)
+    })
+    .catch(function (error) {
+        console.log(error)
+    })
+}
+
+getCareerPitcherStats(660271)
+function getCareerPitcherStats(player_id) {
+    url = `https://statsapi.mlb.com/api/v1/people/${player_id}?hydrate=stats(group=[hitting,pitching],type=[career])` 
+    //url = `https://statsapi.mlb.com/api/v1/people/${player_id}?hydrate=stats(group=[hitting],type=[career])` 
+        return fetch(url)
+        .then(function (response) {
+            return response.json()
+        })
+        .then(function (data) {
+            console.log(data)
+        })
+        .catch(function (error) {
+            console.log(error)
+        })
+}
+
+// getSeasonPitcherStats(660271, 2023)
+getSeasonPitcherStats(660271, 2022)
+function getSeasonPitcherStats(player_id, year) {
+    //url = `https://statsapi.mlb.com/api/v1/people/${player_id}?hydrate=stats(sportId=1,group=[hitting,pitching],type=season,season=${year})`
+    url = `https://statsapi.mlb.com/api/v1/people/${player_id}?hydrate=stats(sportId=1,group=[pitching],type=season,season=${year})`
+
+        return fetch(url)
+        .then(function (response) {
+            return response.json()
+        })
+        .then(function (data) {
+            console.log(data)
+        })
+        .catch(function (error) {
+            console.log(error)
+        })
+}
+
+
+//getRoster(660271, 2022)
+function getRoster(player_id, year) {
+    url = `http://statsapi.mlb.com/api/v1/teams/109/roster/depthChart`
+
+        return fetch(url)
+        .then(function (response) {
+            return response.json()
+        })
+        .then(function (data) {
+            console.log(data)
+        })
+        .catch(function (error) {
+            console.log(error)
+        })
+}
+
+
+
+</script>
+</body>
+</html>
