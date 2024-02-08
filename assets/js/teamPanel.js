@@ -1,31 +1,3 @@
-// global variable
-let myTeamId
-
-// Modal-team selector
-const teamID = document.getElementById("teamID")
-teamID.addEventListener("change", function() {getTeamId = this.value;})
-
-// show modal
-var modal = document.getElementById('teamModal');
-$(window).on('load',function() {
-    let storageTeamId = localStorage.getItem('getTeamId')
-    if (storageTeamId > 0 ) { // pass
-    } else {$('#teamModal').modal('show');
-    }
-});
-
-function filterTeam() { 
-    //update Modal team storage
-    try {
-        getteam = localStorage.setItem('getTeamId', getTeamId);
-
-        myTeamId = getTeamId;
-        updateTeam();
-        $('#teamModal').modal('hide');
-    } catch {
-    }
-}
-
 // team selector
 const teamsSelector = document.getElementById("teamsSelector")
 teamsSelector.addEventListener("change", function() {
@@ -50,6 +22,9 @@ function updateTeam() {
     $('#teamRosterBtn').removeClass('inactive')
     $('#teamGamesBtn').addClass('inactive');
     $('#teamRoster').addClass('active show')
+
+    // check for empty boxes
+    checkforEmptyDropBoxes()
 }
 
 // handle side table buttons
