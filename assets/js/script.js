@@ -23,7 +23,7 @@ $(function() { //on load
 // called if user makes selection
 $("#modalSelectButton").on("click", function () {
     selectorInput = parseInt($('#modalTeamSelector').val())
-    console.log(selectorInput)
+    //console.log(selectorInput)
 
     if (selectorInput !== 0) {
         myTeamId = selectorInput
