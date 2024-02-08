@@ -3,6 +3,9 @@ let myTeamId
 
 $(function() { //on load
 
+    // load empty box guides
+    checkforEmptyDropBoxes()
+
     // check local storage
     let myTeamIdStorage = localStorage.getItem('myTeamId');
     if (myTeamIdStorage) {
@@ -21,6 +24,7 @@ $(function() { //on load
 $("#modalSelectButton").on("click", function () {
     selectorInput = parseInt($('#modalTeamSelector').val())
     console.log(selectorInput)
+
     if (selectorInput !== 0) {
         myTeamId = selectorInput
         updateTeam()
