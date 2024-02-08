@@ -56,4 +56,7 @@ slash lines.
      
   9. **Field Name and Weather**
     - Along with the team stadium image, the app displays the name of the stadium and the current weather at that stadium.
+
+  10. **Credits**
+      - Big thanks to Carlos Ramirez and Miten Tailor for beta testing and quality assurance!
        
