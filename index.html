@@ -78,6 +78,7 @@
                 <!-- Right Column Content -->
                 <div class="container narrow">
                     <div class="teamSearch narrow">
+                        <!-- Selector -->
                         <label for="teamsSelector" class="form-label narrow">Select Team:</label>
                         <select name="teams" class="form-select teamsDropdown narrow" id="teamsSelector">
                             <option value="108"> Angels</option>
@@ -113,7 +114,7 @@
                         </select>
                     </div>
                 </div>
-                <h2></h2>
+                <!-- tab buttons -->
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
                         <button id="teamRosterBtn" class="nav-link active" data-bs-toggle="tab" data-bs-target="#teamRoster">Roster</button>
@@ -126,12 +127,12 @@
                 <div class="tab-content mt-3">
                     <div class="tab-pane fade show active scrollable-content" id="teamRoster">
 
-                        <!-- Content for Roster tab goes here -->
+                        <!-- Content for Roster tab -->
                         <div id="asideRoster" class="asideSection"></div>
                     </div>
                     
                     <div class="tab-pane fade teams-center" id="teamGames">
-                        <!-- Content for Next Games tab goes here -->
+                        <!-- Content for Next Games tab -->
                         <div id="asideGames" class="asideSection teams-center"></div>
                     </div>
                 </div>
@@ -195,19 +196,13 @@
                 </select>
             </div>
 
-          <div class="col-sm-1">
+            <div class="col-sm-5"> 
+              <img id="imageFile" style="width: 100px; height: 100px; float: right;padding-top: 1px;padding-bottom: 3px;" src="./assets/media/team-logos/mlb_logo.png" alt="mlb logo">
+            </div>
           </div>
-
-          <div class="col-sm-5"> 
-            <img id="imageFile" style="width: 100px; height: 100px; float: right;padding-top: 1px;padding-bottom: 3px;" src="./assets/media/team-logos/mlb_logo.png" alt="mlb logo">
-          </div>
-          </div>
-          
           <div class="modal-footer">
-            <!--<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Skip This Step</button>-->
             <button id="modalSelectButton" type="button" class=" btn btn-success">Save Team</button>
           </div>
-
         </div>
       </div>
     </div>
@@ -222,6 +217,7 @@
     <!-- Dragula JS (for draggable cards) -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js'></script>
 
+    <!-- Our scripts -->
     <script src='./assets/js/autoCompleteData.js'></script>
     <script src='./assets/js/autoComplete.js'></script>
     <script src='./assets/js/draggableCards.js'></script>

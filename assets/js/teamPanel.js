@@ -1,3 +1,5 @@
+// This file contains the scripts related to team information: eg team selector; team roster; team background image; team stadium/weather; and team schedule).
+
 // team selector
 const teamsSelector = document.getElementById("teamsSelector")
 teamsSelector.addEventListener("change", function() {

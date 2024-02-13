@@ -1,7 +1,6 @@
-// docs: https://jqueryui.com/autocomplete/
+// // This file contains the scripts related to the autocomplete search. Docs here https://jqueryui.com/autocomplete/
 
 $( function() {
-
     let autoItems = autoIds.map(function(item) {  
         return {
             label: `${item[0]} (${item[2]})`, // display: ':player name (:team)'

@@ -20,121 +20,123 @@ h2 {
 }
 
 /* Player Cards */
-  #primary-cards .emptyBoxGuide {
-    padding-top: 60px;
-    padding-bottom: 60px;
-  }
-  .emptyBoxGuide {
-    padding: 20px;
-    text-align: center;
-    border: 1px dotted black;
-    transition: .5s all ease-in-out;
-  }
-  .emptyBoxGuide:hover {
-    border: 1px dotted black;
-    font-size: 1.4em;
-  }
-  #primary-cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    min-height: 200px;
-  }
-  
-  #primary-cards .card {
-    flex: 1;
-    max-width: 300px;
-    border: 1px solid #ddd;
-    margin: 10px;
-    padding: 15px;
-    text-align: center;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    position: relative;
-  }
-  
-  #primary-cards .card-player-name {
-    font-size: 1.2em;
-    font-weight: bold;
-  }
-  
-  #primary-cards .card-team-name {
-    font-size: 1.1em;
-    color: #555;
-  }
-  #secondary-cards {
-    display: flex;
-    flex-direction: column;
-    min-height: 330px;
-    margin-top: 1px;
-  }
-  #secondary-cards .card {
-    display:inline-block;
-    margin: 1px;
-    padding: 2px;
-  }
-  /* Add styles for stat lines */
-  #primary-cards .card-stats {
-    margin-top: 10px;
-    font-size: 1em;
-    color: #888;
-    position: relative;
-  }
+#primary-cards .emptyBoxGuide {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+.emptyBoxGuide {
+  padding: 20px;
+  text-align: center;
+  border: 1px dotted black;
+  transition: .5s all ease-in-out;
+}
+.emptyBoxGuide:hover {
+  border: 1px dotted black;
+  font-size: 1.4em;
+}
+#primary-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  min-height: 200px;
+}
 
-  /* Table Styling */
+#primary-cards .card {
+  flex: 1;
+  max-width: 300px;
+  border: 1px solid #ddd;
+  margin: 10px;
+  padding: 15px;
+  text-align: center;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+#primary-cards .card-player-name {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+#primary-cards .card-team-name {
+  font-size: 1.1em;
+  color: #555;
+}
+#secondary-cards {
+  display: flex;
+  flex-direction: column;
+  min-height: 330px;
+  margin-top: 1px;
+}
+#secondary-cards .card {
+  display:inline-block;
+  margin: 1px;
+  padding: 2px;
+}
+#primary-cards .card-stats {
+  margin-top: 10px;
+  font-size: 1em;
+  color: #888;
+  position: relative;
+}
+
+/* Table Styling */
 table {
-    width: 100%;
-    margin-top: 20px;
-    border-collapse: collapse;
-  }
-  
-  th, td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: center;
-  }
-  
-  th {
-    background-color: #f2f2f2;
-  }
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
 
-  /* for dragula ui (draggable cards) */
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+/* for dragula ui (draggable cards) */
 .gu-mirror{position:fixed!important;margin:0!important;z-index:9999!important;opacity:.8}.gu-hide{display:none!important}.gu-unselectable{-webkit-user-select:none!important;-moz-user-select:none!important;-ms-user-select:none!important;user-select:none!important}.gu-transit{opacity:.2}
 
-  /* Show tooltip on hover */
+/* Show tooltip on hover: todo in future */
 #primary-cards .card-stats:hover::before {
-    opacity: 1;
-  }
-  .delete-button {
-    float: right;
-    border: 0px;
-    background-color: white;
-    color: rgb(184, 184, 184);
-    transition: .2s all ease;
-    font-size: 1.2em;
-  }
-  .delete-button:hover {
-    color: rgb(71, 71, 71);
-  }
-  .promote-button {
-    float: left;
-    border: 0px;
-    background-color: white;
-    color: rgb(184, 184, 184);
-    transition: .2s all ease;
-    font-size: 1.2em;
-  }
-  .promote-button:hover {
-    color: rgb(71, 71, 71);
-  }
-
-  .scrollable-content {
-    max-height: 550px;
-    overflow-y: auto;
+  opacity: 1;
 }
-  #asideRoster div {
-    padding-left: 2px;
-  }
+
+/* card buttons */
+.delete-button {
+  float: right;
+  border: 0px;
+  background-color: white;
+  color: rgb(184, 184, 184);
+  transition: .2s all ease;
+  font-size: 1.2em;
+}
+.delete-button:hover {
+  color: rgb(71, 71, 71);
+}
+.promote-button {
+  float: left;
+  border: 0px;
+  background-color: white;
+  color: rgb(184, 184, 184);
+  transition: .2s all ease;
+  font-size: 1.2em;
+}
+.promote-button:hover {
+  color: rgb(71, 71, 71);
+}
+
+/* right column */
+.scrollable-content {
+  max-height: 550px;
+  overflow-y: auto;
+}
+#asideRoster div {
+  padding-left: 2px;
+}
 .clearfix::after {
   content: "";
   display: table;
@@ -146,6 +148,7 @@ table {
   overflow-x: hidden !important;
 }
 
+/* images */
 .card img {
   width: 35px;
 }
@@ -169,7 +172,7 @@ table {
   align-items: center;
 }
 
-/* Responsive Design */
+/* Responsive Styles */
 @media (max-width: 1200px) {
   .center {
     align-items: center !important;
@@ -199,7 +202,6 @@ table {
     padding: 1px;
     margin: 1px;
   }
-
   #primary-cards img {
     width: 50px;
   }
@@ -215,14 +217,14 @@ table {
   }
 }
 @media (max-width: 575.98px) {
-    header img {
-      width: 100%;
-    }
-    body, input, label, select {
-      font-size: 16px !important;
-    }
-    #asideGames img {
-      width: 25px;
-      height: 25px;
-    }
+  header img {
+    width: 100%;
+  }
+  body, input, label, select {
+    font-size: 16px !important;
+  }
+  #asideGames img {
+    width: 25px;
+    height: 25px;
+  }
 }
