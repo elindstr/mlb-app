@@ -1,14 +1,4 @@
-// on load, look up any current players
-$(function () {
-    // cards = $('#primary-cards').children()
-    // for (i = 0; i < cards.length; i++) {
-    //     createFeaturePlayerCard(cards[i].id)
-    // }
-    // cards = $('#secondary-cards').children()
-    // for (i = 0; i < cards.length; i++) {
-    //     createPlayerCard(cards[i].id)
-    // }
-})
+// This file contains the scripts related to player card items.
 
 // placeholder when no stats available
 const na = '-'

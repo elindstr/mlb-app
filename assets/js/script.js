@@ -1,3 +1,5 @@
+// This file contains the modal scripts and the main on load functions.
+
 // global variable
 let myTeamId
 

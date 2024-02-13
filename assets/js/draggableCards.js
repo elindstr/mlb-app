@@ -1,6 +1,4 @@
-// docs here: https://github.com/bevacqua/dragula
-
-// TODO: remove element if dropped outside of container
+// This file contains the scripts related to dragula. Docs here: https://github.com/bevacqua/dragula
 
 // dragula functions
 var drake = dragula([
